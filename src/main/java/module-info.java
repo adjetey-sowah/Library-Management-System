@@ -2,7 +2,6 @@ module com.juls.firstapp.librarymanagementsystem {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
-    requires  java.base;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
@@ -12,6 +11,7 @@ module com.juls.firstapp.librarymanagementsystem {
     requires org.kordamp.ikonli.core;
     requires java.sql;
     requires mysql.connector.j;
+    requires io.github.cdimascio.dotenv.java;
 
     exports com.juls.firstapp.librarymanagementsystem.model;
 
