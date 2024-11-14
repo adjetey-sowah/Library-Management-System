@@ -1,9 +1,11 @@
-package com.juls.firstapp.librarymanagementsystem.model;
+package com.juls.firstapp.librarymanagementsystem.model.users;
+
+import com.juls.firstapp.librarymanagementsystem.model.enums.MembershipType;
+import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
 
 import java.util.LinkedList;
-import java.util.Random;
 
-public class Patron extends User{
+public class Patron extends User {
 
 
     private MembershipType membershipType;
@@ -15,6 +17,18 @@ public class Patron extends User{
 
         this.membershipType = membershipType;
         this.borrowedResources = new LinkedList<>();
+    }
+
+    public Patron(){
+
+    }
+
+    public void setMembershipType(MembershipType type){
+        this.membershipType = type;
+    }
+
+    public MembershipType getMembershipType(){
+        return this.membershipType;
     }
 
 

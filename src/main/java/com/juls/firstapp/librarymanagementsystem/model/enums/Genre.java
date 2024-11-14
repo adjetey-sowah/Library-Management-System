@@ -1,4 +1,4 @@
-package com.juls.firstapp.librarymanagementsystem.model;
+package com.juls.firstapp.librarymanagementsystem.model.enums;
 
 public enum Genre {
         TEXTBOOK,
@@ -21,6 +21,4 @@ public enum Genre {
         ART_AND_ART_HISTORY,
         ANTHROPOLOGY,
         BUSINESS_AND_MANAGEMENT;
-
-
 }

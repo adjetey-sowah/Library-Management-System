@@ -1,6 +1,6 @@
 package com.juls.firstapp.librarymanagementsystem.service;
 
-import com.juls.firstapp.librarymanagementsystem.model.LibraryResource;
+import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
 
 import java.util.LinkedList;
 import java.util.Optional;

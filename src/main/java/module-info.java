@@ -12,9 +12,14 @@ module com.juls.firstapp.librarymanagementsystem {
     requires java.sql;
     requires mysql.connector.j;
     requires io.github.cdimascio.dotenv.java;
+    requires spring.security.crypto;
+    requires spring.context;
 
-    exports com.juls.firstapp.librarymanagementsystem.model;
 
     opens com.juls.firstapp.librarymanagementsystem to javafx.fxml;
     exports com.juls.firstapp.librarymanagementsystem;
+    exports com.juls.firstapp.librarymanagementsystem.model.resource;
+    exports com.juls.firstapp.librarymanagementsystem.model.enums;
+    exports com.juls.firstapp.librarymanagementsystem.model.users;
+    exports com.juls.firstapp.librarymanagementsystem.model.lending;
 }

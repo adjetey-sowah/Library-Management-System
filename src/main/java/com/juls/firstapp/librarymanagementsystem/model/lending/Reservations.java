@@ -1,4 +1,4 @@
-package com.juls.firstapp.librarymanagementsystem.model;
+package com.juls.firstapp.librarymanagementsystem.model.lending;
 
 import java.time.LocalDateTime;
 

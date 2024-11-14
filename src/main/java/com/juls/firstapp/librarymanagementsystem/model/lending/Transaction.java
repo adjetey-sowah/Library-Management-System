@@ -1,4 +1,7 @@
-package com.juls.firstapp.librarymanagementsystem.model;
+package com.juls.firstapp.librarymanagementsystem.model.lending;
+
+import com.juls.firstapp.librarymanagementsystem.model.enums.TransactionType;
+import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
 
 import java.time.LocalDateTime;
 
@@ -6,6 +9,7 @@ public class Transaction {
     private static Long count = 10L;
     private Long transactionId;
     private Long patronId;
+    private TransactionType transactionType;
     private LibraryResource resource;
     private LocalDateTime borrowedDate;
     private LocalDateTime dueDate;
@@ -13,12 +17,14 @@ public class Transaction {
 
     public Transaction(Long transactionId,
                        Long patronId,
+                       TransactionType transactionType,
                        LibraryResource resource,
                        LocalDateTime borrowedDate,
                        LocalDateTime dueDate,
                        double fine) {
         this.transactionId = transactionId;
         this.patronId = patronId;
+        this.transactionType = transactionType;
         this.resource = resource;
         this.borrowedDate = borrowedDate;
         this.dueDate = dueDate;
@@ -35,6 +41,8 @@ public class Transaction {
 
     }
 
+
+
     public Long getTransactionId() {
         return transactionId;
     }
@@ -49,6 +57,14 @@ public class Transaction {
 
     public void setPatronId(Long patronId) {
         this.patronId = patronId;
+    }
+
+    public void setTransactionType(TransactionType type){
+        this.transactionType = type;
+    }
+
+    public TransactionType getTransactionType(){
+        return transactionType;
     }
 
     public LibraryResource getResource() {

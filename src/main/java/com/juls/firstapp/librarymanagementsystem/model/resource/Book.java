@@ -1,7 +1,9 @@
-package com.juls.firstapp.librarymanagementsystem.model;
+package com.juls.firstapp.librarymanagementsystem.model.resource;
+
+import com.juls.firstapp.librarymanagementsystem.model.enums.Genre;
+import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceType;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Book extends LibraryResource{
 
@@ -18,18 +20,18 @@ public class Book extends LibraryResource{
         this.publicationDate = publicationDate;
     }
 
-    public Book(String title, String author){
-        super(title);
+    public Book(String title,String author){
+        super(title,ResourceType.BOOK);
         this.author = author;
+    }
+
+    @Override
+    public void setResourceType(){
+        super.resourceType = ResourceType.BOOK;
     }
 
     public Book(String title){
         super(title);
-    }
-
-    @Override
-    public String getResourcePrefix() {
-        return "B";
     }
 
     public String getAuthor() {

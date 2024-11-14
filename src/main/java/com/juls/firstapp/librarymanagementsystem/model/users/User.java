@@ -1,4 +1,6 @@
-package com.juls.firstapp.librarymanagementsystem.model;
+package com.juls.firstapp.librarymanagementsystem.model.users;
+
+import com.juls.firstapp.librarymanagementsystem.model.enums.UserRole;
 
 public class User {
 
@@ -6,11 +8,15 @@ public class User {
     private String name;
     private String email;
     private String phoneNum;
+    private UserRole role;
 
-    public User (String name, String email, String phoneNum){
+
+
+    public User (String name, String email, String phoneNum,UserRole role){
         this.name = name;
         this.email = email;
         this.phoneNum = phoneNum;
+        this.role = role;
     }
 
     public User(){
@@ -37,6 +43,14 @@ public class User {
         return email;
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -56,6 +70,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNum='" + phoneNum + '\'' +
+                ", Role='" + role.toString() + '\'' +
                 '}';
     }
 }
