@@ -4,6 +4,7 @@ import com.juls.firstapp.librarymanagementsystem.config.DatabaseConfig;
 import com.juls.firstapp.librarymanagementsystem.dao.interfaces.ResourceDAO;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Book;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Journal;
+import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Media;
 
 import java.sql.Connection;
@@ -17,7 +18,12 @@ public class ResourceRepository implements ResourceDAO {
         this.connection = new DatabaseConfig().getConnection();
     }
 
+    public int insertResource(LibraryResource resource){
+
+    }
+
     public int addLibraryResource(Book book){
+
         return -1;
     }
 
