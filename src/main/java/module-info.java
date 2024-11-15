@@ -8,6 +8,7 @@ module com.juls.firstapp.librarymanagementsystem {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+<<<<<<< HEAD
     requires org.kordamp.ikonli.core;
     requires java.sql;
     requires mysql.connector.j;
@@ -15,6 +16,8 @@ module com.juls.firstapp.librarymanagementsystem {
     requires spring.security.crypto;
     requires spring.context;
 
+=======
+>>>>>>> parent of 3030b5f (Implemented the core entities of the application. Upnext: Work on the application logic and also the interactions)
 
     opens com.juls.firstapp.librarymanagementsystem to javafx.fxml;
     exports com.juls.firstapp.librarymanagementsystem;
