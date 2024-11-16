@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.AppBar?>
+<?import com.gluonhq.charm.glisten.control.AutoCompleteTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AppBar prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #3a79a1;" titleText="" />
+      <AutoCompleteTextField completerWaitDuration="0.5ms" layoutX="334.0" layoutY="7.0" prefHeight="26.0" prefWidth="158.0" promptText="Type a title,author,isbn..." />
+      <ImageView fitHeight="26.0" fitWidth="34.0" layoutX="523.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/icons8_User_96px.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="25.0" layoutY="2.0" text="GIFTED LIBRARY" textFill="WHITE">
+         <font>
+            <Font name="Dubai Bold" size="19.0" />
+         </font>
+      </Label>
+      <TabPane layoutY="40.0" prefHeight="366.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab id="book-view" text="BOOKS">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane layoutX="-6.0" layoutY="93.0" prefHeight="246.0" prefWidth="607.0">
+                           <children>
+                              <TableView layoutY="-13.0" prefHeight="230.0" prefWidth="607.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="Resource Id" />
+                                  <TableColumn prefWidth="75.0" text="Title" />
+                                    <TableColumn prefWidth="75.0" text="Author" />
+                                    <TableColumn prefWidth="75.0" text="ISBN" />
+                                    <TableColumn prefWidth="75.0" text="Genre" />
+                                    <TableColumn prefWidth="126.39996337890625" text="Publication Date" />
+                                    <TableColumn prefWidth="104.800048828125" text="Status" />
+                                </columns>
+                              </TableView>
+                              <Label layoutX="233.0" layoutY="221.0" text="Copyright : Gifted Labs Inc 2024" textFill="#918585">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab id="journal-view" text="JOURNAL">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

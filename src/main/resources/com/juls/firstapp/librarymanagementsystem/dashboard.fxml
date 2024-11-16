@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.juls.firstapp.librarymanagementsystem.controller.dashboard.DashboardController"
+      prefHeight="600" prefWidth="900"
+      spacing="20" padding="20">
+
+    <!-- Quick Stats Section -->
+    <HBox spacing="20">
+        <VBox spacing="10">
+            <Label text="Quick Stats" styleClass="section-title"/>
+            <HBox spacing="10">
+                <VBox spacing="5">
+                    <Label text="Books in Library" />
+                    <Label fx:id="totalBooksLabel" styleClass="stat-value"/>
+                </VBox>
+                <VBox spacing="5">
+                    <Label text="Patrons Registered" />
+                    <Label fx:id="totalPatronsLabel" styleClass="stat-value"/>
+                </VBox>
+                <VBox spacing="5">
+                    <Label text="Books Checked Out" />
+                    <Label fx:id="booksCheckedOutLabel" styleClass="stat-value"/>
+                </VBox>
+            </HBox>
+        </VBox>
+        <VBox spacing="10">
+            <Label text="Circulation" styleClass="section-title"/>
+            <PieChart fx:id="circulationChart" />
+        </VBox>
+    </HBox>
+
+    <!-- Recent Activities Section -->
+    <VBox spacing="10">
+        <Label text="Recent Activities" styleClass="section-title"/>
+        <TableView fx:id="recentActivityTable" prefHeight="200">
+            <columns>
+                <TableColumn text="Patron" fx:id="patronColumn" />
+                <TableColumn text="Book" fx:id="bookColumn" />
+                <TableColumn text="Action" fx:id="actionColumn" />
+                <TableColumn text="Date" fx:id="dateColumn" />
+            </columns>
+        </TableView>
+    </VBox>
+
+    <!-- Navigation Buttons -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Books" onAction="#showBookManagement" />
+        <!-- Uncomment and define the methods to activate these buttons -->
+        <!-- <Button text="Patrons" onAction="#showPatronManagement" /> -->
+        <!-- <Button text="Lending" onAction="#showLendingManagement" /> -->
+        <Button text="Reports" onAction="#showReportGeneration" />
+    </HBox>
+
+</VBox>
