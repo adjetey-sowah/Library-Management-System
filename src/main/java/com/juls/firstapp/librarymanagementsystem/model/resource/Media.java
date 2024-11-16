@@ -14,7 +14,7 @@ public class Media extends LibraryResource {
     }
 
     public Media(String title){
-        super(title);
+        super(title,ResourceType.MEDIA);
     }
 
     @Override
