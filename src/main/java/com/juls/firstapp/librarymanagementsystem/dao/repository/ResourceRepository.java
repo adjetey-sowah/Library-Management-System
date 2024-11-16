@@ -6,6 +6,7 @@ import com.juls.firstapp.librarymanagementsystem.model.resource.Book;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Journal;
 import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Media;
+import com.juls.firstapp.librarymanagementsystem.util.helper.Mappers;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -14,9 +15,11 @@ import java.util.Objects;
 public class ResourceRepository implements ResourceDAO {
 
     private final Connection connection;
+    private final Mappers mappers;
 
     public ResourceRepository() throws SQLException, ClassNotFoundException {
         this.connection = new DatabaseConfig().getConnection();
+        this.mappers = new Mappers();
     }
 
     @Override
@@ -139,16 +142,28 @@ public class ResourceRepository implements ResourceDAO {
 
         try(CallableStatement callableStatement = connection.prepareCall(sql)){
             ResultSet resultSet =  callableStatement.executeQuery();
-
+            LinkedList<Book> bookList = new LinkedList<>();
             while (resultSet.next()){
-
+                bookList.add(mappers.mapToBooks(resultSet));
             }
+
+            return bookList;
         }
     }
 
     @Override
     public LinkedList<Journal> findAllJournal() throws Exception {
-        return null;
+        String sql = "{call findAllJournal()}";
+
+        try(CallableStatement callableStatement = connection.prepareCall(sql)){
+            ResultSet resultSet =  callableStatement.executeQuery();
+            LinkedList<Journal> journalList = new LinkedList<>();
+            while (resultSet.next()){
+                journalList.add(mappers.mapToJournal(resultSet));
+            }
+
+            return journalList;
+        }
     }
 
     @Override
@@ -157,9 +172,13 @@ public class ResourceRepository implements ResourceDAO {
     }
 
 
+    public static void main(String[] args) throws Exception {
+        ResourceRepository repository = new ResourceRepository();
+        LinkedList<Journal> bookList = repository.findAllJournal();
 
+        bookList.forEach(System.out::println);
 
-
+    }
 
 
 }

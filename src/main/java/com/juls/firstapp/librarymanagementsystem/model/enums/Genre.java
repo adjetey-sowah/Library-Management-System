@@ -20,5 +20,15 @@ public enum Genre {
         LITERATURE_AND_LANGUAGE,
         ART_AND_ART_HISTORY,
         ANTHROPOLOGY,
+        FICTION,
+        DYSTOPIAN,
+        CLASSIC,
+        ROMANCE,
+        COMING_OF_AGE,
+        FANTASY,
+        SCIENCE_FICTION,
+        GOTHIC,
+        HISTORICAL,
+        ADVENTURE,
         BUSINESS_AND_MANAGEMENT;
 }

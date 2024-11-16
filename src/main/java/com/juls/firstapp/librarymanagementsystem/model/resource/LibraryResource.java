@@ -23,9 +23,19 @@ public abstract class LibraryResource {
         return title;
     }
 
+    public void setTitle(String title){
+        this.title = title;
+    }
+
+    public void setResourceId(Long resourceId) {
+        this.resourceId = resourceId;
+    }
+
     public Long getResourceId(){
         return  resourceId;
     }
+
+
 
     public void setResourceStatus(ResourceStatus status){
         this.status = status;
