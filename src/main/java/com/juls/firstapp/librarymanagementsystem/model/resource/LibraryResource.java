@@ -36,4 +36,8 @@ public abstract class LibraryResource {
     }
 
     public abstract void setResourceType();
+
+    public ResourceType getResourceType(){
+        return resourceType;
+    }
 }

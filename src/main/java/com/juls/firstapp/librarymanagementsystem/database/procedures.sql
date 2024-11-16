@@ -49,3 +49,17 @@ END //
 DELIMITER ;
 
 
+    DELIMITER //
+
+CREATE PROCEDURE insertMedia(
+    IN p_media_id BIGINT,
+    IN p_media_format VARCHAR(10)
+)
+
+BEGIN
+INSERT INTO Media (media_id,format)
+VALUES (p_media_id,p_media_format);
+END //
+
+    DELIMITER ;
+
