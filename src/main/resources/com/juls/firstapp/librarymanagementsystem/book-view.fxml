@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+-->
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.juls.firstapp.librarymanagementsystem.controller.book.TableViewController">
+  <children>
+    <!-- MenuBar -->
+    <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Close" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Delete" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+
+    <!-- TableView -->
+    <TableView fx:id="tableView" layoutY="36.0" AnchorPane.bottomAnchor="-10.399999999999977" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.7999999999999545" AnchorPane.topAnchor="36.0">
+      <columns>
+        <TableColumn fx:id="resourceIdColumn" prefWidth="56.0" text="Resource Id" />
+        <TableColumn fx:id="titleColumn" prefWidth="71.20001220703125" text="Title" />
+        <TableColumn fx:id="authorColumn" minWidth="2.4" prefWidth="64.79998779296875" text="Author" />
+        <TableColumn fx:id="isbnColumn" prefWidth="78.39996337890625" text="ISBN" />
+        <TableColumn fx:id="genreColumn" prefWidth="184.00006103515625" text="Genre" />
+        <TableColumn fx:id="publicationDateColumn" prefWidth="148.8" text="Publication Date" />
+      </columns>
+    </TableView>
+  </children>
+</AnchorPane>
