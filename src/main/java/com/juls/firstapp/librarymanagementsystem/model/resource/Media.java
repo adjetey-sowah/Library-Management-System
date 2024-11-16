@@ -17,6 +17,10 @@ public class Media extends LibraryResource {
         super(title,ResourceType.MEDIA);
     }
 
+    public Media(){
+        super("",ResourceType.MEDIA);
+    }
+
     @Override
     public void setResourceType() {
         super.resourceType = ResourceType.MEDIA;

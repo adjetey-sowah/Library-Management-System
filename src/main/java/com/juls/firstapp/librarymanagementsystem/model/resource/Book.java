@@ -20,6 +20,10 @@ public class Book extends LibraryResource{
         this.publicationDate = publicationDate;
     }
 
+    public Book(){
+        super("",ResourceType.BOOK);
+    }
+
     public Book(String title,String author){
         super(title,ResourceType.BOOK);
         this.author = author;
@@ -64,5 +68,19 @@ public class Book extends LibraryResource{
 
     public void setPublicationDate(LocalDate publicationDate) {
         this.publicationDate = publicationDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "resourceType=" + resourceType +
+                ", status=" + status +
+                ", title='" + title + '\'' +
+                ", resourceId=" + resourceId +
+                ", publicationDate=" + publicationDate +
+                ", genre=" + genre +
+                ", isbn='" + isbn + '\'' +
+                ", author='" + author + '\'' +
+                '}';
     }
 }
