@@ -61,5 +61,57 @@ INSERT INTO Media (media_id,format)
 VALUES (p_media_id,p_media_format);
 END //
 
+
+CREATE PROCEDURE updateBook(
+    bookId BIGINT,
+    b_author VARCHAR(255),
+    b_isbn VARCHAR(255),
+    b_genre VARCHAR(255),
+    pub_date DATE
+)
+
+BEGIN
+    UPDATE book
+    set
+        book.author = b_author,
+        book.isbn = b_isbn,
+        book.genre = b_genre,
+        publication_date = pub_date
+    where book_id = bookId;
+END //
+
+
+
+CREATE PROCEDURE updateJournal(
+    j_id BIGINT,
+    j_issue_no VARCHAR(255),
+    j_frequency VARCHAR(255)
+)
+
+BEGIN
+    UPDATE journal
+    set issue_no = j_issue_no,
+        frequency = j_frequency
+    where journal_id = j_id;
+
+    END //
+
+
+
+
+CREATE PROCEDURE updateResource(
+    r_id BIGINT,
+    r_title VARCHAR(255),
+    r_status VARCHAR(20)
+)
+BEGIN
+    UPDATE library_resource
+    set title = r_title,
+        status = r_status
+    where resource_id = r_id;
+END //
+
+DELIMITER ;
+
     DELIMITER ;
 

@@ -6,7 +6,7 @@ import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Media;
 
 import java.util.LinkedList;
-import java.util.Objects;
+import java.util.List;
 
 public interface ResourceDAO {
 
@@ -22,13 +22,19 @@ public interface ResourceDAO {
 
     boolean updateLibraryResource(LibraryResource resource) throws Exception;
 
-    LinkedList<Objects> findAllResource() throws Exception;
+    LinkedList<LibraryResource> findAllResource() throws Exception;
 
     LinkedList<Book> findAllBooks() throws Exception;
 
     LinkedList<Journal> findAllJournal() throws Exception;
 
     LinkedList<Media> findAllMedia() throws Exception;
+
+    LibraryResource getResourceByTitle(String title) throws Exception;
+
+    List<LibraryResource> searchResources(String criteria) throws Exception;
+
+
 
 
 
