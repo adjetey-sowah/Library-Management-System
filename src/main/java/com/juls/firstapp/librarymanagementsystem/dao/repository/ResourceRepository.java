@@ -14,7 +14,6 @@ import java.util.List;
 
 public class ResourceRepository implements ResourceDAO
 {
-
     private final Connection connection;
     private final Mappers mappers;
 
@@ -122,7 +121,6 @@ public class ResourceRepository implements ResourceDAO
         }
         return resource;
     }
-
 
     @Override
     public boolean deleteLibraryResource(Long id) throws Exception {
@@ -237,15 +235,12 @@ public class ResourceRepository implements ResourceDAO
 
     @Override
     public LibraryResource getResourceByTitle(String title) throws Exception {
-        LibraryResource resource = null;
         for(LibraryResource res : this.findAllResource()){
-            if(res.getTitle().equalsIgnoreCase(title)){
-                resource = res;
-                break;
+            if(res.getTitle().toLowerCase().contains(title.toLowerCase())){
+                return res;
             }
-            else throw new Exception("Cannot find resource");
         }
-        return resource;
+        return null;
     }
 
     @Override
@@ -302,11 +297,16 @@ public class ResourceRepository implements ResourceDAO
     }
 
 
+
+
     public static void main(String[] args) throws Exception {
         ResourceRepository repository = new ResourceRepository();
 
-        LinkedList<LibraryResource> resource = repository.searchResources("THE");
-        resource.forEach(System.out::println);
+
+
+
+        LibraryResource resource = repository.getResourceByTitle("The Catcher");
+        System.out.println(resource);
 
     }
 
