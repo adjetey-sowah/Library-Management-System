@@ -174,7 +174,6 @@ public class ResourceRepository implements ResourceDAO {
 
     public static void main(String[] args) throws Exception {
         ResourceRepository repository = new ResourceRepository();
-        LinkedList<Journal> bookList = repository.findAllJournal();
 
         bookList.forEach(System.out::println);
 
