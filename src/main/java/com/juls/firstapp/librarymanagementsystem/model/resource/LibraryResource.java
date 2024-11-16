@@ -50,4 +50,14 @@ public abstract class LibraryResource {
     public ResourceType getResourceType(){
         return resourceType;
     }
+
+    @Override
+    public String toString() {
+        return "LibraryResource{" +
+                "resourceId=" + resourceId +
+                ", title='" + title + '\'' +
+                ", status=" + status +
+                ", resourceType=" + resourceType +
+                '}';
+    }
 }

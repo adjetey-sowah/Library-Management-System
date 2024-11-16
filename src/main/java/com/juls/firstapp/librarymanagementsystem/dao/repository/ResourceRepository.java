@@ -10,9 +10,10 @@ import com.juls.firstapp.librarymanagementsystem.util.helper.Mappers;
 
 import java.sql.*;
 import java.util.LinkedList;
-import java.util.Objects;
+import java.util.List;
 
-public class ResourceRepository implements ResourceDAO {
+public class ResourceRepository implements ResourceDAO
+{
 
     private final Connection connection;
     private final Mappers mappers;
@@ -57,7 +58,7 @@ public class ResourceRepository implements ResourceDAO {
             callableStatement.setString(2, book.getAuthor());
             callableStatement.setString(3,book.getIsbn());
             callableStatement.setString(4,book.getGenre().toString());
-            callableStatement.setString(5,Date.valueOf(book.getPublicationDate()).toString());
+            callableStatement.setDate(5,Date.valueOf(book.getPublicationDate()));
 
             int row = callableStatement.executeUpdate();
 
@@ -112,6 +113,16 @@ public class ResourceRepository implements ResourceDAO {
 
     }
 
+    public LibraryResource findResourceById(Long id) throws Exception {
+        LibraryResource resource = null;
+        for (LibraryResource res : findAllResource()){
+            if(res.getResourceId() == id){
+                resource = res;
+            }
+        }
+        return resource;
+    }
+
 
     @Override
     public boolean deleteLibraryResource(Long id) throws Exception {
@@ -127,13 +138,55 @@ public class ResourceRepository implements ResourceDAO {
     }
 
     @Override
-    public boolean updateLibraryResource(LibraryResource resource) {
-        return false;
+    public boolean updateLibraryResource(LibraryResource resource) throws Exception{
+        String sql = "";
+        boolean isUpdated = false;
+        boolean itemUpdated = false;
+
+        if (resource instanceof Book){
+            sql = "{call updateBook(?,?,?,?,?)}";
+            try(CallableStatement callableStatement = connection.prepareCall(sql)){
+                callableStatement.setLong(1,resource.getResourceId());
+                callableStatement.setString(2,((Book) resource).getAuthor());
+                callableStatement.setString(3,((Book) resource).getIsbn());
+                callableStatement.setString(4,((Book) resource).getGenre().toString());
+                callableStatement.setDate(5,Date.valueOf(((Book) resource).getPublicationDate().toString()));
+
+                itemUpdated =  0 <= callableStatement.executeUpdate();
+            }
+        }
+        else if(resource instanceof Journal){
+            sql = "{cal updateJournal(?,?,?)}";
+            try (CallableStatement callableStatement = connection.prepareCall(sql)){
+                callableStatement.setLong(1,resource.getResourceId());
+                callableStatement.setString(2,((Journal) resource).getIssueNumber());
+                callableStatement.setString(3,((Journal) resource).getFrequency());
+
+                itemUpdated= callableStatement.executeUpdate() > 0;
+            }
+
+            sql = "{call updateResource(?,?,?)}";
+            try (CallableStatement callableStatement = connection.prepareCall(sql)){
+                callableStatement.setLong(1,resource.getResourceId());
+                callableStatement.setString(2,resource.getTitle());
+                callableStatement.setString(3,resource.getResourceStatus().toString());
+
+                isUpdated= callableStatement.executeUpdate() > 0;
+
+            }
+        }
+
+        return isUpdated&&itemUpdated;
+
     }
 
     @Override
-    public LinkedList<Objects> findAllResource() throws Exception {
-        return null;
+    public LinkedList<LibraryResource> findAllResource() throws Exception {
+        LinkedList<LibraryResource> allResources = new LinkedList<>();
+        allResources.addAll(findAllBooks());
+        allResources.addAll(findAllJournal());
+        allResources.addAll(findAllMedia());
+        return allResources;
     }
 
     @Override
@@ -168,14 +221,92 @@ public class ResourceRepository implements ResourceDAO {
 
     @Override
     public LinkedList<Media> findAllMedia() throws Exception {
-        return null;
+        String sql = "{call findAllMedia()}";
+        LinkedList<Media>  mediaList = new LinkedList<>();
+
+        try(CallableStatement callableStatement = connection.prepareCall(sql)){
+            ResultSet resultSet = callableStatement.executeQuery();
+
+            while (resultSet.next()){
+                mediaList.add(mappers.mapToMedia(resultSet));
+            }
+
+        }
+        return mediaList;
+    }
+
+    @Override
+    public LibraryResource getResourceByTitle(String title) throws Exception {
+        LibraryResource resource = null;
+        for(LibraryResource res : this.findAllResource()){
+            if(res.getTitle().equalsIgnoreCase(title)){
+                resource = res;
+                break;
+            }
+            else throw new Exception("Cannot find resource");
+        }
+        return resource;
+    }
+
+    @Override
+    public LinkedList<LibraryResource> searchResources(String criteria) throws Exception {
+        LinkedList<LibraryResource> searchResults = new LinkedList<>();
+
+
+        for(LibraryResource resource : findAllResource()){
+            if (resource.getTitle()
+                    .equalsIgnoreCase(criteria) ||
+                    String.valueOf(resource
+                            .getTitle())
+                            .toLowerCase()
+                            .contains(criteria.toLowerCase())){
+                searchResults.add(resource);
+            }
+
+            else if (resource instanceof Book) {
+                if (((Book) resource).getAuthor().equalsIgnoreCase(criteria)
+                || ((Book) resource).getAuthor().toLowerCase().contains(criteria.toLowerCase())){
+                    searchResults.add(resource);
+                }
+                else if (((Book) resource).getIsbn().toLowerCase().contains(criteria.toLowerCase())) {
+                    searchResults.add(resource);
+                }
+                else if (((Book) resource)
+                            .getGenre().toString()
+                            .toLowerCase()
+                            .contains(criteria.toLowerCase())){
+
+                    searchResults.add(resource);
+                    }
+            }
+
+            else if (resource instanceof Journal) {
+                if(((Journal) resource)
+                        .getIssueNumber()
+                        .toLowerCase()
+                        .contains(criteria.toLowerCase())){
+                    searchResults.add(resource);
+                }
+
+                else if (((Journal) resource)
+                        .getFrequency()
+                        .toLowerCase()
+                        .contains(criteria.toLowerCase())) {
+                    searchResults.add(resource);
+                }
+            }
+
+        }
+
+        return searchResults;
     }
 
 
     public static void main(String[] args) throws Exception {
         ResourceRepository repository = new ResourceRepository();
 
-        bookList.forEach(System.out::println);
+        LinkedList<LibraryResource> resource = repository.searchResources("THE");
+        resource.forEach(System.out::println);
 
     }
 
