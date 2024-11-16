@@ -135,7 +135,15 @@ public class ResourceRepository implements ResourceDAO {
 
     @Override
     public LinkedList<Book> findAllBooks() throws Exception {
-        return null;
+        String sql = "{call findAllBooks()}";
+
+        try(CallableStatement callableStatement = connection.prepareCall(sql)){
+            ResultSet resultSet =  callableStatement.executeQuery();
+
+            while (resultSet.next()){
+
+            }
+        }
     }
 
     @Override
