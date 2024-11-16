@@ -7,8 +7,9 @@ import com.juls.firstapp.librarymanagementsystem.model.resource.Journal;
 import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Media;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.LinkedList;
+import java.util.Objects;
 
 public class ResourceRepository implements ResourceDAO {
 
@@ -18,22 +19,136 @@ public class ResourceRepository implements ResourceDAO {
         this.connection = new DatabaseConfig().getConnection();
     }
 
-    public int insertResource(LibraryResource resource){
+    @Override
+    public int insertLibraryResource(LibraryResource resource){
+        String sql = "INSERT INTO library_resource(title,status,resource_type) " +
+                "VALUES (?,?,?)";
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+            preparedStatement.setString(1,resource.getTitle());
+            preparedStatement.setString(2,resource.getResourceStatus().toString());
+            preparedStatement.setString(3,resource.getResourceType().toString());
+            preparedStatement.executeUpdate();
+
+            try(ResultSet generatedKeys = preparedStatement.getGeneratedKeys()){
+                if(generatedKeys.next()){
+                    return generatedKeys.getInt(1);
+                }
+                else {
+                    throw new SQLException("Could not add resource, no key generated");
+                }
+            }
+        }
+        catch (Exception e){
+            throw new RuntimeException("Could not add user :"+e.getMessage());
+        }
+    }
+
+    @Override
+    public boolean addLibraryResource(Book book){
+        int id = this.insertLibraryResource(book);
+        String sql = "{call insertBook(?,?,?,?,?)}";
+
+        try(CallableStatement callableStatement = connection.prepareCall(sql)){
+            callableStatement.setLong(1,id);
+            callableStatement.setString(2, book.getAuthor());
+            callableStatement.setString(3,book.getIsbn());
+            callableStatement.setString(4,book.getGenre().toString());
+            callableStatement.setString(5,Date.valueOf(book.getPublicationDate()).toString());
+
+            int row = callableStatement.executeUpdate();
+
+                if (row > 0){
+                    return true;
+            }
+                else throw new RuntimeException("Could not add book");
+
+        }
+        catch (SQLException e){
+            throw new RuntimeException("Could not add book"+e.getMessage());
+        }
+    }
+
+    @Override
+    public boolean addLibraryResource(Journal journal){
+        String sql = "call  insertJournal(?,?,?)";
+        int id = insertLibraryResource(journal);
+
+        try(CallableStatement callableStatement = connection.prepareCall(sql)){
+            callableStatement.setLong(1,id);
+            callableStatement.setString(2,journal.getIssueNumber());
+            callableStatement.setString(3,journal.getFrequency());
+
+            int row = callableStatement.executeUpdate();
+
+            if (row > 0){
+                return true;
+            }
+            else throw new RuntimeException("Could not add Journal");
+        }
+        catch (SQLException e){
+            throw new RuntimeException(e.getMessage());
+        }
 
     }
 
-    public int addLibraryResource(Book book){
+    @Override
+    public boolean addLibraryResource(Media media) throws Exception {
 
-        return -1;
+        String sql = "{call insertMedia(?,?)}";
+        int id = insertLibraryResource(media);
+
+        try(CallableStatement callableStatement = connection.prepareCall(sql)){
+            callableStatement.setLong(1,id);
+            callableStatement.setString(2,media.getFormat().toString());
+
+            int row = callableStatement.executeUpdate();
+
+            return row > 0;
+        }
+
     }
 
-    public int addLibraryResource(Media media){
-        return -1;
+
+    @Override
+    public boolean deleteLibraryResource(Long id) throws Exception {
+        String sql = "{call deleteResource(?)}";
+
+        try(CallableStatement callableStatement = connection.prepareCall(sql)){
+            callableStatement.setLong(1,id);
+            return 0< callableStatement.executeUpdate();
+        }
+        catch (RuntimeException e){
+            throw new Exception("Could not delete resource");
+        }
     }
 
-    public int addLibraryResource(Journal journal){
-        return -1;
+    @Override
+    public boolean updateLibraryResource(LibraryResource resource) {
+        return false;
     }
+
+    @Override
+    public LinkedList<Objects> findAllResource() throws Exception {
+        return null;
+    }
+
+    @Override
+    public LinkedList<Book> findAllBooks() throws Exception {
+        return null;
+    }
+
+    @Override
+    public LinkedList<Journal> findAllJournal() throws Exception {
+        return null;
+    }
+
+    @Override
+    public LinkedList<Media> findAllMedia() throws Exception {
+        return null;
+    }
+
+
 
 
 
