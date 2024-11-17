@@ -10,7 +10,7 @@ public class Transaction {
     private Long transactionId;
     private Long patronId;
     private TransactionType transactionType;
-    private LibraryResource resource;
+    private Long resourceId;
     private LocalDateTime borrowedDate;
     private LocalDateTime dueDate;
     private double fine;
@@ -18,14 +18,14 @@ public class Transaction {
     public Transaction(Long transactionId,
                        Long patronId,
                        TransactionType transactionType,
-                       LibraryResource resource,
+                       Long resourceId,
                        LocalDateTime borrowedDate,
                        LocalDateTime dueDate,
                        double fine) {
         this.transactionId = transactionId;
         this.patronId = patronId;
         this.transactionType = transactionType;
-        this.resource = resource;
+        this.resourceId = resourceId;
         this.borrowedDate = borrowedDate;
         this.dueDate = dueDate;
         this.fine = fine;
@@ -67,12 +67,12 @@ public class Transaction {
         return transactionType;
     }
 
-    public LibraryResource getResource() {
-        return resource;
+    public Long getResource() {
+        return resourceId;
     }
 
-    public void setResource(LibraryResource resource) {
-        this.resource = resource;
+    public void setResource(Long resourceId) {
+        this.resourceId = resourceId;
     }
 
     public LocalDateTime getBorrowedDate() {
