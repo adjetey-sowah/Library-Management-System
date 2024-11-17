@@ -67,7 +67,7 @@ public class Transaction {
         return transactionType;
     }
 
-    public LibraryResource getResource() {
+    public long getResource() {
         return resource;
     }
 
