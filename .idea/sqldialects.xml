@@ -2,7 +2,14 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/src/main/java/com/juls/firstapp/librarymanagementsystem/dao/repository/ResourceRepository.java" dialect="GenericSQL" />
+<<<<<<< HEAD
     <file url="file://$PROJECT_DIR$/src/main/java/com/juls/firstapp/librarymanagementsystem/dao/repository/TransactionRepository.java" dialect="GenericSQL" />
+=======
+<<<<<<< HEAD
+    <file url="file://$PROJECT_DIR$/src/main/java/com/juls/firstapp/librarymanagementsystem/dao/repository/TransactionRepository.java" dialect="GenericSQL" />
+=======
+>>>>>>> 36bcf26f3a368ebe348d3816f9b3a97bb94c2dee
+>>>>>>> main
     <file url="file://$PROJECT_DIR$/src/main/java/com/juls/firstapp/librarymanagementsystem/dao/repository/UserRepository.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/juls/firstapp/librarymanagementsystem/database/library_schema.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/juls/firstapp/librarymanagementsystem/database/procedures.sql" dialect="MySQL" />

@@ -98,7 +98,6 @@ public class TransactionRepository implements TransactionDAO {
         return borrowedResource;
     }
 
-
     @Override
     public ArrayDeque<TransactionDTO> findTransactionByPatron(String phone) throws SQLException {
         ArrayDeque<TransactionDTO> transactionList = new ArrayDeque<>();
