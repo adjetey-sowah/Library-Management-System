@@ -1,5 +1,6 @@
 package com.juls.firstapp.librarymanagementsystem.model.lending;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Transaction {
@@ -64,7 +65,7 @@ public class Transaction {
         this.resourceId = resource;
     }
 
-    public String getBorrowedDate() {
+    public LocalDateTime getBorrowedDate() {
         return borrowedDate;
     }
 
