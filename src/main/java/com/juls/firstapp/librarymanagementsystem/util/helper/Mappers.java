@@ -1,6 +1,7 @@
 package com.juls.firstapp.librarymanagementsystem.util.helper;
 
 
+import com.juls.firstapp.librarymanagementsystem.dao.dto.TransactionDTO;
 import com.juls.firstapp.librarymanagementsystem.model.enums.Genre;
 import com.juls.firstapp.librarymanagementsystem.model.enums.MediaFormat;
 import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceStatus;
@@ -61,5 +62,18 @@ public class Mappers {
         return media;
     }
 
+    public TransactionDTO mapToTransaction(ResultSet resultSet) throws SQLException {
+        TransactionDTO transactionDTO = new TransactionDTO();
+        transactionDTO.setTransactionId(resultSet.getLong("transaction_id"));
+        transactionDTO.setResourceName(resultSet.getString("title"));
+        transactionDTO.setPatronName(resultSet.getString("name"));
+        transactionDTO.setPhone(resultSet.getString("phone"));
+        transactionDTO.setBorrowedDate(Date.valueOf(resultSet.getDate("borrowed_date").toLocalDate()).toLocalDate());
+        transactionDTO.setDueDate(Date.valueOf(resultSet.getDate("borrowed_date").toLocalDate()).toLocalDate());
+        transactionDTO.setReturnedDate(Date.valueOf(resultSet.getDate("returned_date").toLocalDate()).toLocalDate());
+        transactionDTO.setFine(resultSet.getDouble("fine"));
+
+        return transactionDTO;
+    }
 
 }
