@@ -65,7 +65,7 @@ public class Transaction {
         this.resourceId = resource;
     }
 
-    public LocalDateTime getBorrowedDate() {
+    public String getBorrowedDate() {
         return borrowedDate;
     }
 
