@@ -15,6 +15,7 @@ module com.juls.firstapp.librarymanagementsystem {
     requires io.github.cdimascio.dotenv.java;
     requires spring.security.crypto;
     requires spring.context;
+    requires org.slf4j;
 
 
     opens com.juls.firstapp.librarymanagementsystem to javafx.fxml;
