@@ -306,7 +306,6 @@ public class ResourceRepository implements ResourceDAO
 >>>>>>> 36bcf26f3a368ebe348d3816f9b3a97bb94c2dee
     }
 
-
     @Override
     public boolean deleteLibraryResource(Long id) throws Exception {
         String sql = "{call deleteResource(?)}";
@@ -420,15 +419,12 @@ public class ResourceRepository implements ResourceDAO
 
     @Override
     public LibraryResource getResourceByTitle(String title) throws Exception {
-        LibraryResource resource = null;
         for(LibraryResource res : this.findAllResource()){
-            if(res.getTitle().equalsIgnoreCase(title)){
-                resource = res;
-                break;
+            if(res.getTitle().toLowerCase().contains(title.toLowerCase())){
+                return res;
             }
-            else throw new Exception("Cannot find resource");
         }
-        return resource;
+        return null;
     }
 
     @Override
@@ -483,6 +479,8 @@ public class ResourceRepository implements ResourceDAO
 
         return searchResults;
     }
+
+
 
 
     public static void main(String[] args) throws Exception {
