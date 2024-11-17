@@ -29,16 +29,15 @@ public class TransactionRepository implements TransactionDAO {
 
     @Override
     public boolean createTransaction(Transaction transaction) {
-        String sql = "{call addTransaction(?,?,?,?,?,?)}";
+        String sql = "INSERT INTO transaction(resource_id,user_id,borrowed_date,due_date,fine) VALUES (?,?,?,?,?)";
 
-        var date = Instant.now();
+
         try (CallableStatement callableStatement = connection.prepareCall(sql)){
-            callableStatement.setLong(1,transaction.getTransactionId());
-            callableStatement.setLong(2,transaction.getResource());
-            callableStatement.setLong(3,transaction.getPatronId());
-            callableStatement.setDate(4, (Date) Date.from(date));
-            callableStatement.setDate(5, Date.valueOf(String.valueOf(transaction.getDueDate())));
-            callableStatement.setDate(6,null);
+            callableStatement.setLong(1,transaction.getResource());
+            callableStatement.setLong(2,transaction.getPatronId());
+            callableStatement.setDate(3,Date.valueOf(LocalDate.now()));
+            callableStatement.setDate(4, Date.valueOf(String.valueOf(transaction.getDueDate())));
+            callableStatement.setDouble(5,transaction.getFine());
 
             return callableStatement.executeUpdate() > 0;
 
@@ -54,6 +53,28 @@ public class TransactionRepository implements TransactionDAO {
         return false;
     }
 
+    public TransactionDTO getTransactionByDate(LocalDate transactionDate) throws SQLException {
+        TransactionDTO transactionDTO = new TransactionDTO();
+        for (TransactionDTO transactions : findAllTransactions()){
+            if (transactions.getBorrowedDate().equals(transactionDate)){
+                transactionDTO = transactions;
+            }
+        }
+        return transactionDTO;
+    }
+
+    public boolean updateTransaction(Long transaction_id){
+        String sql = "UPDATE Transaction SET returned_date = ? WHERE transaction_id = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setLong(2,transaction_id);
+            preparedStatement.setDate(1,Date.valueOf(LocalDate.now()));
+            return preparedStatement.executeUpdate() > 0;
+        }
+        catch (Exception e){
+            throw new RuntimeException("Transaction not updated: "+e.getMessage());
+        }
+    }
+
     @Override
     public ArrayDeque<TransactionDTO> findAllTransactions() throws SQLException {
         ArrayDeque<TransactionDTO> transactions = new ArrayDeque<>();
@@ -64,7 +85,7 @@ public class TransactionRepository implements TransactionDAO {
             ResultSet resultSet = callableStatement.executeQuery();
 
             while (resultSet.next()){
-                transactions.add(mappers.mapToTransaction(resultSet));
+                transactions.addFirst(mappers.mapToTransaction(resultSet));
             }
 
         }
@@ -100,24 +121,15 @@ public class TransactionRepository implements TransactionDAO {
 
 
     @Override
-    public ArrayDeque<TransactionDTO> findTransactionByPatron(String phone) throws SQLException {
+    public ArrayDeque<TransactionDTO> findTransactionByPatron(String search) throws SQLException {
         ArrayDeque<TransactionDTO> transactionList = new ArrayDeque<>();
         for (TransactionDTO transaction : findAllTransactions()){
-            if(transaction.getPhone().equalsIgnoreCase(phone)){
-                transactionList.add(transaction);
+            if(transaction.getPhone().equalsIgnoreCase(search) ||
+                    transaction.getPatronName().toLowerCase().contains(search.toLowerCase())){
+                transactionList.addFirst(transaction);
             }
         }
         return transactionList;
     }
 
-    @Override
-    public ArrayDeque<TransactionDTO> findTransactionByPatronName(String name) throws SQLException {
-        ArrayDeque<TransactionDTO> transactionList = new ArrayDeque<>();
-        for (TransactionDTO transaction : findAllTransactions()){
-            if(transaction.getPhone().equalsIgnoreCase(name)){
-                transactionList.add(transaction);
-            }
-        }
-        return transactionList;
-    }
 }

@@ -8,16 +8,16 @@ public class Transaction {
     private Long patronId;
     private Long resourceId;
     private LocalDateTime borrowedDate;
-    private LocalDateTime dueDate;
-    private LocalDateTime returnedDate;
+    private LocalDate dueDate;
+    private LocalDate returnedDate;
     private double fine;
 
     public Transaction(Long transactionId,
                        Long patronId,
-                       LocalDateTime returnedDate,
+                       LocalDate returnedDate,
                        Long resourceId,
                        LocalDateTime borrowedDate,
-                       LocalDateTime dueDate,
+                       LocalDate dueDate,
                        double fine) {
         this.transactionId = transactionId;
         this.patronId = patronId;
@@ -49,11 +49,11 @@ public class Transaction {
         this.patronId = patronId;
     }
 
-    public void setReturnedDate(LocalDateTime returnedDate){
+    public void setReturnedDate(LocalDate returnedDate){
         this.returnedDate = returnedDate;
     }
 
-    public LocalDateTime getReturnedDate(){
+    public LocalDate getReturnedDate(){
         return returnedDate;
     }
 
@@ -73,11 +73,11 @@ public class Transaction {
         this.borrowedDate = borrowedDate;
     }
 
-    public LocalDateTime getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDateTime dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
