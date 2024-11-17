@@ -5,7 +5,6 @@ import com.juls.firstapp.librarymanagementsystem.dao.interfaces.TransactionDAO;
 import com.juls.firstapp.librarymanagementsystem.model.enums.TransactionType;
 import com.juls.firstapp.librarymanagementsystem.model.lending.Transaction;
 import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
-import com.juls.firstapp.librarymanagementsystem.util.helper.Mappers;
 
 import java.sql.*;
 import java.time.Instant;
@@ -17,12 +16,11 @@ import java.util.LinkedList;
 public class TransactionRepository implements TransactionDAO {
 
 
-    private final Connection connection;
-    private final Mappers mappers;
+    private Connection connection;
+    private PreparedStatement preparedStatement;
 
     public TransactionRepository() throws SQLException, ClassNotFoundException {
         this.connection = new DatabaseConfig().getConnection();
-        this.mappers = new Mappers();
     }
 
     @Override
@@ -61,13 +59,7 @@ public class TransactionRepository implements TransactionDAO {
         try(CallableStatement callableStatement = connection.prepareCall(sql)){
             ResultSet resultSet = callableStatement.executeQuery();
 
-            while (resultSet.next()){
-                transactions.add(mappers.)
-            }
 
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
