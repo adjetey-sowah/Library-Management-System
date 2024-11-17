@@ -1,4 +1,4 @@
 package com.juls.firstapp.librarymanagementsystem.service;
 
-public class TransactionService {
+public class TransactionService extends Tr{
 }
