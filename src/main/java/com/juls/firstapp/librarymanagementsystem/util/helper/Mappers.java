@@ -70,7 +70,7 @@ public class Mappers {
         transactionDTO.setPhone(resultSet.getString("phone"));
         transactionDTO.setBorrowedDate(Date.valueOf(resultSet.getDate("borrowed_date").toLocalDate()).toLocalDate());
         transactionDTO.setDueDate(Date.valueOf(resultSet.getDate("borrowed_date").toLocalDate()).toLocalDate());
-        transactionDTO.setReturnedDate(Date.valueOf(resultSet.getDate("returned_date").toLocalDate()).toLocalDate());
+//        transactionDTO.setReturnedDate(resultSet.getDate("returned_date").toLocalDate());
         transactionDTO.setFine(resultSet.getDouble("fine"));
 
         return transactionDTO;

@@ -17,7 +17,5 @@ public interface TransactionDAO {
     ArrayDeque<TransactionDTO> findAllTransactions() throws SQLException;
     ArrayDeque<TransactionDTO> findTransactionByRange(LocalDate from, LocalDate to) throws SQLException;
     LinkedList<LibraryResource> getAllBorrowedResource() throws Exception;
-    ArrayDeque<TransactionDTO> findTransactionByPatronName(String name) throws SQLException;
-
     ArrayDeque<TransactionDTO> findTransactionByPatron(String phone) throws SQLException;
 }
