@@ -113,5 +113,36 @@ END //
 
 DELIMITER ;
 
+CREATE PROCEDURE addTransaction(
+    t_id BIGINT,
+    r_id BIGINT,
+    p_id BIGINT,
+    t_borrowed_date datetime,
+    t_due_date datetime,
+    r_date datetime
+)
+
+BEGIN
+    INSERT INTO transaction
+        values (t_id,
+                r_id,
+                p_id,
+                t_borrowed_date,
+                t_due_date,
+                r_date);
+end;
+
+
+CREATE PROCEDURE getAllTransactions()
+BEGIN
+    SELECT *
+    FROM transaction t
+             LEFT JOIN library_resource lr
+                       ON t.resource_id = lr.resource_id
+             LEFT JOIN users p
+                       ON t.user_id = p.user_id;
+END;
+;
+
     DELIMITER ;
 
