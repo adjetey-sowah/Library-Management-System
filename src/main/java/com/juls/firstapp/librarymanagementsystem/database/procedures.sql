@@ -142,7 +142,23 @@ BEGIN
              LEFT JOIN users p
                        ON t.user_id = p.user_id;
 END;
-;
+
+
+create procedure findTransactionRange(
+    from_date date,
+    to_date date
+)
+
+BEGIN
+    select * from
+        transaction
+    where
+        borrowed_date between
+            from_date and to_date;
+
+end ;
+delimiter ;
+
 
     DELIMITER ;
 

@@ -1,26 +1,30 @@
 package com.juls.firstapp.librarymanagementsystem.dao.repository;
 
 import com.juls.firstapp.librarymanagementsystem.config.DatabaseConfig;
+import com.juls.firstapp.librarymanagementsystem.dao.dto.TransactionDTO;
 import com.juls.firstapp.librarymanagementsystem.dao.interfaces.TransactionDAO;
-import com.juls.firstapp.librarymanagementsystem.model.enums.TransactionType;
+import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceStatus;
 import com.juls.firstapp.librarymanagementsystem.model.lending.Transaction;
 import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
+import com.juls.firstapp.librarymanagementsystem.util.helper.Mappers;
 
 import java.sql.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayDeque;
-import java.util.Calendar;
 import java.util.LinkedList;
 
 public class TransactionRepository implements TransactionDAO {
 
 
-    private Connection connection;
-    private PreparedStatement preparedStatement;
+    private final Connection connection;
+    private final Mappers mappers;
+    private final ResourceRepository resourceRepository;
 
     public TransactionRepository() throws SQLException, ClassNotFoundException {
         this.connection = new DatabaseConfig().getConnection();
+        this.resourceRepository = new ResourceRepository();
+        this.mappers = new Mappers();
     }
 
     @Override
@@ -51,40 +55,69 @@ public class TransactionRepository implements TransactionDAO {
     }
 
     @Override
-    public ArrayDeque<Transaction> findAllTransactions() {
-        ArrayDeque<Transaction> transactions = new ArrayDeque<>();
+    public ArrayDeque<TransactionDTO> findAllTransactions() throws SQLException {
+        ArrayDeque<TransactionDTO> transactions = new ArrayDeque<>();
 
         String sql = "{call getAllTransactions()}";
 
         try(CallableStatement callableStatement = connection.prepareCall(sql)){
             ResultSet resultSet = callableStatement.executeQuery();
 
+            while (resultSet.next()){
+                transactions.add(mappers.mapToTransaction(resultSet));
+            }
 
         }
+        return transactions;
     }
 
     @Override
-    public ArrayDeque<Transaction> findTransactionByRange(LocalDate from, LocalDate to) {
-        return null;
+    public ArrayDeque<TransactionDTO> findTransactionByRange(LocalDate from, LocalDate to) throws SQLException {
+        String sql ="{call findTransactionRange(?,?)}";
+        ArrayDeque<TransactionDTO> transactionRange = new ArrayDeque<>();
+        try(CallableStatement callableStatement = connection.prepareCall(sql)){
+            ResultSet resultSet = callableStatement.executeQuery();
+            while (resultSet.next()){
+                transactionRange.add(mappers.mapToTransaction(resultSet));
+            }
+            return transactionRange;
+
+        }
+
     }
 
     @Override
-    public LinkedList<LibraryResource> getAllBorrowedResource() {
-        return null;
+    public LinkedList<LibraryResource> getAllBorrowedResource() throws Exception {
+        LinkedList<LibraryResource> libraryResources = this.resourceRepository.findAllResource();
+        LinkedList<LibraryResource> borrowedResource = new LinkedList<>();
+        for (LibraryResource resource : libraryResources){
+            if(resource.getResourceStatus().equals(ResourceStatus.BORROWED)){
+                borrowedResource.add(resource);
+            }
+        }
+        return borrowedResource;
+    }
+
+
+    @Override
+    public ArrayDeque<TransactionDTO> findTransactionByPatron(String phone) throws SQLException {
+        ArrayDeque<TransactionDTO> transactionList = new ArrayDeque<>();
+        for (TransactionDTO transaction : findAllTransactions()){
+            if(transaction.getPhone().equalsIgnoreCase(phone)){
+                transactionList.add(transaction);
+            }
+        }
+        return transactionList;
     }
 
     @Override
-    public ArrayDeque<Transaction> findTransactionByType(TransactionType type) {
-        return null;
-    }
-
-    @Override
-    public ArrayDeque<Transaction> findTransactionByPatron(Long patronId) {
-        return null;
-    }
-
-    @Override
-    public ArrayDeque<Transaction> findTransactionByPatron(String name) {
-        return null;
+    public ArrayDeque<TransactionDTO> findTransactionByPatronName(String name) throws SQLException {
+        ArrayDeque<TransactionDTO> transactionList = new ArrayDeque<>();
+        for (TransactionDTO transaction : findAllTransactions()){
+            if(transaction.getPhone().equalsIgnoreCase(name)){
+                transactionList.add(transaction);
+            }
+        }
+        return transactionList;
     }
 }
