@@ -1,31 +1,27 @@
 package com.juls.firstapp.librarymanagementsystem.model.lending;
 
-import com.juls.firstapp.librarymanagementsystem.model.enums.TransactionType;
-import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
-
 import java.time.LocalDateTime;
 
 public class Transaction {
-    private static Long count = 10L;
     private Long transactionId;
     private Long patronId;
-    private TransactionType transactionType;
-    private LibraryResource resource;
+    private Long resourceId;
     private LocalDateTime borrowedDate;
     private LocalDateTime dueDate;
+    private LocalDateTime returnedDate;
     private double fine;
 
     public Transaction(Long transactionId,
                        Long patronId,
-                       TransactionType transactionType,
-                       LibraryResource resource,
+                       LocalDateTime returnedDate,
+                       Long resourceId,
                        LocalDateTime borrowedDate,
                        LocalDateTime dueDate,
                        double fine) {
         this.transactionId = transactionId;
         this.patronId = patronId;
-        this.transactionType = transactionType;
-        this.resource = resource;
+        this.returnedDate = returnedDate;
+        this.resourceId = resourceId;
         this.borrowedDate = borrowedDate;
         this.dueDate = dueDate;
         this.fine = fine;
@@ -35,13 +31,6 @@ public class Transaction {
     public Transaction(){
 
     }
-
-    protected Long generateId(){
-        return this.transactionId += count++;
-
-    }
-
-
 
     public Long getTransactionId() {
         return transactionId;
@@ -59,23 +48,23 @@ public class Transaction {
         this.patronId = patronId;
     }
 
-    public void setTransactionType(TransactionType type){
-        this.transactionType = type;
+    public void setReturnedDate(LocalDateTime returnedDate){
+        this.returnedDate = returnedDate;
     }
 
-    public TransactionType getTransactionType(){
-        return transactionType;
+    public LocalDateTime getReturnedDate(){
+        return returnedDate;
     }
 
-    public long getResource() {
-        return resource;
+    public Long getResource() {
+        return resourceId;
     }
 
-    public void setResource(LibraryResource resource) {
-        this.resource = resource;
+    public void setResource(Long resource) {
+        this.resourceId = resource;
     }
 
-    public LocalDateTime getBorrowedDate() {
+    public String getBorrowedDate() {
         return borrowedDate;
     }
 
@@ -97,5 +86,18 @@ public class Transaction {
 
     public void setFine(double fine) {
         this.fine = fine;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "transactionId=" + transactionId +
+                ", patronId=" + patronId +
+                ", returnedDate=" + returnedDate +
+                ", resourceId=" + resourceId +
+                ", borrowedDate=" + borrowedDate +
+                ", dueDate=" + dueDate +
+                ", fine=" + fine +
+                '}';
     }
 }
