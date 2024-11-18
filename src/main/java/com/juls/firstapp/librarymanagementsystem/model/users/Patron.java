@@ -10,7 +10,6 @@ public class Patron extends User {
 
     private MembershipType membershipType;
     private LinkedList<LibraryResource> borrowedResources;
-    private LibraryResource resource;
 
     public Patron(String name, MembershipType membershipType,
                   String email, String phone) {

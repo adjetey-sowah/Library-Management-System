@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.*?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+      stylesheets="@views/css/patron.css"
+      fx:controller="com.juls.firstapp.librarymanagementsystem.controller.patron.UserController">
+
+    <!-- Navigation Bar -->
+    <!-- Navigation Bar -->
+    <HBox styleClass="nav-bar">
+        <Label text="User Management" styleClass="nav-title"/>
+        <Pane HBox.hgrow="ALWAYS" />
+        <!-- Add Home Button -->
+        <Button fx:id="homeButton" styleClass="home-button">
+            <graphic>
+                <FontIcon iconLiteral="fas-home" iconSize="24" iconColor="white" />
+            </graphic>
+        </Button>
+    </HBox>
+
+
+    <!-- Main Content Container -->
+    <HBox styleClass="main-container">
+        <!-- Left Panel - Forms and Filters -->
+        <VBox spacing="15" styleClass="left-panel">
+            <!-- Add User Form -->
+            <VBox spacing="15" styleClass="form-container">
+                <Label text="Add New User" styleClass="section-header"/>
+
+                <!-- Common Fields -->
+                <ComboBox fx:id="userTypeCombo" promptText="Select User Type" styleClass="modern-field"/>
+                <TextField fx:id="nameField" promptText="Full Name" styleClass="modern-field"/>
+                <TextField fx:id="emailField" promptText="Email" styleClass="modern-field"/>
+                <TextField fx:id="phoneField" promptText="Phone" styleClass="modern-field"/>
+
+                <!-- Librarian-specific fields -->
+                <PasswordField fx:id="passwordField" promptText="Password"
+                               styleClass="modern-field" visible="false" managed="false"/>
+
+                <!-- Patron-specific fields -->
+                <ComboBox fx:id="membershipTypeCombo" promptText="Membership Type"
+                          styleClass="modern-field" visible="false" managed="false"/>
+
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button fx:id="clearButton" text="Clear" styleClass="secondary-button"
+                            onAction="#handleClearForm"/>
+                    <Button fx:id="addUserButton" text="Add User" styleClass="primary-button"
+                            onAction="#handleAddUser"/>
+                </HBox>
+            </VBox>
+
+            <!-- Filter Section -->
+            <VBox spacing="10" styleClass="filter-container">
+                <Label text="Filter Users" styleClass="section-header"/>
+                <ComboBox fx:id="filterUserTypeCombo" promptText="Filter by User Type"
+                          styleClass="modern-field" maxWidth="Infinity"/>
+                <Button text="Apply Filter" styleClass="accent-button" maxWidth="Infinity"/>
+            </VBox>
+        </VBox>
+
+        <!-- Right Panel - Table View -->
+        <VBox spacing="15" HBox.hgrow="ALWAYS" styleClass="right-panel">
+            <!-- Search and Actions Container -->
+
+            <HBox spacing="15" styleClass="search-actions-container">
+                <TextField fx:id="searchField" promptText="Search users..."
+                           styleClass="search-field" HBox.hgrow="ALWAYS"/>
+                <Button text="Export" styleClass="tool-button"/>
+                <Button text="Import" styleClass="tool-button"/>
+                <Button text="Refresh" styleClass="tool-button"/>
+            </HBox>
+
+            <!-- Add Users List Label -->
+            <Label text="List of Users" styleClass="users-list-header"/>
+
+            <!-- Users Table -->
+            <TableView fx:id="usersTable" VBox.vgrow="ALWAYS" styleClass="modern-table">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="60"/>
+                    <TableColumn fx:id="nameColumn" text="Name" prefWidth="150"/>
+                    <TableColumn fx:id="emailColumn" text="Email" prefWidth="200"/>
+                    <TableColumn fx:id="phoneColumn" text="Phone" prefWidth="120"/>
+                    <TableColumn fx:id="typeColumn" text="User Type" prefWidth="100"/>
+                    <TableColumn fx:id="membershipColumn" text="Membership" prefWidth="120"/>
+                    <TableColumn fx:id="actionColumn" text="Actions" prefWidth="100"/>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+
+            <!-- Status Bar -->
+            <HBox styleClass="status-bar">
+                <Label fx:id="statusLabel" text="Ready" styleClass="status-text"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Label fx:id="totalUsersLabel" text="Total Users: 0" styleClass="status-text"/>
+            </HBox>
+        </VBox>
+    </HBox>
+</VBox>
