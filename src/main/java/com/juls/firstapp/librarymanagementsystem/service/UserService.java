@@ -14,7 +14,7 @@ public class UserService {
     public User addLibrarian(Librarian librarian){
         try {
         int librarianId = userRepository.insertUser(librarian);
-        userRepository.insertLibrarian(librarianId,librarian.getPassword());
+        userRepository.insertLibrarian(librarian);
 
         return librarian;
         } catch (RuntimeException e) {
@@ -26,7 +26,7 @@ public class UserService {
     public User addPatron(Patron patron){
         try {
         int user_id = userRepository.insertUser(patron);
-        userRepository.insertPatron(user_id,patron.getMembershipType());
+        userRepository.insertPatron(patron);
         return patron;
         }
         catch (Exception e){
