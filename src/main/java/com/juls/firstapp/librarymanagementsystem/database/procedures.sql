@@ -77,6 +77,7 @@ BEGIN
         book.isbn = b_isbn,
         book.genre = b_genre,
         publication_date = pub_date
+
     where book_id = bookId;
 END //
 
