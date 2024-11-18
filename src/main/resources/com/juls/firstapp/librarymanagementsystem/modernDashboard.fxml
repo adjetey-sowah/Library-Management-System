@@ -23,20 +23,26 @@
         </Label>
 
         <VBox styleClass="sidebar-menu">
-            <Button styleClass="sidebar-button,active" text="Dashboard" fx:id="dashboardButton" onAction="#handleDashboardButtonClick">
+            <Button styleClass="sidebar-button,active" text="Dashboard"
+                    fx:id="dashboardButton"
+                    onAction="#handleDashboardButtonClick">
 
                 <graphic>
                     <FontIcon iconLiteral="fas-chart-line" styleClass="sidebar-icon"/>
                 </graphic>
             </Button>
 
-            <Button styleClass="sidebar-button" text="Resources Management" fx:id="resourceButton" onAction="#handleResourceButtonClick">
+            <Button styleClass="sidebar-button" text="Resources Management"
+                    fx:id="resourceButton"
+                    onAction="#handleResourceButtonClick">
                 <graphic>
                     <FontIcon iconLiteral="fas-book"  styleClass="sidebar-icon"/>
                 </graphic>
             </Button>
 
-            <Button styleClass="sidebar-button" text="User Management" fx:id="userButton" onAction="#handleUserButtonClick">
+            <Button styleClass="sidebar-button" text="User Management"
+                    fx:id="userButton"
+                    onAction="#handleUserButtonClick">
                 <graphic>
                     <FontIcon iconLiteral="fas-users" styleClass="sidebar-icon"/>
                 </graphic>
@@ -85,7 +91,9 @@
                     <TextField fx:id="globalSearchField" promptText="Search resources, users, or transactions..."
                                styleClass="search-input"/>
                 </HBox>
-                <Button styleClass="primary-button" text="Quick Add">
+                <Button styleClass="primary-button"
+                        text="Quick Add" fx:id="quickAddButton"
+                        onAction="#handleResourceButtonClick">
                     <graphic>
                         <FontIcon iconLiteral="fas-plus" styleClass="button-icon"/>
                     </graphic>
@@ -104,6 +112,11 @@
                     <FontIcon iconLiteral="fas-users" styleClass="stat-icon"/>
                     <Label text="Active Users" styleClass="stat-label"/>
                     <Label fx:id="activeUsersLabel" text="1,245" styleClass="stat-value"/>
+
+                </VBox> <VBox styleClass="stat-card">
+                    <FontIcon iconLiteral="fas-sync" styleClass="stat-icon"/>
+                    <Label text="Transactions" styleClass="stat-label"/>
+                    <Label fx:id="allTransactionsLabel" text="1,245" styleClass="stat-value"/>
                 </VBox>
 
                 <VBox styleClass="stat-card">
