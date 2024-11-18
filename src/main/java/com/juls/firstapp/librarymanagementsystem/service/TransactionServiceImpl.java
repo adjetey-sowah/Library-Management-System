@@ -8,7 +8,6 @@ import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceStatus;
 import com.juls.firstapp.librarymanagementsystem.model.lending.Transaction;
 import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayDeque;

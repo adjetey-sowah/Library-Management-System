@@ -8,7 +8,9 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
       stylesheets="@views/css/patron.css"
-      fx:controller="com.juls.firstapp.librarymanagementsystem.controller.patron.UserController">
+      fx:controller="com.juls.firstapp.librarymanagementsystem.controller.patron.UserController"
+      fx:id="patronBox"
+>
 
     <!-- Navigation Bar -->
     <!-- Navigation Bar -->
@@ -16,7 +18,7 @@
         <Label text="User Management" styleClass="nav-title"/>
         <Pane HBox.hgrow="ALWAYS" />
         <!-- Add Home Button -->
-        <Button fx:id="homeButton" styleClass="home-button">
+        <Button fx:id="homeButton" styleClass="home-button" onAction="#handleHomeButtonClicked">
             <graphic>
                 <FontIcon iconLiteral="fas-home" iconSize="24" iconColor="white" />
             </graphic>

@@ -1,5 +1,6 @@
 package com.juls.firstapp.librarymanagementsystem.controller.patron;
 
+import com.juls.firstapp.librarymanagementsystem.HelloApplication;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.UserRepository;
 import com.juls.firstapp.librarymanagementsystem.model.enums.*;
 
@@ -8,14 +9,20 @@ import com.juls.firstapp.librarymanagementsystem.model.users.Librarian;
 import com.juls.firstapp.librarymanagementsystem.model.users.Patron;
 import com.juls.firstapp.librarymanagementsystem.model.users.User;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -68,6 +75,10 @@ public class UserController implements Initializable {
     private Label statusLabel;
     @FXML
     private Label totalUsersLabel;
+
+    @FXML private Button homeButton;
+
+    @FXML private VBox patronBox;
 
     @FXML
     private Button clearButton;
@@ -124,7 +135,7 @@ public class UserController implements Initializable {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNum"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
-        membershipColumn.setCellValueFactory(new PropertyValueFactory<>("membershipType"));
+//        membershipColumn.setCellValueFactory(new PropertyValueFactory<>("membershipType"));
 
         // Setup action column with buttons
         setupActionColumn();
@@ -277,5 +288,20 @@ public class UserController implements Initializable {
         MembershipType type = MembershipType.valueOf(membershipColumn.getText());
         // Add other relevant fields for Patron
         return new Patron(name,type, email,phone);
+    }
+
+    @FXML
+    private void handleHomeButtonClicked() {
+
+        try {
+            Stage stage = (Stage) patronBox.getScene().getWindow();
+            Parent root = FXMLLoader.load(HelloApplication.class.getResource("modernDashboard.fxml"));
+            Scene scene = new Scene(root,stage.getWidth(),stage.getHeight());
+            stage.setScene(scene);
+            stage.setTitle("Library Management System");
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,12 +1,16 @@
 package com.juls.firstapp.librarymanagementsystem.controller.book;
 
+import com.juls.firstapp.librarymanagementsystem.HelloApplication;
 import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class ResourceController {
     @FXML
@@ -34,7 +38,11 @@ public class ResourceController {
     @FXML
     private Label checkedOutLabel;
 
+    @FXML private VBox resourceBox;
+
     @FXML private ComboBox filterStatusComboBox;
+
+    @FXML private Button homeButton;
 
     @FXML
     public void initialize() {
@@ -76,6 +84,21 @@ public class ResourceController {
     @FXML
     private void handleApplyFilters() {
         // Implementation for applying filters
+    }
+
+    @FXML
+    private void handleHomeButtonClicked() {
+
+        try {
+            Stage stage = (Stage) resourceBox.getScene().getWindow();
+            Parent root = FXMLLoader.load(HelloApplication.class.getResource("modernDashboard.fxml"));
+            Scene scene = new Scene(root,stage.getWidth(),stage.getHeight());
+            stage.setScene(scene);
+            stage.setTitle("Library Management System");
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML

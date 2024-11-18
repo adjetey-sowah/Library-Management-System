@@ -2,6 +2,8 @@ package com.juls.firstapp.librarymanagementsystem.controller.dashboard;
 
 
 import com.juls.firstapp.librarymanagementsystem.HelloApplication;
+import com.juls.firstapp.librarymanagementsystem.dao.repository.ResourceRepository;
+import com.juls.firstapp.librarymanagementsystem.dao.repository.UserRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,6 +20,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -25,16 +28,31 @@ public class DashboardController implements Initializable {
 
 
     public TextField globalSearchField;
-    public Label totalResourcesLabel;
+
+    @FXML private ResourceRepository resourceRepository;
+    @FXML private UserRepository userRepository;
+
+    public DashboardController(){
+        try {
+            this.resourceRepository = new ResourceRepository();
+            this.userRepository = new UserRepository();
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML private Label totalResourcesLabel;
     public Label activeUsersLabel;
     public Label pendingReturnsLabel;
     public Label availabilityLabel;
     public LineChart usageChart;
     public PieChart categoryChart;
-    public TableColumn activityDateColumn;
 
-    @FXML
-    private HBox dashboard;
+    @FXML private TableColumn activityDateColumn;
+
+    @FXML private Button quickAddButton;
+
+    @FXML private HBox dashboard;
 
     @FXML private Button dashboardButton;
 
@@ -45,6 +63,7 @@ public class DashboardController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 //        handleDashboardButtonClick();
+        setCardValues();
     }
 
 
@@ -101,5 +120,15 @@ public class DashboardController implements Initializable {
             e.printStackTrace();
         }
 
+    }
+
+    @FXML
+    private void setCardValues(){
+        try {
+            this.totalResourcesLabel.setText(String.valueOf(resourceRepository.findAllResource().size()));
+            this.activeUsersLabel.setText(String.valueOf(userRepository.getAllUsers().size()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
  }

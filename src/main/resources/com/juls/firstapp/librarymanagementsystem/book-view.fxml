@@ -6,6 +6,7 @@
 <?import java.net.URL?>
 
 <VBox xmlns="http://javafx.com/javafx"
+      fx:id="resourceBox"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.juls.firstapp.librarymanagementsystem.controller.book.ResourceController"
       stylesheets="@views/css/resource.css"
@@ -15,7 +16,7 @@
   <HBox styleClass="nav-bar">
     <Label text="Resource Management" styleClass="nav-title"/>
     <Pane HBox.hgrow="ALWAYS" />
-    <Button fx:id="homeButton" styleClass="home-button" >
+    <Button fx:id="homeButton" styleClass="home-button" onAction="#handleHomeButtonClicked">
       <graphic>
         <FontIcon iconLiteral="fas-home" iconSize="24" iconColor="white" />
       </graphic>
