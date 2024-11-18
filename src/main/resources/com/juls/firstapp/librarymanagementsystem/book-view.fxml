@@ -1,50 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
-  All rights reserved. Use is subject to license terms.
--->
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import java.net.URL?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.juls.firstapp.librarymanagementsystem.controller.book.ResourceController"
+      stylesheets="@views/css/resource.css"
+      spacing="10">
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.juls.firstapp.librarymanagementsystem.controller.book.TableViewController">
-  <children>
-    <!-- MenuBar -->
-    <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Close" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Delete" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
+  <!-- Navigation Bar -->
+  <HBox styleClass="nav-bar">
+    <Label text="Resource Management" styleClass="nav-title"/>
+    <Pane HBox.hgrow="ALWAYS" />
+    <Button fx:id="homeButton" styleClass="home-button" >
+      <graphic>
+        <FontIcon iconLiteral="fas-home" iconSize="24" iconColor="white" />
+      </graphic>
+    </Button>
+  </HBox>
 
-    <!-- TableView -->
-    <TableView fx:id="tableView" layoutY="36.0" AnchorPane.bottomAnchor="-10.399999999999977" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.7999999999999545" AnchorPane.topAnchor="36.0">
-      <columns>
-        <TableColumn fx:id="resourceIdColumn" prefWidth="56.0" text="Resource Id" />
-        <TableColumn fx:id="titleColumn" prefWidth="71.20001220703125" text="Title" />
-        <TableColumn fx:id="authorColumn" minWidth="2.4" prefWidth="64.79998779296875" text="Author" />
-        <TableColumn fx:id="isbnColumn" prefWidth="78.39996337890625" text="ISBN" />
-        <TableColumn fx:id="genreColumn" prefWidth="184.00006103515625" text="Genre" />
-        <TableColumn fx:id="publicationDateColumn" prefWidth="148.8" text="Publication Date" />
-      </columns>
-    </TableView>
-  </children>
-</AnchorPane>
+  <!-- Main Content -->
+  <HBox spacing="20" VBox.vgrow="ALWAYS" style="-fx-padding: 20;">
+    <!-- Left Panel -->
+    <VBox spacing="20" prefWidth="300">
+      <!-- Add Resource Form -->
+      <VBox spacing="15" styleClass="form-container">
+        <Label text="Add New Resource" styleClass="section-header"/>
+        <TextField fx:id="titleField" styleClass="modern-field" promptText="Title"/>
+        <TextField fx:id="authorField" styleClass="modern-field" promptText="Author"/>
+        <TextField fx:id="isbnField" styleClass="modern-field" promptText="ISBN"/>
+        <ComboBox fx:id="categoryComboBox" styleClass="modern-field" promptText="Category"/>
+        <TextField fx:id="publisherField" styleClass="modern-field" promptText="Publisher"/>
+        <TextField fx:id="quantityField" styleClass="modern-field" promptText="Quantity"/>
+        <TextArea fx:id="descriptionArea" styleClass="modern-field" promptText="Description" prefRowCount="3"/>
+        <HBox spacing="10">
+          <Button text="Add Resource" styleClass="primary-button" onAction="#handleAddResource"/>
+          <Button text="Clear" styleClass="secondary-button" onAction="#handleClearForm"/>
+        </HBox>
+      </VBox>
+
+      <!-- Filter Section -->
+      <VBox spacing="15" styleClass="filter-container">
+        <Label text="Filters" styleClass="section-header"/>
+        <ComboBox fx:id="filterCategoryComboBox" styleClass="modern-field" promptText="Filter by Category"/>
+        <ComboBox fx:id="filterStatusComboBox" styleClass="modern-field" promptText="Filter by Status"/>
+        <TextField fx:id="filterPublisherField" styleClass="modern-field" promptText="Filter by Publisher"/>
+        <DatePicker fx:id="acquisitionDatePicker" styleClass="modern-field" promptText="Filter by Acquisition Date"/>
+        <Button text="Apply Filters" styleClass="accent-button" onAction="#handleApplyFilters"/>
+      </VBox>
+    </VBox>
+
+    <!-- Right Panel -->
+    <VBox spacing="15" HBox.hgrow="ALWAYS" styleClass="right-panel">
+      <!-- Search and Actions Container -->
+      <HBox spacing="15" styleClass="search-actions-container">
+        <TextField fx:id="searchField" promptText="Search resources..."
+                   styleClass="search-field" HBox.hgrow="ALWAYS"/>
+        <Button text="Export" styleClass="tool-button" onAction="#handleExport">
+          <graphic>
+            <FontIcon iconLiteral="fas-file-export" />
+          </graphic>
+        </Button>
+        <Button text="Import" styleClass="tool-button" onAction="#handleImport">
+          <graphic>
+            <FontIcon iconLiteral="fas-file-import" />
+          </graphic>
+        </Button>
+        <Button text="Generate Report" styleClass="tool-button" onAction="#handleGenerateReport">
+          <graphic>
+            <FontIcon iconLiteral="fas-chart-bar" />
+          </graphic>
+        </Button>
+        <Button text="Refresh" styleClass="tool-button" onAction="#handleRefresh">
+          <graphic>
+            <FontIcon iconLiteral="fas-sync" />
+          </graphic>
+        </Button>
+      </HBox>
+
+      <!-- Resources List Label -->
+      <Label text="Library Resources" styleClass="users-list-header"/>
+
+      <!-- Resources Table -->
+      <TableView fx:id="resourcesTable" VBox.vgrow="ALWAYS" styleClass="modern-table">
+        <columns>
+          <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+          <TableColumn fx:id="titleColumn" text="Title" prefWidth="200"/>
+          <TableColumn fx:id="authorColumn" text="Author" prefWidth="150"/>
+          <TableColumn fx:id="isbnColumn" text="ISBN" prefWidth="120"/>
+          <TableColumn fx:id="categoryColumn" text="Category" prefWidth="100"/>
+          <TableColumn fx:id="publisherColumn" text="Publisher" prefWidth="120"/>
+          <TableColumn fx:id="quantityColumn" text="Quantity" prefWidth="80"/>
+          <TableColumn fx:id="availableColumn" text="Available" prefWidth="80"/>
+          <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
+          <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="150"/>
+        </columns>
+      </TableView>
+
+      <!-- Status Bar -->
+      <HBox styleClass="status-bar">
+        <Label fx:id="statusLabel" text="Ready" styleClass="status-text"/>
+        <Pane HBox.hgrow="ALWAYS"/>
+        <Label fx:id="totalResourcesLabel" text="Total Resources: 0" styleClass="status-text"/>
+        <Label fx:id="availableResourcesLabel" text=" | Available: 0" styleClass="status-text"/>
+        <Label fx:id="checkedOutLabel" text=" | Checked Out: 0" styleClass="status-text"/>
+      </HBox>
+    </VBox>
+  </HBox>
+</VBox>

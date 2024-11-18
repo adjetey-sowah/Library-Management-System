@@ -70,14 +70,16 @@ public class UserRepository implements UserDAO {
 
     }
 
-    public void insertPatron(int userId, MembershipType membershipType){
+    public void insertPatron(Patron patron){
+
+        int userId = insertUser(patron);
 
         String sql = "INSERT INTO patron (user_id, membership_type) VALUES (?,?)";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
 
             preparedStatement.setInt(1,userId);
-            preparedStatement.setString(2, membershipType.name());
+            preparedStatement.setString(2, patron.getMembershipType().name());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -85,13 +87,15 @@ public class UserRepository implements UserDAO {
         }
     }
 
-    public void insertLibrarian(int id, String password){
+    public void insertLibrarian(Librarian librarian){
+
+        int id = insertUser(librarian);
         String sql = "INSERT INTO librarian (user_id, password) VALUES (?,?)";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
 
             preparedStatement.setInt(1,id);
-            preparedStatement.setString(2, passwordEncoder().encode(password));
+            preparedStatement.setString(2, passwordEncoder().encode(librarian.getPassword()));
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -144,24 +148,10 @@ public class UserRepository implements UserDAO {
         String sql = "DELETE FROM users WHERE user_id = ?";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setString(1,sql);
+            preparedStatement.setLong(1,id);
             int affectedRows = preparedStatement.executeUpdate();
             return affectedRows > 0;
         }
-    }
-
-
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        String password = "mySecretPassword";
-        Librarian user = new Librarian("hilda","hilda@yahoo.com","05444556633",password);
-
-        UserRepository userRepository = new UserRepository();
-
-        int rowNum = userRepository.insertUser(user);
-        userRepository.insertLibrarian(rowNum, user.getPassword());
-
-        System.out.println(user.getName()+" added successfully");
-
     }
 
     public PasswordEncoder passwordEncoder(){

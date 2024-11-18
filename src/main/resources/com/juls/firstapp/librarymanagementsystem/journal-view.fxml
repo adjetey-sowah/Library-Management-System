@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<VBox styleClass="main-content" xmlns:fx="http://javafx.com/fxml/1"
+      >
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Header Section -->
+    <HBox styleClass="header" alignment="CENTER_LEFT" spacing="20">
+        <Label text="Journals Management" styleClass="header-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button styleClass="primary-button" >
+            <graphic>
+                <FontAwesomeIconView glyphName="PLUS" styleClass="button-icon"/>
+            </graphic>
+            <Label text="Add New Journal"/>
+        </Button>
+    </HBox>
+
+    <!-- Search and Filter Section -->
+    <HBox styleClass="search-container" spacing="15" alignment="CENTER_LEFT">
+        <HBox styleClass="search-box" HBox.hgrow="ALWAYS">
+            <FontAwesomeIconView glyphName="SEARCH" styleClass="search-icon"/>
+            <TextField promptText="Search journals..." styleClass="search-input" HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <ComboBox promptText="Field" styleClass="filter-combo"/>
+        <ComboBox promptText="Publisher" styleClass="filter-combo"/>
+        <ComboBox promptText="Year" styleClass="filter-combo"/>
+
+        <Button styleClass="filter-button">
+            <graphic>
+                <FontAwesomeIconView glyphName="FILTER" styleClass="button-icon"/>
+            </graphic>
+            <Label text="Filters"/>
+        </Button>
+    </HBox>
+
+    <!-- Statistics Cards -->
+    <HBox spacing="15" styleClass="stats-container">
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <FontAwesomeIconView glyphName="NEWSPAPER_O" styleClass="card-icon" fill="#3498db"/>
+            <Label text="Total Journals" styleClass="card-title"/>
+            <Label fx:id="totalJournalsLabel" text="567" styleClass="card-value"/>
+        </VBox>
+
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <FontAwesomeIconView glyphName="CLOCK_O" styleClass="card-icon" fill="#e74c3c"/>
+            <Label text="On Loan" styleClass="card-title"/>
+            <Label fx:id="loanedJournalsLabel" text="42" styleClass="card-value"/>
+        </VBox>
+
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <FontAwesomeIconView glyphName="CALENDAR" styleClass="card-icon" fill="#2ecc71"/>
+            <Label text="Latest Issues" styleClass="card-title"/>
+            <Label fx:id="latestIssuesLabel" text="15" styleClass="card-value"/>
+        </VBox>
+
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <FontAwesomeIconView glyphName="INSTITUTION" styleClass="card-icon" fill="#f1c40f"/>
+            <Label text="Publishers" styleClass="card-title"/>
+            <Label fx:id="publishersLabel" text="28" styleClass="card-value"/>
+        </VBox>
+    </HBox>
+
+    <!-- Journals Table -->
+    <TableView fx:id="journalsTable" VBox.vgrow="ALWAYS" styleClass="modern-table">
+        <columns>
+            <TableColumn fx:id="titleColumn" text="Title"/>
+            <TableColumn fx:id="publisherColumn" text="Publisher"/>
+            <TableColumn fx:id="issueColumn" text="Issue No."/>
+            <TableColumn fx:id="volumeColumn" text="Volume"/>
+            <TableColumn fx:id="yearColumn" text="Year"/>
+            <TableColumn fx:id="fieldColumn" text="Field"/>
+            <TableColumn fx:id="frequencyColumn" text="Frequency"/>
+            <TableColumn fx:id="statusColumn" text="Status"/>
+            <TableColumn fx:id="actionsColumn" text="Actions"/>
+        </columns>
+        <placeholder>
+            <Label text="No journals available" styleClass="table-placeholder"/>
+        </placeholder>
+    </TableView>
+
+    <!-- Bottom Action Bar -->
+    <HBox styleClass="action-bar" spacing="10" alignment="CENTER_RIGHT">
+        <Label fx:id="selectedCountLabel" text="0 items selected" styleClass="selection-text"/>
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Button styleClass="secondary-button" >
+            <graphic>
+                <FontAwesomeIconView glyphName="SHARE" styleClass="button-icon"/>
+            </graphic>
+            <Label text="Loan"/>
+        </Button>
+
+        <Button styleClass="secondary-button" >
+            <graphic>
+                <FontAwesomeIconView glyphName="REFRESH" styleClass="button-icon"/>
+            </graphic>
+            <Label text="Subscription"/>
+        </Button>
+
+        <Button styleClass="danger-button" >
+            <graphic>
+                <FontAwesomeIconView glyphName="TRASH" styleClass="button-icon"/>
+            </graphic>
+            <Label text="Delete"/>
+        </Button>
+    </HBox>
+</VBox>

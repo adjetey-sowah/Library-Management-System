@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.chart.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      fx:id="dashboard"
+      xmlns:fx="http://javafx.com/fxml"
+      styleClass="root-container"
+      stylesheets="@views/css/style.css"
+      fx:controller="com.juls.firstapp.librarymanagementsystem.controller.dashboard.DashboardController"
+>
+
+
+    <!-- Sidebar -->
+    <VBox styleClass="sidebar">
+        <Label styleClass="sidebar-title" text="Gifted Library">
+            <graphic>
+                <FontIcon iconLiteral="fas-book-reader" styleClass="title-icon"/>
+            </graphic>
+        </Label>
+
+        <VBox styleClass="sidebar-menu">
+            <Button styleClass="sidebar-button,active" text="Dashboard" fx:id="dashboardButton" onAction="#handleDashboardButtonClick">
+
+                <graphic>
+                    <FontIcon iconLiteral="fas-chart-line" styleClass="sidebar-icon"/>
+                </graphic>
+            </Button>
+
+            <Button styleClass="sidebar-button" text="Resources Management" fx:id="resourceButton" onAction="#handleResourceButtonClick">
+                <graphic>
+                    <FontIcon iconLiteral="fas-book"  styleClass="sidebar-icon"/>
+                </graphic>
+            </Button>
+
+            <Button styleClass="sidebar-button" text="User Management" fx:id="userButton" onAction="#handleUserButtonClick">
+                <graphic>
+                    <FontIcon iconLiteral="fas-users" styleClass="sidebar-icon"/>
+                </graphic>
+            </Button>
+
+            <Button styleClass="sidebar-button" text="Transactions" >
+                <graphic>
+                    <FontIcon iconLiteral="fas-sync" styleClass="sidebar-icon"/>
+                </graphic>
+            </Button>
+
+            <Button styleClass="sidebar-button" text="Reports">
+                <graphic>
+                    <FontIcon iconLiteral="fas-chart-bar" styleClass="sidebar-icon"/>
+                </graphic>
+            </Button>
+
+            <Button styleClass="sidebar-button" text="Settings">
+                <graphic>
+                    <FontIcon iconLiteral="fas-cog" styleClass="sidebar-icon"/>
+                </graphic>
+
+            </Button>
+        </VBox>
+
+        <Pane VBox.vgrow="ALWAYS"/>
+
+        <VBox styleClass="sidebar-footer">
+            <Button styleClass="sidebar-button"  text="Logout">
+                <graphic>
+                    <FontIcon iconLiteral="fas-sign-out-alt" styleClass="sidebar-icon"/>
+                </graphic>
+            </Button>
+        </VBox>
+    </VBox>
+
+    <!-- Main Content -->
+    <ScrollPane fitToWidth="true" styleClass="main-content" HBox.hgrow="ALWAYS">
+        <VBox spacing="30">
+            <!-- Header -->
+            <HBox styleClass="dashboard-header" alignment="CENTER_LEFT" spacing="20">
+                <Label text="Dashboard Overview" styleClass="header-title"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <HBox styleClass="search-box">
+                    <FontIcon iconLiteral="fas-search" styleClass="search-icon"/>
+                    <TextField fx:id="globalSearchField" promptText="Search resources, users, or transactions..."
+                               styleClass="search-input"/>
+                </HBox>
+                <Button styleClass="primary-button" text="Quick Add">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-plus" styleClass="button-icon"/>
+                    </graphic>
+                </Button>
+            </HBox>
+
+            <!-- Statistics Cards -->
+            <HBox styleClass="stats-container" spacing="20">
+                <VBox styleClass="stat-card">
+                    <FontIcon iconLiteral="fas-book" styleClass="stat-icon"/>
+                    <Label text="Total Resources" styleClass="stat-label"/>
+                    <Label fx:id="totalResourcesLabel" text="5,234" styleClass="stat-value"/>
+                </VBox>
+
+                <VBox styleClass="stat-card">
+                    <FontIcon iconLiteral="fas-users" styleClass="stat-icon"/>
+                    <Label text="Active Users" styleClass="stat-label"/>
+                    <Label fx:id="activeUsersLabel" text="1,245" styleClass="stat-value"/>
+                </VBox>
+
+                <VBox styleClass="stat-card">
+                    <FontIcon iconLiteral="fas-clock" styleClass="stat-icon"/>
+                    <Label text="Pending Returns" styleClass="stat-label"/>
+                    <Label fx:id="pendingReturnsLabel" text="48" styleClass="stat-value"/>
+                </VBox>
+
+                <VBox styleClass="stat-card">
+                    <FontIcon iconLiteral="fas-chart-pie" styleClass="stat-icon"/>
+                    <Label text="Available Resources" styleClass="stat-label"/>
+                    <Label fx:id="availabilityLabel" text="86%" styleClass="stat-value"/>
+                </VBox>
+            </HBox>
+
+            <!-- Charts Section -->
+            <HBox spacing="20">
+                <!-- Resource Usage Chart -->
+                <VBox styleClass="chart-container" HBox.hgrow="ALWAYS">
+                    <Label text="Resource Usage Trends" styleClass="section-header"/>
+                    <LineChart fx:id="usageChart">
+                        <xAxis>
+                            <CategoryAxis label="Last 7 Days"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Number of Checkouts"/>
+                        </yAxis>
+                    </LineChart>
+                </VBox>
+
+                <!-- Category Distribution -->
+                <VBox styleClass="chart-container" HBox.hgrow="ALWAYS">
+                    <Label text="Resource Categories" styleClass="section-header"/>
+                    <PieChart fx:id="categoryChart"/>
+                </VBox>
+            </HBox>
+
+            <!-- Recent Activity -->
+            <VBox spacing="10">
+                <Label text="Recent Activity" styleClass="section-header"/>
+                <TableView fx:id="recentActivityTable" styleClass="modern-table">
+                    <columns>
+                        <TableColumn fx:id="activityDateColumn" text="Date" prefWidth="120"/>
+                        <TableColumn fx:id="activityTypeColumn" text="Type" prefWidth="100"/>
+                        <TableColumn fx:id="activityUserColumn" text="User" prefWidth="150"/>
+                        <TableColumn fx:id="activityResourceColumn" text="Resource" prefWidth="200"/>
+                        <TableColumn fx:id="activityStatusColumn" text="Status" prefWidth="100"/>
+                        <TableColumn fx:id="activityActionsColumn" text="Actions" prefWidth="150"/>
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <!-- Quick Actions -->
+            <HBox spacing="20" styleClass="quick-actions">
+                <Button styleClass="action-button" text="Quick Checkout">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-sign-out-alt" styleClass="action-icon"/>
+                    </graphic>
+                </Button>
+
+                <Button styleClass="action-button" text="Quick Return">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-sign-in-alt" styleClass="action-icon"/>
+                    </graphic>
+                </Button>
+
+                <Button styleClass="action-button" text="Renew Resource">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-redo" styleClass="action-icon"/>
+                    </graphic>
+                </Button>
+
+                <Button styleClass="action-button" text="new Reservation">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-calendar-plus" styleClass="action-icon"/>
+                    </graphic>
+                </Button>
+            </HBox>
+
+            <!-- Notifications Panel -->
+            <VBox styleClass="notifications-panel" spacing="10">
+                <Label text="Recent Notifications" styleClass="section-header"/>
+                <ListView fx:id="notificationsListView" prefHeight="200" styleClass="notifications-list"/>
+            </VBox>
+        </VBox>
+    </ScrollPane>
+</HBox>

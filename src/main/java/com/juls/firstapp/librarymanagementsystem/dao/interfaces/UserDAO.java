@@ -14,9 +14,9 @@ public interface UserDAO {
 
     public int insertUser(User user) throws SQLException;
 
-    public void insertPatron(int userId, MembershipType membershipType) throws SQLException;
+    public void insertPatron(Patron patron) throws SQLException;
 
-    public void insertLibrarian(int userId, String password) throws SQLException;
+    public void insertLibrarian(Librarian librarian) throws SQLException;
 
     public LinkedList<User> getAllUsers() throws SQLException;
 

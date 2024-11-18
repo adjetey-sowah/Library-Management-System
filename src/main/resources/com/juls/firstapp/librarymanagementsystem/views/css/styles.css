@@ -1,0 +1,68 @@
+/* General Styles */
+.dashboard-content {
+    -fx-padding: 20;
+}
+
+.navbar {
+    -fx-background-color: #2a3d66;
+    -fx-padding: 10;
+}
+
+.welcome-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+}
+
+.sidebar {
+    -fx-background-color: #1a253d;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-border-width: 0;
+    -fx-padding: 10;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #374a74;
+    -fx-cursor: hand;
+}
+
+.logo {
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+    -fx-padding: 20 0 20 10;
+}
+
+/* Cards Section */
+.stat-card {
+    -fx-background-color: #eef1f8;
+    -fx-padding: 20;
+    -fx-alignment: center;
+    -fx-spacing: 5;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-min-width: 150;
+    -fx-min-height: 100;
+}
+
+.stat-title {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+}
+
+.stat-value {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+/* Table Styles */
+.transactions-table {
+    -fx-background-color: white;
+    -fx-border-color: lightgray;
+    -fx-border-radius: 5;
+}
