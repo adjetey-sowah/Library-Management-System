@@ -11,6 +11,7 @@ import com.juls.firstapp.librarymanagementsystem.model.users.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -26,6 +28,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -177,6 +180,21 @@ public class UserController implements Initializable {
 
             }
 
+//            @Override
+//            protected void updateItem(Void item, boolean empty) {
+//                super.updateItem(item, empty);
+//                if (empty) {
+//                    setGraphic(null);
+//                } else {
+//                    // Create a container for the buttons
+//                    HBox buttons = new HBox(5, editButton, deleteButton);
+//                    setGraphic(buttons);
+//                }
+//            }
+
+
+//            #############################################################################################
+
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -186,8 +204,69 @@ public class UserController implements Initializable {
                     // Create a container for the buttons
                     HBox buttons = new HBox(5, editButton, deleteButton);
                     setGraphic(buttons);
+
+                    // Edit button action
+                    editButton.setOnAction(e -> {
+                        User user = getTableView().getItems().get(getIndex());
+
+                        // Create the dialog
+                        Dialog<ButtonType> dialog = new Dialog<>();
+                        dialog.setTitle("Edit User");
+                        dialog.setHeaderText("Modify user information");
+
+                        // Create the form fields
+                        TextField nameField = new TextField(user.getName());
+                        TextField emailField = new TextField(user.getEmail());
+                        // Add more fields as needed
+
+                        // Create the form layout
+                        GridPane formPane = new GridPane();
+                        formPane.setHgap(10);
+                        formPane.setVgap(10);
+                        formPane.setPadding(new Insets(20, 150, 10, 10));
+
+                        formPane.add(new Label("Name:"), 0, 0);
+                        formPane.add(nameField, 1, 0);
+                        formPane.add(new Label("Email:"), 0, 1);
+                        formPane.add(emailField, 1, 1);
+
+                        dialog.getDialogPane().setContent(formPane);
+
+                        // Add buttons to the dialog
+                        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+                        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+                        // Show the dialog and wait for response
+                        Optional<ButtonType> result = dialog.showAndWait();
+
+                        if (result.isPresent() && result.get() == saveButtonType) {
+                            // Show confirmation dialog
+                            Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                            confirmDialog.setTitle("Confirm Changes");
+                            confirmDialog.setHeaderText("Are you sure you want to save these changes?");
+                            confirmDialog.setContentText("Click OK to save the changes or Cancel to abort.");
+
+                            Optional<ButtonType> confirmResult = confirmDialog.showAndWait();
+
+                            if (confirmResult.isPresent() && confirmResult.get() == ButtonType.OK) {
+                                // Update the user object
+                                user.setName(nameField.getText());
+                                user.setEmail(emailField.getText());
+
+                                // Update the table view
+                                getTableView().refresh();
+
+                                // Here you would typically also update the database
+                                // updateUserInDatabase(user);
+                            }
+                        }
+                    });
                 }
             }
+
+
+
+
         });
     }
 
