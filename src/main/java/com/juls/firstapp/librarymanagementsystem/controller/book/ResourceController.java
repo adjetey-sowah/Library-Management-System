@@ -1,18 +1,43 @@
 package com.juls.firstapp.librarymanagementsystem.controller.book;
 
 import com.juls.firstapp.librarymanagementsystem.HelloApplication;
+import com.juls.firstapp.librarymanagementsystem.dao.repository.ResourceRepository;
+import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceType;
 import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
+import com.juls.firstapp.librarymanagementsystem.model.users.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class ResourceController {
+
+    @FXML private ComboBox<String> filterCategoryComboBox;
+    @FXML private TableView<LibraryResource> resourceTable;
+    @FXML private TableColumn<LibraryResource, String> authorColumn;
+    @FXML private TableColumn<LibraryResource, String> isbnColumn;
+    @FXML private  TableColumn<LibraryResource, String> publicationColumn;
+    @FXML private TableColumn<LibraryResource, Long> categoryColumn;
+    @FXML private TableColumn<LibraryResource, String> idColumn;
+    @FXML private TableColumn<LibraryResource, String> titleColumn;
+    @FXML private TableColumn<LibraryResource, ResourceType> availableColumn;
+    @FXML private TableColumn<LibraryResource, String> formatColumn;
+    @FXML private TableColumn<LibraryResource, Void> actionsColumn;
+    @FXML private TableColumn<LibraryResource, String> issueNumberColumn;
+
+
+
     @FXML
     private TextField titleField;
     @FXML
@@ -44,9 +69,19 @@ public class ResourceController {
 
     @FXML private Button homeButton;
 
+
+    private final ResourceRepository resourceRepository;
+    private final ObservableList<LibraryResource> resourceList;
+
+    public ResourceController() throws Exception {
+        resourceRepository = new ResourceRepository();
+        resourceList = FXCollections.observableArrayList(resourceRepository.findAllResource());
+    }
+
     @FXML
     public void initialize() {
         // Initialize the category combo box
+//        resourcesTable.setVisible(false);
         categoryComboBox.getItems().addAll(
                 "Books",
                 "Magazines",
@@ -63,6 +98,8 @@ public class ResourceController {
                 "Low Stock",
                 "Out of Stock"
         );
+
+        filterCategoryComboBox.getItems().addAll("Journal","Book","Media");
 
         // Set up table columns
         setupTableColumns();
@@ -84,6 +121,28 @@ public class ResourceController {
     @FXML
     private void handleApplyFilters() {
         // Implementation for applying filters
+
+        String selectedCategory = filterCategoryComboBox.getValue();
+
+        if(selectedCategory.equalsIgnoreCase(ResourceType.BOOK.toString())){
+            authorColumn.setVisible(true);
+            isbnColumn.setVisible(true);
+            publicationColumn.setVisible(true);
+
+
+            authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+            isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
+            publicationColumn.setCellValueFactory(new PropertyValueFactory<>("publicationDate"));
+        }
+        else if(selectedCategory.equalsIgnoreCase(ResourceType.JOURNAL.toString())){
+            issueNumberColumn.setVisible(true);
+
+            issueNumberColumn.setCellValueFactory(new PropertyValueFactory<>("issueNumber"));
+
+
+
+
+        }
     }
 
     @FXML
@@ -122,10 +181,65 @@ public class ResourceController {
     }
 
     private void setupTableColumns() {
-        // Implementation for setting up table columns
+        // Configure table columns
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("resourceId"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("resourceType"));
+        availableColumn.setCellValueFactory(new PropertyValueFactory<>("resourceStatus"));
+
+        // Setup action column with buttons
+//        setupActionColumn();
+
+        resourcesTable.setItems(resourceList);
     }
+
+
+    private void setupActionColumn() {
+        actionsColumn.setCellFactory(column -> new TableCell<>() {
+            private final Button editButton = new Button("Edit");
+            private final Button deleteButton = new Button("Delete");
+            private final HBox container = new HBox(5,editButton,deleteButton);
+            {
+                editButton.setOnAction(event -> handleEdit(getTableRow().getItem()));
+                deleteButton.setOnAction(event -> handleDelete(getTableRow().getItem()));
+
+                editButton.getStyleClass().add("edit-button");
+                deleteButton.getStyleClass().add("delete-button");
+                container.setAlignment(Pos.CENTER);
+
+            }
+
+
+        });
+        }
+
+    private void handleEdit(LibraryResource libraryResource) {
+        // Implement edit logic
+//        updateStatus("Editing user: " + user.getName());
+    }
+
+    private void handleDelete(LibraryResource resource) {
+        boolean isDeleted = false;
+        try {
+            isDeleted =   resourceRepository.deleteLibraryResource(resource.getResourceId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        resourceList.remove(resource);
+//              updateStatus("User deleted successfully!");
+//        else updateStatus("Could no delete this user");
+    }
+
 
     private void loadResources() {
         // Implementation for loading resources data
     }
+
+    public void handleCategoryComboBox(){
+
+    }
+
+
 }

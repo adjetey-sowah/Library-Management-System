@@ -12,6 +12,8 @@
       fx:id="patronBox"
 >
 
+
+
     <!-- Navigation Bar -->
     <!-- Navigation Bar -->
     <HBox styleClass="nav-bar">
@@ -74,7 +76,7 @@
                            styleClass="search-field" HBox.hgrow="ALWAYS"/>
                 <Button text="Export" styleClass="tool-button"/>
                 <Button text="Import" styleClass="tool-button"/>
-                <Button text="Refresh" styleClass="tool-button"/>
+                <Button text="Refresh" styleClass="tool-button" fx:id="refreshButton"/>
             </HBox>
 
             <!-- Add Users List Label -->

@@ -45,28 +45,11 @@ public class UserService {
     }
 
     public User updateLibrarian(Librarian librarian){
-        try {
-            boolean isUpdated = userRepository.updateLibrarian(librarian);
-            if (!isUpdated){
-                throw new RuntimeException("Could not update user.\n");
-            }
-            return librarian;
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+        return null;
     }
 
     public User updatePatron(Patron patron){
-        try{
-           boolean isUpdated = userRepository.updatePatron(patron);
-           if(!isUpdated){
-               throw new RuntimeException("Could not update user.");
-           }
-           return patron;
-        }
-        catch (Exception e){
-            throw new RuntimeException(e.getMessage());
-        }
+       return null;
     }
 
 

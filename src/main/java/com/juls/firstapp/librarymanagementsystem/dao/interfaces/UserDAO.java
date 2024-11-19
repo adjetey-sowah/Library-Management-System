@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 public interface UserDAO {
 
-    boolean updatePatron(Patron patron);
+//    boolean updatePatron(Patron patron);
 
     public int insertUser(User user) throws SQLException;
 
@@ -20,7 +20,7 @@ public interface UserDAO {
 
     public LinkedList<User> getAllUsers() throws SQLException;
 
-    public boolean updateLibrarian(Librarian librarian) throws SQLException;
+    public boolean updateUser(User user) throws SQLException;
 
     public boolean deleteUser(Long id) throws SQLException;
 

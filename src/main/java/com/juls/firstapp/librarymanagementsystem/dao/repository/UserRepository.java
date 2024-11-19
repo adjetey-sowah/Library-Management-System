@@ -26,21 +26,7 @@ public class UserRepository implements UserDAO {
     }
 
 
-    @Override
-    public boolean updatePatron(Patron patron) {
-        String sql = "UPDATE User SET name= ?, email = ?, phone = ?, role = ?";
 
-        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setString(1,patron.getName());
-            preparedStatement.setString(2,patron.getEmail());
-            preparedStatement.setString(3,patron.getPhoneNum());
-
-            int affectedRows =preparedStatement.executeUpdate();
-            return affectedRows > 1;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public int insertUser(User user){
         String sql = "INSERT INTO Users (name, email, phone, role) VALUES (?, ?, ?, ?)";
@@ -129,14 +115,40 @@ public class UserRepository implements UserDAO {
     }
 
     @Override
-    public boolean updateLibrarian(Librarian librarian) throws SQLException {
-        String sql = "UPDATE User SET name= ?, email = ?, phone = ?, role = ?";
+    public boolean updateUser(User user) throws SQLException {
+        if (user instanceof Librarian){
+            String sql = "UPDATE librarian SET password = ? where user_id = ?";
+
+            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                preparedStatement.setString(1,passwordEncoder().encode(((Librarian) user).getPassword()));
+                preparedStatement.setLong(2,user.getUserId());
+                preparedStatement.executeUpdate();
+            }
+            catch (SQLException e){
+                throw new RuntimeException("Could not update user");
+            }
+        }
+        else if(user instanceof Patron){
+            String sql = "UPDATE patron SET membership_type = ? where user_id = ?";
+
+            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                preparedStatement.setString(1,((Patron) user).getMembershipType().toString());
+                preparedStatement.setLong(2,user.getUserId());
+                preparedStatement.executeUpdate();
+            }
+            catch (SQLException e){
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+
+        String sql = "UPDATE Users SET name= ?, email = ?, phone = ?, role = ? where user_id = ?";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setString(1,librarian.getName());
-            preparedStatement.setString(2,librarian.getEmail());
-            preparedStatement.setString(3,librarian.getPhoneNum());
-
+            preparedStatement.setString(1,user.getName());
+            preparedStatement.setString(2,user.getEmail());
+            preparedStatement.setString(3,user.getPhoneNum());
+            preparedStatement.setString(4,user.getRole().toString());
+            preparedStatement.setLong(5,user.getUserId());
             int affectedRows =preparedStatement.executeUpdate();
             return affectedRows > 1;
         }

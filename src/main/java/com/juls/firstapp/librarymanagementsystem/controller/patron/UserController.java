@@ -8,6 +8,7 @@ import com.juls.firstapp.librarymanagementsystem.model.enums.*;
 import com.juls.firstapp.librarymanagementsystem.model.users.Librarian;
 import com.juls.firstapp.librarymanagementsystem.model.users.Patron;
 import com.juls.firstapp.librarymanagementsystem.model.users.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -35,6 +36,11 @@ import java.util.ResourceBundle;
 
 public class UserController implements Initializable {
 
+    @FXML private Button refreshButton;
+    @FXML private VBox editFormOverlay;
+    @FXML private TextField editPhoneField;
+    @FXML private TextField editEmailField;
+    @FXML private TextField editNameField;
     // Form Fields
     @FXML
     private ComboBox<String> userTypeCombo;
@@ -87,6 +93,8 @@ public class UserController implements Initializable {
     private Button clearButton;
 
     @FXML Button addUserButton;
+
+    private User currentUser;
 
     private final UserRepository userRepository = new UserRepository();
 
@@ -217,6 +225,8 @@ public class UserController implements Initializable {
                         // Create the form fields
                         TextField nameField = new TextField(user.getName());
                         TextField emailField = new TextField(user.getEmail());
+                        TextField phonefield = new TextField(user.getPhoneNum());
+
                         // Add more fields as needed
 
                         // Create the form layout
@@ -229,6 +239,8 @@ public class UserController implements Initializable {
                         formPane.add(nameField, 1, 0);
                         formPane.add(new Label("Email:"), 0, 1);
                         formPane.add(emailField, 1, 1);
+                        formPane.add(new Label("Phone"),0,2);
+                        formPane.add(phonefield,1,2);
 
                         dialog.getDialogPane().setContent(formPane);
 
@@ -252,10 +264,19 @@ public class UserController implements Initializable {
                                 // Update the user object
                                 user.setName(nameField.getText());
                                 user.setEmail(emailField.getText());
+                                user.setPhoneNum(phonefield.getText());
 
                                 // Update the table view
                                 getTableView().refresh();
+                                        updateStatus("User updated Successfully");
 
+                                try {
+                                    userRepository.updateUser(user);{
+                                    }
+                                } catch (SQLException ex) {
+                                    updateStatus("Update user failed");
+                                    throw new RuntimeException(ex);
+                                }
                                 // Here you would typically also update the database
                                 // updateUserInDatabase(user);
                             }
@@ -383,4 +404,7 @@ public class UserController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
+
+
 }

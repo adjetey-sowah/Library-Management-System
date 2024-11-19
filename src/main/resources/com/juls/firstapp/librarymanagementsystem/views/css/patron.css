@@ -299,3 +299,69 @@
     -fx-text-fill: -fx-secondary;
     -fx-font-size: 13px;
 }
+
+/* styles.css */
+.overlay {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.edit-form-container {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 0);
+    -fx-max-width: 400px;
+    -fx-min-width: 400px;
+}
+
+.form-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 10 0;
+}
+
+.form-grid {
+    -fx-width: 100%;
+}
+
+.field-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.form-field {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 5;
+    -fx-padding: 8;
+    -fx-font-size: 13px;
+    -fx-pref-width: 100%;
+}
+
+.form-field:focused {
+    -fx-border-color: #2196F3;
+}
+
+.save-button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+}
+
+.save-button:hover {
+    -fx-background-color: #1976D2;
+}
+
+.cancel-button {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+}
+
+.cancel-button:hover {
+    -fx-background-color: #bdbdbd;
+}
