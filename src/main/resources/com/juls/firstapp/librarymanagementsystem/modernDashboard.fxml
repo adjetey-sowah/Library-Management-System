@@ -71,7 +71,7 @@
         <Pane VBox.vgrow="ALWAYS"/>
 
         <VBox styleClass="sidebar-footer">
-            <Button styleClass="sidebar-button"  text="Logout">
+            <Button fx:id="logoutButton" styleClass="sidebar-button"  text="Logout" onAction="#handleLogoutClick">
                 <graphic>
                     <FontIcon iconLiteral="fas-sign-out-alt" styleClass="sidebar-icon"/>
                 </graphic>

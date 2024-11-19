@@ -1,122 +1,59 @@
-/* Overall background for the login page */
-.login-background {
-    -fx-background-color: #ecf0f1; /* light grey background */
-    -fx-padding: 10px;
+/* Root Pane */
+.root-pane {
+    -fx-background-color: linear-gradient(to bottom, #141e30, #243b55); /* Fallback for no image */
 }
 
-/* Container that holds all login components */
-.login-container {
-    -fx-background-color: #ffffff; /* White background for form */
-    -fx-background-radius: 10px;
-    -fx-padding: 30px;
-    -fx-border-radius: 10px;
-    -fx-drop-shadow: one-pass-box 0 4px 8px rgba(0,0,0,0.1);
-    -fx-max-width: 450px;
-    -fx-min-width: 280px;
+/* Background Image */
+.background-image {
+    -fx-effect: brightness(0.7); /* Darkens the image for better contrast */
+    -fx-opacity: 0.9;
+    -fx-background-size: cover; /* Ensures the image covers the entire pane */
+    -fx-background-position: center; /* Centers the image */
+    -fx-background-repeat: no-repeat; /* Prevents the image from repeating */
 }
 
-/* Styling for the login logo */
-.login-logo {
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 3);
-    -fx-margin-bottom: 10px;
-}
 
-/* Title styling */
+
+/* Login Title */
 .login-title {
-    -fx-font-family: 'Arial', sans-serif;
     -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-text-fill: #34495e; /* Dark gray text */
-    -fx-margin-bottom: 20px;
+    -fx-text-fill: #ffffff;
 }
 
-/* TextField and PasswordField styling */
-.text-field {
-    -fx-background-color: #f4f6f6; /* Light background for input fields */
-    -fx-border-color: #bdc3c7;
-    -fx-border-radius: 5px;
-    -fx-padding: 10px;
-    -fx-font-size: 16px;
-    -fx-text-fill: #34495e;
-    -fx-prompt-text-fill: #7f8c8d;
-    -fx-pref-width: 100%;
+/* Form Container */
+.form-container {
+    /*-fx-background-color: rgba(0, 0, 0, 0.7); !* Semi-transparent background *!*/
+    -fx-padding: 30;
+    -fx-background-radius: 10;
+    /*-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 20, 0.5, 0, 0);*/
 }
 
-.text-field:focused {
-    -fx-border-color: #2ecc71; /* Green border when focused */
+/* Input Fields */
+.input-field {
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-border-color: rgba(255, 255, 255, 0.5);
+    -fx-border-radius: 5;
+    -fx-padding: 5;
 }
 
-/* Styling for the Login Button */
+.input-field:focused {
+    -fx-border-color: #0078d4;
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Login Button */
 .login-button {
-    -fx-background-color: #2ecc71; /* Green background */
+    -fx-background-color: #0078d4;
     -fx-text-fill: white;
-    -fx-font-size: 16px;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-border-radius: 5px;
-    -fx-padding: 10px 20px;
+    -fx-background-radius: 5;
     -fx-cursor: hand;
-    -fx-pref-width: 100%;
 }
 
 .login-button:hover {
-    -fx-background-color: #27ae60; /* Darker green on hover */
-}
-
-/* Error message styling */
-.error-label {
-    -fx-font-size: 14px;
-    -fx-text-fill: #e74c3c; /* Red text for error */
-    -fx-font-weight: bold;
-    -fx-padding-top: 10px;
-}
-
-/* Margin for bottom elements */
-.text-field, .login-button {
-    -fx-margin-bottom: 15px;
-}
-
-/* Responsive design for smaller screens */
-@media screen and (max-width: 768px) {
-    .login-container {
-        -fx-width: 80%;
-        -fx-max-width: 400px;
-    }
-}
-
-@media screen and (max-width: 600px) {
-    .login-container {
-        -fx-width: 90%;
-        -fx-max-width: 350px;
-    }
-
-    .login-title {
-        -fx-font-size: 20px;
-    }
-
-    .text-field, .login-button {
-        -fx-font-size: 14px;
-        -fx-padding: 8px;
-    }
-}
-
-/* For very small screens (like phones) */
-@media screen and (max-width: 400px) {
-    .login-container {
-        -fx-width: 100%;
-        -fx-max-width: 320px;
-    }
-
-    .login-logo {
-        -fx-fit-width: 100px;
-        -fx-fit-height: 100px;
-    }
-
-    .login-title {
-        -fx-font-size: 18px;
-    }
-
-    .text-field, .login-button {
-        -fx-font-size: 12px;
-        -fx-padding: 8px;
-    }
+    -fx-background-color: #005bb5;
 }

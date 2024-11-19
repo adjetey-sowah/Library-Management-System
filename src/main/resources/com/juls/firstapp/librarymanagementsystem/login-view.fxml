@@ -1,38 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.geometry.Pos?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.image.ImageView?>
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.ModernLoginController"
+            prefWidth="400" prefHeight="600" styleClass="root-pane">
 
-<AnchorPane stylesheets="@views/css/login.css" xmlns:fx="http://javafx.com/fxml/1"  styleClass="login-background">
-    <StackPane>
-        <!-- Login Form Container -->
-        <VBox alignment="CENTER" spacing="20" maxWidth="400" minWidth="300" prefWidth="350" prefHeight="450" styleClass="login-container">
+    <!-- Background -->
+    <VBox alignment="CENTER" spacing="20" styleClass="login-container" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
-            <!-- Library Logo -->
-            <ImageView fx:id="logo" fitWidth="120" fitHeight="120" pickOnBounds="true" preserveRatio="true" styleClass="login-logo"/>
+        <!-- Title -->
+        <Label text="Welcome Back!" styleClass="login-title"/>
 
-            <!-- Title -->
-            <Label text="Welcome to Library Management" styleClass="login-title"/>
-
-            <!-- Username field -->
-            <TextField fx:id="usernameField" promptText="Username" styleClass="text-field"/>
-
-            <!-- Password field -->
-            <PasswordField fx:id="passwordField" promptText="Password" styleClass="text-field"/>
-
-            <!-- Login button -->
-            <Button fx:id="loginButton" text="Login"  styleClass="login-button"/>
-
-            <!-- Error message label -->
-            <Label fx:id="errorLabel" text="" styleClass="error-label" visible="false"/>
+        <!-- Input Fields -->
+        <VBox spacing="15" styleClass="form-container">
+            <TextField fx:id="emailField" promptText="Email Address" styleClass="input-field"/>
+            <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field"/>
         </VBox>
-    </StackPane>
+
+        <!-- Buttons and Links -->
+        <VBox spacing="10" styleClass="actions-container">
+            <Button fx:id="loginButton" text="Sign In" styleClass="login-button"/>
+            <Hyperlink fx:id="forgotPasswordLink" text="Forgot Password?" styleClass="forgot-link"/>
+        </VBox>
+
+        <!-- Footer -->
+        <Label text="Don't have an account? Sign up now" styleClass="footer-text"/>
+    </VBox>
 </AnchorPane>

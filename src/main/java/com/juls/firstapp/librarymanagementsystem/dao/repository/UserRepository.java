@@ -9,7 +9,9 @@ import com.juls.firstapp.librarymanagementsystem.model.users.Librarian;
 import com.juls.firstapp.librarymanagementsystem.model.users.Patron;
 import com.juls.firstapp.librarymanagementsystem.model.users.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 
 
 import java.sql.*;
@@ -166,7 +168,43 @@ public class UserRepository implements UserDAO {
         }
     }
 
-    public PasswordEncoder passwordEncoder(){
+    public String getLibrarianPassword(Long id) {
+        String sql = "Select password from librarian where user_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+                String password = "";
+            while (resultSet.next()){
+                password = resultSet.getString(1);
+            }
+                return password;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("User not found: " + e.getMessage());
+        }
+    }
+
+    public User getUserbyEmail(String email){
+        String sql = "Select * from users where email=?";
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1,email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+                User user = new User();
+            while (resultSet.next()){
+                user.setUserId(resultSet.getLong(1));
+                user.setPhoneNum(resultSet.getString("phone"));
+                user.setRole(UserRole.valueOf(resultSet.getString("role")));
+            }
+
+            return user;
+        } catch (SQLException e) {
+            throw new RuntimeException("No user with email found");
+        }
+    }
+
+    public PasswordEncoder passwordEncoder(){;
         return new BCryptPasswordEncoder();
     }
 }

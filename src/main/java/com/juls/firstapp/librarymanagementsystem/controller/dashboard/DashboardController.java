@@ -48,6 +48,8 @@ public class DashboardController implements Initializable {
     public LineChart usageChart;
     public PieChart categoryChart;
 
+    @FXML private Button logoutButton;
+
     @FXML private TableColumn activityDateColumn;
 
     @FXML private Button quickAddButton;
@@ -130,5 +132,13 @@ public class DashboardController implements Initializable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @FXML private void handleLogoutClick() throws IOException {
+        Stage stage = (Stage) dashboard.getScene().getWindow();
+        Parent root = FXMLLoader.load(HelloApplication.class.getResource("logins.fxml"));
+        Scene scene = new Scene(root,1080,720);
+        stage.setScene(scene);
+        stage.show();
     }
  }
