@@ -1,9 +1,11 @@
 package com.juls.firstapp.librarymanagementsystem.util.helper;
 
 
+import com.juls.firstapp.librarymanagementsystem.dao.dto.ReservationDTO;
 import com.juls.firstapp.librarymanagementsystem.dao.dto.TransactionDTO;
 import com.juls.firstapp.librarymanagementsystem.model.enums.Genre;
 import com.juls.firstapp.librarymanagementsystem.model.enums.MediaFormat;
+import com.juls.firstapp.librarymanagementsystem.model.enums.ReservationStatus;
 import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceStatus;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Book;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Journal;
@@ -74,6 +76,19 @@ public class Mappers {
         transactionDTO.setFine(resultSet.getDouble("fine"));
 
         return transactionDTO;
+    }
+
+    public ReservationDTO mapToReservation(ResultSet resultSet) throws SQLException {
+
+        ReservationDTO reservationDTO = new ReservationDTO();
+
+        reservationDTO.setReservationId(resultSet.getLong("reservation_id"));
+        reservationDTO.setResourceTitle(resultSet.getString("title"));
+        reservationDTO.setUserName(resultSet.getString("name"));
+        reservationDTO.setReservationDate(resultSet.getDate("reservation_date").toLocalDate());
+        reservationDTO.setReservationStatus(ReservationStatus.valueOf(resultSet.getString("reservation_status")));
+
+        return reservationDTO;
     }
 
 }

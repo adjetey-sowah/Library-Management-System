@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      stylesheets="@views/css/patron.css"
+      styleClass="main-container">
+
+    <HBox styleClass="header">
+        <Label text="Resource Management" styleClass="header-text"/>
+    </HBox>
+
+    <HBox spacing="20" styleClass="content-container">
+        <!-- Left Panel for Adding Resources -->
+        <VBox styleClass="input-panel">
+            <Label text="Add New Resource" styleClass="section-header"/>
+
+            <ComboBox fx:id="resourceTypeCombo" promptText="Select Resource Type">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Book"/>
+                        <String fx:value="Journal"/>
+                        <String fx:value="Media"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+
+            <!-- Book Fields (initially hidden) -->
+            <VBox fx:id="bookFields" visible="false" managed="false">
+                <TextField fx:id="titleField" promptText="Title"/>
+                <TextField fx:id="authorField" promptText="Author"/>
+                <TextField fx:id="isbnField" promptText="ISBN"/>
+                <DatePicker fx:id="publicationDate" promptText="Publication Date"/>
+                <ComboBox fx:id="genreCombo" promptText="Genre">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Fiction"/>
+                            <String fx:value="Non-Fiction"/>
+                            <String fx:value="Science"/>
+                            <String fx:value="History"/>
+                            <String fx:value="Technology"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </VBox>
+
+            <!-- Journal Fields (initially hidden) -->
+            <VBox fx:id="journalFields" visible="false" managed="false">
+                <TextField fx:id="journalTitleField" promptText="Title"/>
+                <TextField fx:id="frequencyField" promptText="Frequency Number"/>
+                <TextField fx:id="issueNumberField" promptText="Issue Number"/>
+            </VBox>
+
+            <!-- Media Fields (initially hidden) -->
+            <VBox fx:id="mediaFields" visible="false" managed="false">
+                <TextField fx:id="mediaTitleField" promptText="Title"/>
+                <ComboBox fx:id="formatCombo" promptText="Format">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="DVD"/>
+                            <String fx:value="CD"/>
+                            <String fx:value="Blu-ray"/>
+                            <String fx:value="Digital"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </VBox>
+
+            <HBox spacing="10" styleClass="button-container">
+                <Button text="Clear"  styleClass="clear-button"/>
+                <Button text="Add Resource"  styleClass="add-button"/>
+            </HBox>
+        </VBox>
+
+        <!-- Right Panel for Resource List -->
+        <VBox HBox.hgrow="ALWAYS" styleClass="list-panel">
+            <HBox styleClass="list-header">
+                <Label text="List of Resources" HBox.hgrow="ALWAYS"/>
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button text="Export" styleClass="utility-button"/>
+                    <Button text="Import" styleClass="utility-button"/>
+                    <Button text="Refresh" styleClass="utility-button"/>
+                </HBox>
+            </HBox>
+
+            <TableView fx:id="resourceTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn text="ID" fx:id="idColumn"/>
+                    <TableColumn text="Type" fx:id="typeColumn"/>
+                    <TableColumn text="Title" fx:id="titleColumn"/>
+                    <TableColumn text="Details" fx:id="detailsColumn"/>
+                    <TableColumn text="Actions" fx:id="actionsColumn"/>
+                </columns>
+            </TableView>
+
+            <HBox styleClass="status-bar">
+                <Label fx:id="totalResources" text="Total Resources: 0"/>
+            </HBox>
+        </VBox>
+    </HBox>
+</VBox>

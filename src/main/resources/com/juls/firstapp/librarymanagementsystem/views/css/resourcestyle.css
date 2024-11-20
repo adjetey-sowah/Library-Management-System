@@ -1,0 +1,116 @@
+.main-container {
+    -fx-background-color: #f5f5f5;
+    -fx-padding: 20;
+    -fx-spacing: 15;
+}
+
+.header {
+    -fx-padding: 10 0 20 0;
+}
+
+.header-text {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.content-container {
+    -fx-spacing: 20;
+}
+
+.input-panel {
+    -fx-background-color: white;
+    -fx-padding: 20;
+    -fx-spacing: 15;
+    -fx-min-width: 300;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-background-radius: 5;
+}
+
+.section-header {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+    -fx-padding: 0 0 10 0;
+}
+
+.input-panel .text-field, .input-panel .combo-box, .input-panel .date-picker {
+    -fx-pref-height: 35;
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #dee2e6;
+    -fx-border-radius: 4;
+    -fx-padding: 5;
+    -fx-margin: 5 0;
+}
+
+.input-panel .text-field:focused, .input-panel .combo-box:focused {
+    -fx-border-color: #3498db;
+    -fx-background-color: white;
+}
+
+.button-container {
+    -fx-padding: 10 0;
+    -fx-alignment: center-right;
+}
+
+.clear-button {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+}
+
+.add-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+}
+
+.utility-button {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #dee2e6;
+    -fx-text-fill: #495057;
+    -fx-padding: 5 10;
+    -fx-cursor: hand;
+}
+
+.list-panel {
+    -fx-background-color: white;
+    -fx-padding: 20;
+    -fx-spacing: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-background-radius: 5;
+}
+
+.list-header {
+    -fx-padding: 0 0 10 0;
+    -fx-spacing: 10;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 10 5;
+}
+
+.table-view .table-cell {
+    -fx-padding: 10 5;
+    -fx-alignment: center-left;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f8f9fa;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #e3f2fd;
+}
+
+.status-bar {
+    -fx-padding: 10 0 0 0;
+    -fx-text-fill: #6c757d;
+}

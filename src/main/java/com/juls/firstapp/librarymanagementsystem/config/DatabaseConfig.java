@@ -4,7 +4,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 import java.sql.*;
 
-public class DatabaseConfig {
+public class  DatabaseConfig {
 
     private final Connection connection;
 
