@@ -2,7 +2,10 @@ package com.juls.firstapp.librarymanagementsystem.controller.book;
 
 import com.juls.firstapp.librarymanagementsystem.HelloApplication;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.ResourceRepository;
+import com.juls.firstapp.librarymanagementsystem.model.enums.Genre;
+import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceStatus;
 import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceType;
+import com.juls.firstapp.librarymanagementsystem.model.resource.Book;
 import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
 import com.juls.firstapp.librarymanagementsystem.model.users.User;
 import javafx.collections.FXCollections;
@@ -20,9 +23,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.*;
 
 public class ResourceController {
 
+    @FXML private DatePicker publicationDateField;
+    @FXML private VBox addResourceBox;
     @FXML private ComboBox<String> filterCategoryComboBox;
     @FXML private TableView<LibraryResource> resourceTable;
     @FXML private TableColumn<LibraryResource, String> authorColumn;
@@ -82,14 +89,10 @@ public class ResourceController {
     public void initialize() {
         // Initialize the category combo box
 //        resourcesTable.setVisible(false);
-        categoryComboBox.getItems().addAll(
-                "Books",
-                "Magazines",
-                "Journals",
-                "Digital Resources",
-                "Audio/Visual",
-                "Reference Materials"
-        );
+//        categoryComboBox.getItems().addAll(Arrays.asList(Arrays.toString(Genre.values())));
+        Arrays.stream(Genre.values())
+                .map(genre -> genre.name().charAt(0) + genre.name().substring(1).toLowerCase())
+                .forEach(categoryComboBox.getItems()::add);
 
         // Initialize the status combo box
         filterStatusComboBox.getItems().addAll(
@@ -110,7 +113,23 @@ public class ResourceController {
 
     @FXML
     private void handleAddResource() {
-        // Implementation for adding a new resource
+
+        String title = titleField.getText();
+        String author = authorField.getText();
+        String isbn = isbnColumn.getText();
+        LocalDate publicationDate = publicationDateField.getValue();
+        Genre bookGenre = Genre.valueOf(categoryComboBox.getValue().toUpperCase());
+
+        Book book = new Book();
+        book.setTitle(title);
+        book.setAuthor(author);
+        book.setIsbn(isbn);
+        book.setPublicationDate(publicationDate);
+        book.setGenre(bookGenre);
+        book.setResourceStatus(ResourceStatus.AVAILABLE);
+        resourceRepository.addLibraryResource(book);
+        resourcesTable.refresh();
+        statusLabel.setText("Book Added Successfully");
     }
 
     @FXML
