@@ -7,6 +7,7 @@ import com.juls.firstapp.librarymanagementsystem.dao.repository.UserRepository;
 import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceStatus;
 import com.juls.firstapp.librarymanagementsystem.model.lending.Transaction;
 import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
+import com.juls.firstapp.librarymanagementsystem.model.users.User;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -28,8 +29,16 @@ public class TransactionServiceImpl implements  TransactionService{
 
 
     @Override
-    public boolean borrowResource(Long resourceId, Long patronId, LocalDate dueDate) throws Exception {
-            LibraryResource resource = resourceRepository.findResourceById(resourceId);
+    public boolean borrowResource(String patronName, String resourceName, LocalDate dueDate) throws Exception {
+        Long resourceId = this.resourceRepository.getResourceByTitle(resourceName).getResourceId();
+        Long patronId = 0L;
+        for (User user : userRepository.getAllUsers()){
+            if (user.getName().equalsIgnoreCase(patronName)){
+                patronId = user.getUserId();
+                break;
+            }
+        }
+        LibraryResource resource = resourceRepository.findResourceById(resourceId);
             if(resource.getResourceStatus().equals(ResourceStatus.BORROWED)){
                 System.out.println("Resource is not available");
                 return false;
@@ -90,32 +99,12 @@ public class TransactionServiceImpl implements  TransactionService{
 
     public static void main(String[] args) throws Exception {
         TransactionServiceImpl implement = new TransactionServiceImpl();
-            implement.borrowResource(35L,1L,LocalDate.of(2024,12,1));
-            implement.borrowResource(29L,6L,LocalDate.of(2024,12,5));
 
-        System.out.println("Transaction Added successfully");
 
         System.out.println("All transactions");
         implement.getAllTransactions().forEach(System.out::println);
 
-        System.out.println("All borrowed resources");
-        implement.borrowedResources().forEach(System.out::println);
-        System.out.println();
-        System.out.println();
-
-        implement.getTransactionByPatron("moses").forEach(System.out::println);
-
-        if(implement.returnBook(LocalDate.of(2024,11,17))){
-            System.out.println("Item return successfully");
-        }
-
-
-        implement.borrowedResources().forEach(System.out::println);
-        System.out.println();
-        System.out.println();
-
-        implement.getTransactionByPatron("moses").forEach(System.out::println);
-        }
+    }
 
 }
 

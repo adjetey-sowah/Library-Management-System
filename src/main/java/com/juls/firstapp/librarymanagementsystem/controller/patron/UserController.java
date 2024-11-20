@@ -24,6 +24,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -36,6 +38,7 @@ import java.util.ResourceBundle;
 
 public class UserController implements Initializable {
 
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     @FXML private Button refreshButton;
     @FXML private VBox editFormOverlay;
     @FXML private TextField editPhoneField;
@@ -385,8 +388,9 @@ public class UserController implements Initializable {
         String name = nameField.getText();
         String email = emailField.getText();
         String phone = phoneField.getText();
-        MembershipType type = MembershipType.valueOf(membershipColumn.getText());
+        MembershipType type = MembershipType.valueOf(membershipTypeCombo.getValue());
         // Add other relevant fields for Patron
+        log.info("Membership Type: {}",type.toString());
         return new Patron(name,type, email,phone);
     }
 

@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 public interface TransactionService  {
 
-    boolean borrowResource(Long resourceId, Long patronId, LocalDate dueDate) throws Exception;
+    boolean borrowResource(String patronName, String resourceName, LocalDate dueDate) throws Exception;
 
 
     void reserveBook(Long resourceId, Long patronId);

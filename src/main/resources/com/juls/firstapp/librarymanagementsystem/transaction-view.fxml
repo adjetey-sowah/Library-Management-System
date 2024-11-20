@@ -1,14 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
+<VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+      stylesheets="@views/css/transaction.css"
 
-</AnchorPane>
+      styleClass="main-container">
+
+    <HBox styleClass="header">
+        <Label text="Transaction Management" styleClass="title"/>
+    </HBox>
+
+    <HBox spacing="20">
+        <VBox styleClass="left-panel" prefWidth="200">
+            <Label text="Add New Transaction" styleClass="section-header"/>
+            <ComboBox fx:id="selectTransactionType" promptText="Select Transaction Type"
+                      styleClass="input-field"/>
+            <TextField fx:id="bookId" promptText="Book ID" styleClass="input-field"/>
+            <TextField fx:id="memberId" promptText="Member ID" styleClass="input-field"/>
+            <HBox spacing="10" styleClass="button-container">
+                <Button text="Clear" styleClass="clear-button"/>
+                <Button text="Add Transaction"
+                        styleClass="add-button"/>
+            </HBox>
+
+            <VBox styleClass="filter-section">
+                <Label text="Filter Transactions" styleClass="section-header"/>
+                <ComboBox fx:id="filterByType" promptText="Filter by Transaction Type"
+                          styleClass="input-field"/>
+                <Button text="Apply Filter"
+                        styleClass="apply-filter-button"/>
+            </VBox>
+        </VBox>
+
+        <VBox HBox.hgrow="ALWAYS" styleClass="right-panel">
+            <HBox styleClass="search-container">
+                <TextField fx:id="searchField" promptText="Search transactions..."
+                           HBox.hgrow="ALWAYS" styleClass="search-field"/>
+                <Button text="Export"  styleClass="header-button"/>
+                <Button text="Import"  styleClass="header-button"/>
+                <Button text="Refresh"  styleClass="header-button"/>
+            </HBox>
+
+            <Label text="List of Transactions" styleClass="section-header"/>
+
+            <TableView fx:id="transactionTable" VBox.vgrow="ALWAYS" styleClass="data-table">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID"/>
+                    <TableColumn fx:id="bookColumn" text="Book"/>
+                    <TableColumn fx:id="memberColumn" text="Member"/>
+                    <TableColumn fx:id="dateColumn" text="Date"/>
+                    <TableColumn fx:id="typeColumn" text="Type"/>
+                    <TableColumn fx:id="statusColumn" text="Status"/>
+                    <TableColumn fx:id="actionsColumn" text="Actions"/>
+                </columns>
+            </TableView>
+
+            <HBox styleClass="footer">
+                <Label fx:id="statusLabel" text="Ready" styleClass="status-label"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="totalLabel" text="Total Transactions: 0"
+                       styleClass="total-label"/>
+            </HBox>
+        </VBox>
+    </HBox>
+</VBox>

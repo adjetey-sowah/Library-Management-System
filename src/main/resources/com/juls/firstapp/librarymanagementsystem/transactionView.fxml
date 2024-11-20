@@ -1,14 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.collections.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+      stylesheets="@views/css/patron.css"
+      fx:id="transactionBox"
+      fx:controller="com.juls.firstapp.librarymanagementsystem.controller.TransactionController"
+    >
 
-</AnchorPane>
+
+
+
+    <!-- Navigation Bar -->
+    <!-- Navigation Bar -->
+    <HBox styleClass="nav-bar">
+        <Label text="Transaction Management" styleClass="nav-title"/>
+        <Pane HBox.hgrow="ALWAYS" />
+        <!-- Add Home Button -->
+        <Button fx:id="homeButton" styleClass="home-button" onAction="#handleHomeButtonClicked" >
+            <graphic>
+                <FontIcon iconLiteral="fas-home" iconSize="24" iconColor="white" />
+            </graphic>
+        </Button>
+    </HBox>
+
+
+    <!-- Main Content Container -->
+    <HBox styleClass="main-container">
+        <!-- Left Panel - Forms and Filters -->
+        <VBox spacing="15" styleClass="left-panel">
+            <!-- Add User Form -->
+            <VBox spacing="15" styleClass="form-container">
+                <Label text="" styleClass="section-header"/>
+
+                <!-- Common Fields -->
+                <ComboBox fx:id="transactionTypeCombo" promptText="Select User Type" styleClass="modern-field" onAction="#handleButtonEvent"/>
+                <TextField fx:id="patronNameField" promptText="Patron Name" styleClass="modern-field"/>
+                <TextField fx:id="resourceNameField" promptText="Resource Name" styleClass="modern-field"/>
+                <DatePicker fx:id="dueDateField" promptText="Due Date" styleClass="modern-field"/>
+
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button fx:id="clearButton" text="Clear" styleClass="secondary-button"
+                            />
+                    <Button fx:id="createActionButton" text="BORROW" styleClass="primary-button" onAction="#handleCreateTransaction"/>
+                </HBox>
+            </VBox>
+
+            <!-- Filter Section -->
+<!--            <VBox spacing="10" styleClass="filter-container">-->
+<!--                <Label text="Filter Users" styleClass="section-header"/>-->
+<!--                <ComboBox fx:id="filterUserTypeCombo" promptText="Filter by User Type"-->
+<!--                          styleClass="modern-field" maxWidth="Infinity"/>-->
+<!--                <Button text="Apply Filter" styleClass="accent-button" maxWidth="Infinity"/>-->
+<!--            </VBox>-->
+
+<!--            ljjljf-->
+            <VBox spacing="15" styleClass="filter-container">
+                <Label text="Filters" styleClass="section-header"/>
+                <ComboBox fx:id="filterCategoryComboBox" styleClass="modern-field" promptText="Filter by Category"/>
+                <ComboBox fx:id="filterStatusComboBox" styleClass="modern-field" promptText="Filter by Status"/>
+                <TextField fx:id="filterPublisherField" styleClass="modern-field" promptText="Filter by Publisher"/>
+                <DatePicker fx:id="fromDatePicke" styleClass="modern-field" promptText="Filter by Acquisition Date"/>
+                <DatePicker fx:id="toDatePicker" styleClass="modern-field" promptText="Filter by Acquisition Date"/>
+                <Button text="Apply Filters" styleClass="accent-button" />
+            </VBox>
+
+
+<!--            ljf-->
+        </VBox>
+
+        <!-- Right Panel - Table View -->
+        <VBox spacing="15" HBox.hgrow="ALWAYS" styleClass="right-panel">
+            <!-- Search and Actions Container -->
+
+            <HBox spacing="15" styleClass="search-actions-container">
+                <TextField fx:id="searchField" promptText="Search users..."
+                           styleClass="search-field" HBox.hgrow="ALWAYS"/>
+                <Button text="Export" styleClass="tool-button"/>
+                <Button text="Import" styleClass="tool-button"/>
+                <Button text="Refresh" styleClass="tool-button" fx:id="refreshButton" onAction="#handleRefreshButton"/>
+            </HBox>
+
+            <!-- Add Users List Label -->
+            <Label text="List of Transactions" styleClass="users-list-header"/>
+
+            <!-- Users Table -->
+            <TableView fx:id="transactionTable" VBox.vgrow="ALWAYS" styleClass="modern-table">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="60"/>
+                    <TableColumn fx:id="nameColumn" text="Name" prefWidth="150"/>
+                    <TableColumn fx:id="titleColumn" text="Resource Title" prefWidth="200"/>
+                    <TableColumn fx:id="issuedDateColumn" text="Issued Date" prefWidth="120"/>
+                    <TableColumn fx:id="dueDateColumn" text="Due Date" prefWidth="120"/>
+                    <TableColumn fx:id="returnedColumn" text="Return Date" prefWidth="120"/>
+                    <TableColumn fx:id="fineColumn" text="Overdue Fine" prefWidth="120"/>
+                    <TableColumn fx:id="actionColumn" text="Actions" prefWidth="100"/>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+
+            <!-- Status Bar -->
+            <HBox styleClass="status-bar">
+                <Label fx:id="statusLabel" text="Ready" styleClass="status-text"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Label fx:id="totalUsersLabel" text="Total Users: 0" styleClass="status-text"/>
+            </HBox>
+        </VBox>
+    </HBox>
+</VBox>

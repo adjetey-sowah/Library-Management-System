@@ -2,6 +2,7 @@ package com.juls.firstapp.librarymanagementsystem.dao.repository;
 
 import com.juls.firstapp.librarymanagementsystem.config.DatabaseConfig;
 import com.juls.firstapp.librarymanagementsystem.dao.interfaces.ResourceDAO;
+import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceStatus;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Book;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Journal;
 import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
@@ -301,7 +302,26 @@ public class ResourceRepository implements ResourceDAO
         return searchResults;
     }
 
+    public double getAvailablePercentage() throws Exception {
+        int totalResources = findAllResource().size();
+        int available = totalResources - getResourceNumber();
 
+        // Perform floating-point division
+        return ((double) available / totalResources) * 100;
+    }
+
+
+
+    public int getResourceNumber() throws Exception {
+        int count = 0;
+
+        for (LibraryResource resource : findAllResource()){
+            if(resource.getResourceStatus().equals(ResourceStatus.BORROWED)){
+                count+=1;
+            }
+        }
+        return count;
+    }
 
     public static void main(String[] args) throws Exception {
         ResourceRepository repository = new ResourceRepository();
@@ -313,6 +333,10 @@ public class ResourceRepository implements ResourceDAO
         System.out.println(resource);
 
     }
+
+
+
+
 
 
 }
