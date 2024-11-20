@@ -7,13 +7,16 @@ import com.juls.firstapp.librarymanagementsystem.service.TransactionServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -77,10 +80,42 @@ public class TransactionController implements Initializable {
                 createActionButton.setText("BORROW");
             }
             else if(value.equalsIgnoreCase("return")){
+                createActionButton.setId("returnButton");
+                createActionButton.setOnAction(event -> {
+                    try {
+                        handleReturnButtonClicked();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                dueDateField.setVisible(false);
                 createActionButton.setText("RETURN");
             }
 
     }
+
+
+    private void handleReturnButtonClicked() throws Exception {
+            String name = patronNameField.getText();
+            String title = resourceNameField.getText();
+            LocalDate returnDate = null;
+
+            TransactionDTO transactionDTO = new TransactionDTO();
+            for(TransactionDTO transaction : transactionList){
+                if(transaction.getPatronName().equalsIgnoreCase(name) &&
+                        transaction.getResourceName().equalsIgnoreCase(title)){
+                    returnDate = transaction.getBorrowedDate();
+                    break;
+                }
+            }
+
+            if(transactionService.returnBook(returnDate)){
+                statusLabel.setText("Resource Returned Successfully");
+            }
+
+            else statusLabel.setText("Could not update records");
+
+        }
 
     private void setupTableColumns(){
 
@@ -91,6 +126,7 @@ public class TransactionController implements Initializable {
         dueDateColumn.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
         returnedColumn.setCellValueFactory(new PropertyValueFactory<>("returnedDate"));
         fineColumn.setCellValueFactory(new PropertyValueFactory<>("fine"));
+        setupActionColumn();
 
         totalUsersLabel.setText(String.valueOf(transactionList.size()));
         transactionTable.setItems(transactionList);
@@ -136,4 +172,24 @@ public class TransactionController implements Initializable {
             }
 
     }
+
+    private void setupActionColumn() {
+        actionColumn.setCellFactory(column -> new TableCell<>() {
+            private final Button editButton = new Button("Edit");
+            private final HBox container = new HBox(5,editButton);
+            {
+                editButton.setOnAction(event -> handleEdit(getTableRow().getItem()));
+
+                editButton.getStyleClass().add("edit-button");
+                container.setAlignment(Pos.CENTER);
+
+            }
+
+        });
+    }
+
+    private void handleEdit(TransactionDTO transactionDTO){
+            statusLabel.setText("Updating Transaction");
+    }
+
 }

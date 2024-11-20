@@ -70,7 +70,6 @@ public class TransactionServiceImpl implements  TransactionService{
 
     @Override
     public boolean returnBook(LocalDate searchString) throws Exception {
-
         boolean isReturned = false;
         TransactionDTO transaction = transactionRepository.getTransactionByDate(searchString);
         Long transactionId =  transaction.getTransactionId();
