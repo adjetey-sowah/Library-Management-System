@@ -28,14 +28,14 @@
     <!-- Left Panel -->
     <VBox spacing="20" prefWidth="300">
       <!-- Add Resource Form -->
-      <VBox fx:id="addResourceBox" spacing="15" styleClass="form-container">
+      <VBox spacing="15" styleClass="form-container">
         <Label text="Add New Resource" styleClass="section-header"/>
         <TextField fx:id="titleField" styleClass="modern-field" promptText="Title"/>
         <TextField fx:id="authorField" styleClass="modern-field" promptText="Author"/>
         <TextField fx:id="isbnField" styleClass="modern-field" promptText="ISBN"/>
-        <ComboBox fx:id="categoryComboBox" styleClass="modern-field" promptText="Genre"/>
+        <ComboBox fx:id="categoryComboBox" styleClass="modern-field" promptText="Category"/>
         <TextField fx:id="publisherField" styleClass="modern-field" promptText="Publisher"/>
-        <DatePicker fx:id="publicationDateField" styleClass="modern-field" promptText="Publication Date"/>
+        <TextField fx:id="quantityField" styleClass="modern-field" promptText="Quantity"/>
         <TextArea fx:id="descriptionArea" styleClass="modern-field" promptText="Description" prefRowCount="3"/>
         <HBox spacing="10">
           <Button text="Add Resource" styleClass="primary-button" onAction="#handleAddResource"/>

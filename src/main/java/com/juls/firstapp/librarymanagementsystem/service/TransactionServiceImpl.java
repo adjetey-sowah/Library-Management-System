@@ -1,8 +1,6 @@
 package com.juls.firstapp.librarymanagementsystem.service;
 
-import com.juls.firstapp.librarymanagementsystem.dao.dto.ReservationDTO;
 import com.juls.firstapp.librarymanagementsystem.dao.dto.TransactionDTO;
-import com.juls.firstapp.librarymanagementsystem.dao.repository.ReservationRepository;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.ResourceRepository;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.TransactionRepository;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.UserRepository;
@@ -14,22 +12,20 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayDeque;
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class TransactionServiceImpl implements  TransactionService{
 
     private final UserRepository userRepository;
     private final ResourceRepository resourceRepository;
     private final TransactionRepository transactionRepository;
-    private final ReservationRepository reservationRepository;
 
 
     public TransactionServiceImpl() throws Exception {
         userRepository = new UserRepository();
         resourceRepository = new ResourceRepository();
         transactionRepository = new TransactionRepository();
-        reservationRepository = new ReservationRepository();
     }
+
 
     @Override
     public boolean borrowResource(Long resourceId, Long patronId, LocalDate dueDate) throws Exception {
@@ -59,17 +55,18 @@ public class TransactionServiceImpl implements  TransactionService{
     }
 
     @Override
-    public Queue<ReservationDTO> checkReservationList() {
-        return reservationRepository.getAllReservations();
+    public void checkReservationList() {
+
     }
 
     @Override
-    public boolean returnBook(Long transactionId, Long userId) throws Exception {
+    public boolean returnBook(LocalDate searchString) throws Exception {
 
         boolean isReturned = false;
-        TransactionDTO transactionDTO = transactionRepository.getTransactionByTransactionIdAndUserId(transactionId,userId);
-        if(transactionRepository.updateTransaction(transactionDTO)){
-            LibraryResource resource = resourceRepository.getResourceByTitle(transactionDTO.getResourceName());
+        TransactionDTO transaction = transactionRepository.getTransactionByDate(searchString);
+        Long transactionId =  transaction.getTransactionId();
+        if(transactionRepository.updateTransaction(transactionId)){
+            LibraryResource resource = resourceRepository.getResourceByTitle(transaction.getResourceName());
             resource.setResourceStatus(ResourceStatus.AVAILABLE);
             resourceRepository.updateLibraryResource(resource);
             isReturned = true;
@@ -84,15 +81,6 @@ public class TransactionServiceImpl implements  TransactionService{
 
     @Override
     public LinkedList<LibraryResource> borrowedResourceByPatron(String search) {
-        LinkedList<LibraryResource> borrowedList = new LinkedList<>();
-
-        try {
-            for (LibraryResource libraryResource : borrowedResources()){
-
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
         return null;
     }
 
@@ -102,11 +90,32 @@ public class TransactionServiceImpl implements  TransactionService{
 
     public static void main(String[] args) throws Exception {
         TransactionServiceImpl implement = new TransactionServiceImpl();
+            implement.borrowResource(35L,1L,LocalDate.of(2024,12,1));
+            implement.borrowResource(29L,6L,LocalDate.of(2024,12,5));
+
+        System.out.println("Transaction Added successfully");
+
+        System.out.println("All transactions");
+        implement.getAllTransactions().forEach(System.out::println);
+
+        System.out.println("All borrowed resources");
+        implement.borrowedResources().forEach(System.out::println);
+        System.out.println();
+        System.out.println();
+
+        implement.getTransactionByPatron("moses").forEach(System.out::println);
+
+        if(implement.returnBook(LocalDate.of(2024,11,17))){
+            System.out.println("Item return successfully");
+        }
 
 
+        implement.borrowedResources().forEach(System.out::println);
+        System.out.println();
+        System.out.println();
 
-        implement.checkReservationList().forEach(System.out::println);
+        implement.getTransactionByPatron("moses").forEach(System.out::println);
+        }
 
-}
 }
 
