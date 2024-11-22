@@ -83,7 +83,7 @@
       </HBox>
 
       <!-- Resources List Label -->
-      <Label text="Library Resources" styleClass="users-list-header"/>
+      <Label fx:id="tableTitle" text="Library Resources" styleClass="users-list-header"/>
 
       <!-- Resources Table -->
       <TableView fx:id="resourcesTable" VBox.vgrow="ALWAYS" styleClass="modern-table">
@@ -92,23 +92,14 @@
           <TableColumn fx:id="titleColumn" text="Title" prefWidth="200"/>
           <TableColumn fx:id="authorColumn" text="Author" prefWidth="150" visible="false"/>
           <TableColumn fx:id="isbnColumn" text="ISBN" prefWidth="120" visible="false"/>
+          <TableColumn fx:id="frequencyColumn" text="Quantity" visible="false"/>
           <TableColumn fx:id="categoryColumn" text="Category" prefWidth="100"/>
           <TableColumn fx:id="publicationColumn" text="Publication Date" prefWidth="120" visible="false"/>
           <TableColumn fx:id="issueNumberColumn" text="Issue Number" visible="false" />
-          <TableColumn fx:id="quantityColumn" text="Quantity" visible="false"/>
           <TableColumn fx:id="availableColumn" text="Status"/>
           <TableColumn fx:id="formatColumn" text="Status" prefWidth="100" visible="false"/>
           <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="150"/>
         </columns>
-      </TableView>
-
-      <TableView fx:id="journalTable" visible="false" VBox.vgrow="ALWAYS" styleClass="modern-table">
-
-        <columns>
-
-
-        </columns>
-
       </TableView>
 
 

@@ -2,8 +2,13 @@ package com.juls.firstapp.librarymanagementsystem.controller.book;
 
 import com.juls.firstapp.librarymanagementsystem.HelloApplication;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.ResourceRepository;
+import com.juls.firstapp.librarymanagementsystem.model.enums.Genre;
+import com.juls.firstapp.librarymanagementsystem.model.enums.MediaFormat;
 import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceType;
+import com.juls.firstapp.librarymanagementsystem.model.resource.Book;
+import com.juls.firstapp.librarymanagementsystem.model.resource.Journal;
 import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
+import com.juls.firstapp.librarymanagementsystem.model.resource.Media;
 import com.juls.firstapp.librarymanagementsystem.model.users.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,9 +25,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class ResourceController {
 
+    @FXML private ComboBox<ResourceType> resourceTypeCombo;
     @FXML private ComboBox<String> filterCategoryComboBox;
     @FXML private TableView<LibraryResource> resourceTable;
     @FXML private TableColumn<LibraryResource, String> authorColumn;
@@ -32,6 +39,7 @@ public class ResourceController {
     @FXML private TableColumn<LibraryResource, String> idColumn;
     @FXML private TableColumn<LibraryResource, String> titleColumn;
     @FXML private TableColumn<LibraryResource, ResourceType> availableColumn;
+    @FXML private TableColumn<LibraryResource, String> frequencyColumn;
     @FXML private TableColumn<LibraryResource, String> formatColumn;
     @FXML private TableColumn<LibraryResource, Void> actionsColumn;
     @FXML private TableColumn<LibraryResource, String> issueNumberColumn;
@@ -47,9 +55,9 @@ public class ResourceController {
     @FXML
     private ComboBox<String> categoryComboBox;
     @FXML
-    private TextField publisherField;
+    private DatePicker publicationDateField;
     @FXML
-    private TextField quantityField;
+    private ComboBox<MediaFormat> mediaFormatCombo;
     @FXML
     private TextArea descriptionArea;
     @FXML
@@ -69,9 +77,10 @@ public class ResourceController {
 
     @FXML private Button homeButton;
 
+    @FXML private Label tableTitle;
 
-    private final ResourceRepository resourceRepository;
-    private final ObservableList<LibraryResource> resourceList;
+    @FXML private final ResourceRepository resourceRepository;
+    @FXML private final ObservableList<LibraryResource> resourceList;
 
     public ResourceController() throws Exception {
         resourceRepository = new ResourceRepository();
@@ -80,26 +89,15 @@ public class ResourceController {
 
     @FXML
     public void initialize() {
-        // Initialize the category combo box
-//        resourcesTable.setVisible(false);
-        categoryComboBox.getItems().addAll(
-                "Books",
-                "Magazines",
-                "Journals",
-                "Digital Resources",
-                "Audio/Visual",
-                "Reference Materials"
-        );
 
-        // Initialize the status combo box
-        filterStatusComboBox.getItems().addAll(
-                "All",
-                "Available",
-                "Low Stock",
-                "Out of Stock"
-        );
+        initializeComboBoxes();
 
-        filterCategoryComboBox.getItems().addAll("Journal","Book","Media");
+        //        resourcesTable.setVisible(false);
+
+
+
+
+
 
         // Set up table columns
         setupTableColumns();
@@ -109,8 +107,178 @@ public class ResourceController {
     }
 
     @FXML
-    private void handleAddResource() {
-        // Implementation for adding a new resource
+    private void handleAddResource() throws Exception {
+
+        if(resourceTypeCombo.getValue().equals(ResourceType.BOOK)){
+
+            handleAddBook();
+            statusLabel.setText("Book added successfully.");
+        }
+        else if(resourceTypeCombo.getValue().equals(ResourceType.JOURNAL)){
+            handleAddJournal();
+            statusLabel.setText("Journal Added successfully");
+        } else if (resourceTypeCombo.getValue().equals(ResourceType.MEDIA)) {
+            handleAddMedia();
+        }
+    }
+
+    @FXML
+    private void handleTypeCombo(){
+
+        if(resourceTypeCombo.getValue().equals(ResourceType.JOURNAL)){
+
+        authorField.setPromptText("Issue Number");
+        isbnField.setPromptText("Frequency");
+
+        authorField.setVisible(true);
+        isbnField.setVisible(true);
+        mediaFormatCombo.setVisible(false);
+        categoryComboBox.setVisible(false);
+        publicationDateField.setVisible(false);
+
+        }
+        else if(resourceTypeCombo.getValue().equals(ResourceType.MEDIA)){
+            authorField.setVisible(false);
+            isbnField.setVisible(false);
+            mediaFormatCombo.setVisible(true);
+            publicationDateField.setVisible(false);
+            categoryComboBox.setVisible(false);
+        }
+        else if(resourceTypeCombo.getValue().equals(ResourceType.BOOK)){
+            mediaFormatCombo.setVisible(false);
+            authorField.setVisible(true);
+            authorField.setPromptText("Author Name");
+            isbnField.setVisible(true);
+            isbnField.setPromptText("ISBN");
+            categoryComboBox.setVisible(true);
+            publicationDateField.setVisible(true);
+        }
+    }
+
+    @FXML
+    private void handleAddBook(){
+
+        String title = titleField.getText();
+        String author = authorField.getText();
+        String isbn = isbnField.getText();
+        Genre genre = Genre.valueOf(categoryComboBox.getValue());
+        LocalDate publicationDate = publicationDateField.getValue();
+
+        Book book = new Book();
+        book.setTitle(title);
+        book.setAuthor(author);
+        book.setIsbn(isbn);
+        book.setGenre(genre);
+        book.setPublicationDate(publicationDate);
+
+        if(!bookExists(title,genre)){
+        resourceRepository.addLibraryResource(book);
+        }
+        else statusLabel.setText("Book already exist");
+
+
+    }
+
+    @FXML
+    private void handleAddJournal(){
+
+
+        String title = titleField.getText();
+        String issueNumber = authorField.getText();
+        String frequency = isbnField.getText();
+
+        Journal journal = new Journal();
+        journal.setTitle(title);
+        journal.setFrequency(frequency);
+        journal.setIssueNumber(issueNumber);
+
+        if(!journalExist(issueNumber,title)){
+            resourceRepository.addLibraryResource(journal);
+        }
+        else statusLabel.setText("Journal already exist");
+
+    }
+
+    @FXML
+    private void handleAddMedia() throws Exception {
+        String title = titleField.getText();
+        MediaFormat format = mediaFormatCombo.getValue();
+
+        Media media = new Media();
+
+        media.setTitle(title);
+        media.setFormat(format);
+
+        if(!mediaExists(title,format)){
+            resourceRepository.addLibraryResource(media);
+        }
+        else statusLabel.setText("Media item already exists");
+
+    }
+
+    @FXML
+    private boolean bookExists(String title, Genre genre){
+        for (LibraryResource libraryResource : resourceList){
+            if (libraryResource instanceof Book){
+                if(libraryResource.getTitle()
+                        .equalsIgnoreCase(title) && ((Book) libraryResource)
+                        .getGenre().equals(genre)){
+
+                return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @FXML
+    private boolean mediaExists(String title, MediaFormat mediaFormat){
+        for (LibraryResource libraryResource : resourceList){
+            if (libraryResource instanceof Media){
+                if(libraryResource.getTitle()
+                        .equalsIgnoreCase(title) && ((Media) libraryResource)
+                        .getFormat().equals(mediaFormat)){
+
+                return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean journalExist(String issueNumber, String title) {
+        for (LibraryResource libraryResource : resourceList) {
+            if (libraryResource instanceof Journal) {
+                if (((Journal) libraryResource).getIssueNumber().equalsIgnoreCase(issueNumber) &&
+                        title.equalsIgnoreCase(libraryResource.getTitle())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @FXML
+    private void initializeComboBoxes(){
+        for (Genre genre : Genre.values()){
+            categoryComboBox.getItems().add(genre.name());
+        }
+
+        mediaFormatCombo.getItems().addAll(MediaFormat.AUDIO,MediaFormat.DVD);
+
+        resourceTypeCombo.getItems().addAll(ResourceType.BOOK, ResourceType.JOURNAL,ResourceType.MEDIA);
+
+        filterCategoryComboBox.getItems().addAll("Journal","Book","Media");
+
+        // Initialize the status combo box
+        filterStatusComboBox.getItems().addAll(
+                "All",
+                "Available",
+                "Low Stock",
+                "Out of Stock"
+        );
+
+
     }
 
     @FXML
@@ -125,26 +293,101 @@ public class ResourceController {
         String selectedCategory = filterCategoryComboBox.getValue();
 
         if(selectedCategory.equalsIgnoreCase(ResourceType.BOOK.toString())){
-            authorColumn.setVisible(true);
-            isbnColumn.setVisible(true);
-            publicationColumn.setVisible(true);
-
-
-            authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
-            isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
-            publicationColumn.setCellValueFactory(new PropertyValueFactory<>("publicationDate"));
+            setBookTable();
         }
         else if(selectedCategory.equalsIgnoreCase(ResourceType.JOURNAL.toString())){
-            issueNumberColumn.setVisible(true);
+            setJournalTable();
+        }
 
-            issueNumberColumn.setCellValueFactory(new PropertyValueFactory<>("issueNumber"));
-
-
-
+        else if(selectedCategory.equalsIgnoreCase(ResourceType.MEDIA.toString())){
+            setMediaTable();
 
         }
     }
 
+    @FXML private void setBookTable(){
+        authorColumn.setVisible(true);
+        isbnColumn.setVisible(true);
+        publicationColumn.setVisible(true);
+        issueNumberColumn.setVisible(false);
+        frequencyColumn.setVisible(false);
+
+        tableTitle.setText("Book List");
+
+        ObservableList<LibraryResource> bookList = FXCollections.observableArrayList(
+                resourceList.stream()
+                        .filter(e -> e instanceof Book)
+                        .map(e -> (Book) e)
+                        .toList()
+        );
+
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("resourceId"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+        isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("resourceType"));
+        availableColumn.setCellValueFactory(new PropertyValueFactory<>("resourceStatus"));
+        publicationColumn.setCellValueFactory(new PropertyValueFactory<>("publicationDate"));
+
+        resourcesTable.setItems(bookList);
+
+
+    }
+
+    @FXML private void setJournalTable(){
+
+
+
+        // Hide irrelevant columns
+        authorColumn.setVisible(false);
+        isbnColumn.setVisible(false);
+        publicationColumn.setVisible(false);
+
+        // Set table title
+        tableTitle.setText("Journal List");
+
+        // Show relevant columns for Journals
+        issueNumberColumn.setVisible(true);
+        frequencyColumn.setVisible(true);
+        // Filter resourceList to only Journals
+        ObservableList<LibraryResource> journalList = FXCollections.observableArrayList(
+                resourceList.stream()
+                        .filter(e -> e instanceof Journal) // Only include Journals
+                        .map(e -> (Journal) e)             // Cast to Journal type
+                        .toList()
+        );
+
+        // Set cell value factories for Journal-specific properties
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("resourceId"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        issueNumberColumn.setCellValueFactory(new PropertyValueFactory<>("issueNumber"));
+        frequencyColumn.setCellValueFactory(new PropertyValueFactory<>("frequency"));
+
+
+        // Populate the table with Journals
+        resourcesTable.setItems(journalList);
+    }
+
+    @FXML private void setMediaTable()
+    {
+        authorColumn.setVisible(false);
+        isbnColumn.setVisible(false);
+        frequencyColumn.setVisible(false);
+        issueNumberColumn.setVisible(false);
+        publicationColumn.setVisible(false);
+        formatColumn.setVisible(true);
+
+        ObservableList<LibraryResource> mediaList = FXCollections.observableArrayList(resourceList
+                .stream()
+                .filter(e -> e instanceof Media)
+                .map(e -> (Media) e)
+                .toList());
+
+        formatColumn.setCellValueFactory(new PropertyValueFactory<>("format"));
+
+        resourcesTable.setItems(mediaList);
+
+    }
     @FXML
     private void handleHomeButtonClicked() {
 
@@ -186,10 +429,8 @@ public class ResourceController {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("resourceType"));
         availableColumn.setCellValueFactory(new PropertyValueFactory<>("resourceStatus"));
-
         // Setup action column with buttons
 //        setupActionColumn();
-
         resourcesTable.setItems(resourceList);
     }
 
@@ -206,10 +447,7 @@ public class ResourceController {
                 editButton.getStyleClass().add("edit-button");
                 deleteButton.getStyleClass().add("delete-button");
                 container.setAlignment(Pos.CENTER);
-
             }
-
-
         });
         }
 
@@ -239,6 +477,20 @@ public class ResourceController {
 
     public void handleCategoryComboBox(){
 
+    }
+
+
+    public static void main(String[] args) throws Exception {
+        ResourceController controller = new ResourceController();
+
+        ObservableList<LibraryResource> journalList = FXCollections.observableArrayList(
+                controller.resourceList.stream()
+                        .filter(e -> e.getResourceType().equals(ResourceType.JOURNAL))
+                        .map(e -> (Journal) e)
+                        .toList()
+        );
+
+        journalList.forEach(System.out::println);
     }
 
 
