@@ -24,6 +24,7 @@ public class Book extends LibraryResource{
         super("",ResourceType.BOOK);
     }
 
+
     public Book(String title,String author){
         super(title,ResourceType.BOOK);
         this.author = author;

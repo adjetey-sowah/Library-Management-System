@@ -104,12 +104,13 @@ public class TransactionController implements Initializable {
             for(TransactionDTO transaction : transactionList){
                 if(transaction.getPatronName().equalsIgnoreCase(name) &&
                         transaction.getResourceName().equalsIgnoreCase(title)){
-                    returnDate = transaction.getBorrowedDate();
+                    transactionDTO = transaction;
                     break;
                 }
             }
+            log.info("This is the borrowedDAte {}",returnDate);
 
-            if(transactionService.returnBook(returnDate)){
+            if(transactionService.returnBook(transactionDTO.getTransactionId())){
                 statusLabel.setText("Resource Returned Successfully");
             }
 
@@ -126,7 +127,7 @@ public class TransactionController implements Initializable {
         dueDateColumn.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
         returnedColumn.setCellValueFactory(new PropertyValueFactory<>("returnedDate"));
         fineColumn.setCellValueFactory(new PropertyValueFactory<>("fine"));
-        setupActionColumn();
+//        setupActionColumn();
 
         totalUsersLabel.setText(String.valueOf(transactionList.size()));
         transactionTable.setItems(transactionList);
@@ -173,20 +174,13 @@ public class TransactionController implements Initializable {
 
     }
 
-    private void setupActionColumn() {
-        actionColumn.setCellFactory(column -> new TableCell<>() {
-            private final Button editButton = new Button("Edit");
-            private final HBox container = new HBox(5,editButton);
-            {
-                editButton.setOnAction(event -> handleEdit(getTableRow().getItem()));
 
-                editButton.getStyleClass().add("edit-button");
-                container.setAlignment(Pos.CENTER);
 
-            }
 
-        });
-    }
+
+
+
+
 
     private void handleEdit(TransactionDTO transactionDTO){
             statusLabel.setText("Updating Transaction");

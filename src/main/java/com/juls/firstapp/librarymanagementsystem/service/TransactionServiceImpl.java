@@ -59,6 +59,7 @@ public class TransactionServiceImpl implements  TransactionService{
 
     }
 
+
     public ArrayDeque<TransactionDTO> getAllTransactions() throws SQLException {
         return transactionRepository.findAllTransactions();
     }
@@ -68,19 +69,21 @@ public class TransactionServiceImpl implements  TransactionService{
 
     }
 
+
+
     @Override
-    public boolean returnBook(LocalDate searchString) throws Exception {
-        boolean isReturned = false;
-        TransactionDTO transaction = transactionRepository.getTransactionByDate(searchString);
-        Long transactionId =  transaction.getTransactionId();
-        if(transactionRepository.updateTransaction(transactionId)){
+    public boolean returnBook(Long transactionId) throws Exception {
+        TransactionDTO transaction = transactionRepository.getTransactionById(transactionId);
+
+        if (transaction != null && transactionRepository.updateTransaction(transaction.getTransactionId())) {
             LibraryResource resource = resourceRepository.getResourceByTitle(transaction.getResourceName());
             resource.setResourceStatus(ResourceStatus.AVAILABLE);
             resourceRepository.updateLibraryResource(resource);
-            isReturned = true;
+            return true;
         }
-        return isReturned;
+        return false;
     }
+
 
     @Override
     public LinkedList<LibraryResource> borrowedResources() throws Exception {

@@ -12,10 +12,13 @@ public abstract class LibraryResource {
     public LibraryResource(String title, ResourceType resourceType){
         this.title = title;
         this.resourceType = resourceType;
+        this.status = ResourceStatus.AVAILABLE;
     }
 
     public LibraryResource(String title){
+
         this.title = title;
+        this.status = ResourceStatus.AVAILABLE;
     }
 
 

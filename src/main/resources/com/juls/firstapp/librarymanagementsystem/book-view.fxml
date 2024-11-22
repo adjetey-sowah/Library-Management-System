@@ -30,13 +30,18 @@
       <!-- Add Resource Form -->
       <VBox spacing="15" styleClass="form-container">
         <Label text="Add New Resource" styleClass="section-header"/>
+        <ComboBox fx:id="resourceTypeCombo" styleClass="modern-field" promptText="Resource Type" onAction="#handleTypeCombo"/>
         <TextField fx:id="titleField" styleClass="modern-field" promptText="Title"/>
         <TextField fx:id="authorField" styleClass="modern-field" promptText="Author"/>
         <TextField fx:id="isbnField" styleClass="modern-field" promptText="ISBN"/>
-        <ComboBox fx:id="categoryComboBox" styleClass="modern-field" promptText="Category"/>
-        <TextField fx:id="publisherField" styleClass="modern-field" promptText="Publisher"/>
-        <TextField fx:id="quantityField" styleClass="modern-field" promptText="Quantity"/>
+        <ComboBox fx:id="mediaFormatCombo" styleClass="modern-field" promptText="Format" visible="false"/>
+        <ComboBox fx:id="categoryComboBox" styleClass="modern-field" promptText="Genre"/>
+        <DatePicker fx:id="publicationDateField" styleClass="modern-field" promptText="Publisher"/>
+    <!--    <TextField fx:id="quantityField" styleClass="modern-field" promptText="Quantity"/>
         <TextArea fx:id="descriptionArea" styleClass="modern-field" promptText="Description" prefRowCount="3"/>
+
+        -->
+
         <HBox spacing="10">
           <Button text="Add Resource" styleClass="primary-button" onAction="#handleAddResource"/>
           <Button text="Clear" styleClass="secondary-button" onAction="#handleClearForm"/>
