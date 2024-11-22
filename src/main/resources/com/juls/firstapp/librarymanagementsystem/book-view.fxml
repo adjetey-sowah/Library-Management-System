@@ -30,13 +30,18 @@
       <!-- Add Resource Form -->
       <VBox spacing="15" styleClass="form-container">
         <Label text="Add New Resource" styleClass="section-header"/>
+        <ComboBox fx:id="resourceTypeCombo" styleClass="modern-field" promptText="Resource Type" onAction="#handleTypeCombo"/>
         <TextField fx:id="titleField" styleClass="modern-field" promptText="Title"/>
         <TextField fx:id="authorField" styleClass="modern-field" promptText="Author"/>
         <TextField fx:id="isbnField" styleClass="modern-field" promptText="ISBN"/>
-        <ComboBox fx:id="categoryComboBox" styleClass="modern-field" promptText="Category"/>
-        <TextField fx:id="publisherField" styleClass="modern-field" promptText="Publisher"/>
-        <TextField fx:id="quantityField" styleClass="modern-field" promptText="Quantity"/>
+        <ComboBox fx:id="mediaFormatCombo" styleClass="modern-field" promptText="Format" visible="false"/>
+        <ComboBox fx:id="categoryComboBox" styleClass="modern-field" promptText="Genre"/>
+        <DatePicker fx:id="publicationDateField" styleClass="modern-field" promptText="Publication Date"/>
+
+        <!--<TextField fx:id="quantityField" styleClass="modern-field" promptText="Quantity"/>
         <TextArea fx:id="descriptionArea" styleClass="modern-field" promptText="Description" prefRowCount="3"/>
+        -->
+
         <HBox spacing="10">
           <Button text="Add Resource" styleClass="primary-button" onAction="#handleAddResource"/>
           <Button text="Clear" styleClass="secondary-button" onAction="#handleClearForm"/>
@@ -59,7 +64,7 @@
       <!-- Search and Actions Container -->
       <HBox spacing="15" styleClass="search-actions-container">
         <TextField fx:id="searchField" promptText="Search resources..."
-                   styleClass="search-field" HBox.hgrow="ALWAYS"/>
+                   styleClass="search-field" HBox.hgrow="ALWAYS" onKeyTyped="#handleSearchItems"/>
         <Button text="Export" styleClass="tool-button" onAction="#handleExport">
           <graphic>
             <FontIcon iconLiteral="fas-file-export" />
@@ -92,8 +97,9 @@
           <TableColumn fx:id="titleColumn" text="Title" prefWidth="200"/>
           <TableColumn fx:id="authorColumn" text="Author" prefWidth="150" visible="false"/>
           <TableColumn fx:id="isbnColumn" text="ISBN" prefWidth="120" visible="false"/>
-          <TableColumn fx:id="frequencyColumn" text="Quantity" visible="false"/>
+          <TableColumn fx:id="frequencyColumn" text="Frequency" visible="false"/>
           <TableColumn fx:id="categoryColumn" text="Category" prefWidth="100"/>
+          <TableColumn fx:id="genreTableColumn" text="Genre" prefWidth="100"/>
           <TableColumn fx:id="publicationColumn" text="Publication Date" prefWidth="120" visible="false"/>
           <TableColumn fx:id="issueNumberColumn" text="Issue Number" visible="false" />
           <TableColumn fx:id="availableColumn" text="Status"/>

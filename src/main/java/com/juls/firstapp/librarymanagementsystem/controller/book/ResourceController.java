@@ -4,12 +4,12 @@ import com.juls.firstapp.librarymanagementsystem.HelloApplication;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.ResourceRepository;
 import com.juls.firstapp.librarymanagementsystem.model.enums.Genre;
 import com.juls.firstapp.librarymanagementsystem.model.enums.MediaFormat;
+import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceStatus;
 import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceType;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Book;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Journal;
 import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Media;
-import com.juls.firstapp.librarymanagementsystem.model.users.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -29,6 +30,7 @@ import java.time.LocalDate;
 
 public class ResourceController {
 
+    @FXML private TextField searchField;
     @FXML private ComboBox<ResourceType> resourceTypeCombo;
     @FXML private ComboBox<String> filterCategoryComboBox;
     @FXML private TableView<LibraryResource> resourceTable;
@@ -38,6 +40,7 @@ public class ResourceController {
     @FXML private TableColumn<LibraryResource, Long> categoryColumn;
     @FXML private TableColumn<LibraryResource, String> idColumn;
     @FXML private TableColumn<LibraryResource, String> titleColumn;
+    @FXML private TableColumn<LibraryResource, Genre> genreTableColumn;
     @FXML private TableColumn<LibraryResource, ResourceType> availableColumn;
     @FXML private TableColumn<LibraryResource, String> frequencyColumn;
     @FXML private TableColumn<LibraryResource, String> formatColumn;
@@ -58,12 +61,12 @@ public class ResourceController {
     private DatePicker publicationDateField;
     @FXML
     private ComboBox<MediaFormat> mediaFormatCombo;
-    @FXML
-    private TextArea descriptionArea;
+
     @FXML
     private TableView<LibraryResource> resourcesTable;
     @FXML
     private Label statusLabel;
+
     @FXML
     private Label totalResourcesLabel;
     @FXML
@@ -80,7 +83,7 @@ public class ResourceController {
     @FXML private Label tableTitle;
 
     @FXML private final ResourceRepository resourceRepository;
-    @FXML private final ObservableList<LibraryResource> resourceList;
+    @FXML private ObservableList<LibraryResource> resourceList;
 
     public ResourceController() throws Exception {
         resourceRepository = new ResourceRepository();
@@ -92,12 +95,15 @@ public class ResourceController {
 
         initializeComboBoxes();
 
-        //        resourcesTable.setVisible(false);
+        totalResourcesLabel.setText("Total Resources: "+String.valueOf(resourceList.size()));
 
+        int availableSize = resourceList.stream().filter(e -> e.getResourceStatus()
+                .equals(ResourceStatus.AVAILABLE)).toList().size();
 
+        int borrowed = resourceList.size() - availableSize;
 
-
-
+        availableResourcesLabel.setText("Available Resources: "+String.valueOf(availableSize));
+        checkedOutLabel.setText("Borrowed Resources" +String.valueOf(borrowed));
 
         // Set up table columns
         setupTableColumns();
@@ -120,6 +126,8 @@ public class ResourceController {
         } else if (resourceTypeCombo.getValue().equals(ResourceType.MEDIA)) {
             handleAddMedia();
         }
+
+        handleRefresh();
     }
 
     @FXML
@@ -268,7 +276,8 @@ public class ResourceController {
 
         resourceTypeCombo.getItems().addAll(ResourceType.BOOK, ResourceType.JOURNAL,ResourceType.MEDIA);
 
-        filterCategoryComboBox.getItems().addAll("Journal","Book","Media");
+        filterCategoryComboBox.getItems().addAll("All " +
+                "Resources","Journal","Book","Media");
 
         // Initialize the status combo box
         filterStatusComboBox.getItems().addAll(
@@ -284,6 +293,14 @@ public class ResourceController {
     @FXML
     private void handleClearForm() {
         // Implementation for clearing the form
+        titleField.clear();
+        authorField.clear();
+        mediaFormatCombo.getSelectionModel().clearSelection();
+        resourceTypeCombo.getSelectionModel().clearSelection();
+        isbnField.clear();
+        categoryComboBox.getSelectionModel().clearSelection();
+        publicationDateField.setValue(null);
+
     }
 
     @FXML
@@ -301,6 +318,17 @@ public class ResourceController {
 
         else if(selectedCategory.equalsIgnoreCase(ResourceType.MEDIA.toString())){
             setMediaTable();
+        }
+
+        else if(selectedCategory.equalsIgnoreCase("all resources")){
+            formatColumn.setVisible(false);
+            authorColumn.setVisible(false);
+            isbnColumn.setVisible(false);
+            issueNumberColumn.setVisible(false);
+            publicationDateField.setVisible(false);
+            frequencyColumn.setVisible(false);
+
+            setupTableColumns();
 
         }
     }
@@ -311,6 +339,8 @@ public class ResourceController {
         publicationColumn.setVisible(true);
         issueNumberColumn.setVisible(false);
         frequencyColumn.setVisible(false);
+        formatColumn.setVisible(false);
+        genreTableColumn.setVisible(true);
 
         tableTitle.setText("Book List");
 
@@ -326,6 +356,7 @@ public class ResourceController {
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("resourceType"));
+        genreTableColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
         availableColumn.setCellValueFactory(new PropertyValueFactory<>("resourceStatus"));
         publicationColumn.setCellValueFactory(new PropertyValueFactory<>("publicationDate"));
 
@@ -342,6 +373,8 @@ public class ResourceController {
         authorColumn.setVisible(false);
         isbnColumn.setVisible(false);
         publicationColumn.setVisible(false);
+        formatColumn.setVisible(false);
+        genreTableColumn.setVisible(false);
 
         // Set table title
         tableTitle.setText("Journal List");
@@ -370,12 +403,15 @@ public class ResourceController {
 
     @FXML private void setMediaTable()
     {
+        tableTitle.setText("Media List");
+
         authorColumn.setVisible(false);
         isbnColumn.setVisible(false);
         frequencyColumn.setVisible(false);
         issueNumberColumn.setVisible(false);
         publicationColumn.setVisible(false);
         formatColumn.setVisible(true);
+        genreTableColumn.setVisible(false);
 
         ObservableList<LibraryResource> mediaList = FXCollections.observableArrayList(resourceList
                 .stream()
@@ -419,8 +455,11 @@ public class ResourceController {
     }
 
     @FXML
-    private void handleRefresh() {
-        // Implementation for refreshing the table
+    private void handleRefresh() throws Exception {
+        resourcesTable.getItems().clear();
+        resourceList = FXCollections.observableArrayList(this.resourceRepository.findAllResource());
+        resourcesTable.setItems(resourceList);
+        resourcesTable.refresh();
     }
 
     private void setupTableColumns() {
@@ -429,8 +468,9 @@ public class ResourceController {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("resourceType"));
         availableColumn.setCellValueFactory(new PropertyValueFactory<>("resourceStatus"));
+        genreTableColumn.setVisible(false);
         // Setup action column with buttons
-//        setupActionColumn();
+        setupActionColumn();
         resourcesTable.setItems(resourceList);
     }
 
@@ -494,4 +534,11 @@ public class ResourceController {
     }
 
 
+    @FXML
+    private void handleSearchItems(KeyEvent actionEvent) throws Exception {
+        ObservableList<LibraryResource> searchList = FXCollections.observableArrayList(
+                this.resourceRepository.searchResources(searchField.getText())
+        );
+        resourcesTable.setItems(searchList);
+    }
 }
