@@ -63,22 +63,6 @@ public class TransactionRepository implements TransactionDAO {
         return transactionDTO;
     }
 
-    public TransactionDTO getTransactionById(Long transactionId) throws SQLException {
-
-        String sql = "{call getTransactionById(?)}";
-
-        try (CallableStatement callableStatement = connection.prepareCall(sql)) {
-            callableStatement.setLong(1, transactionId);
-            ResultSet resultSet = callableStatement.executeQuery();
-            TransactionDTO transactionDTO = new TransactionDTO();
-            while (resultSet.next()) {
-                transactionDTO = mappers.mapToTransaction(resultSet);
-            }
-            return transactionDTO;
-        }
-    }
-
-
     public boolean updateTransaction(Long transaction_id){
         String sql = "UPDATE Transaction SET returned_date = ? WHERE transaction_id = ?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
@@ -94,12 +78,16 @@ public class TransactionRepository implements TransactionDAO {
     @Override
     public ArrayDeque<TransactionDTO> findAllTransactions() throws SQLException {
         ArrayDeque<TransactionDTO> transactions = new ArrayDeque<>();
+
         String sql = "{call getAllTransactions()}";
-        try (CallableStatement callableStatement = connection.prepareCall(sql)) {
+
+        try(CallableStatement callableStatement = connection.prepareCall(sql)){
             ResultSet resultSet = callableStatement.executeQuery();
-            while (resultSet.next()) {
+
+            while (resultSet.next()){
                 transactions.addFirst(mappers.mapToTransaction(resultSet));
             }
+
         }
         return transactions;
     }
@@ -130,6 +118,7 @@ public class TransactionRepository implements TransactionDAO {
         }
         return borrowedResource;
     }
+
 
     @Override
     public ArrayDeque<TransactionDTO> findTransactionByPatron(String search) throws SQLException {
