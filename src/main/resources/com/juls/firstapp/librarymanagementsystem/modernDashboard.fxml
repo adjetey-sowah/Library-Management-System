@@ -48,7 +48,7 @@
                 </graphic>
             </Button>
 
-            <Button styleClass="sidebar-button" text="Transactions" >
+            <Button fx:id="transactionButton" styleClass="sidebar-button" text="Transactions" onAction="#handleTransactionButtonClick">
                 <graphic>
                     <FontIcon iconLiteral="fas-sync" styleClass="sidebar-icon"/>
                 </graphic>

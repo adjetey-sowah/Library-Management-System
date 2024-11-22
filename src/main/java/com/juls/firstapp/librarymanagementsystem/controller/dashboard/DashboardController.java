@@ -4,6 +4,8 @@ package com.juls.firstapp.librarymanagementsystem.controller.dashboard;
 import com.juls.firstapp.librarymanagementsystem.HelloApplication;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.ResourceRepository;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.UserRepository;
+import com.juls.firstapp.librarymanagementsystem.service.TransactionServiceImpl;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,14 +30,18 @@ public class DashboardController implements Initializable {
 
 
     public TextField globalSearchField;
+    @FXML  private  Label allTransactionsLabel;
+    @FXML private Button transactionButton;
 
     @FXML private ResourceRepository resourceRepository;
     @FXML private UserRepository userRepository;
+    @FXML private TransactionServiceImpl transactionService;
 
-    public DashboardController(){
+    public DashboardController() throws Exception {
         try {
             this.resourceRepository = new ResourceRepository();
             this.userRepository = new UserRepository();
+            this.transactionService = new TransactionServiceImpl();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -129,6 +135,11 @@ public class DashboardController implements Initializable {
         try {
             this.totalResourcesLabel.setText(String.valueOf(resourceRepository.findAllResource().size()));
             this.activeUsersLabel.setText(String.valueOf(userRepository.getAllUsers().size()));
+            this.allTransactionsLabel.setText(String.valueOf(transactionService.getAllTransactions().size()));
+            this.pendingReturnsLabel.setText(String.valueOf(resourceRepository.getResourceNumber()));
+
+            String percentage = String.format("%.1f",resourceRepository.getAvailablePercentage());
+            this.availabilityLabel.setText(String.valueOf(percentage+"%"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -141,4 +152,13 @@ public class DashboardController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
- }
+
+    @FXML
+    public void handleTransactionButtonClick() throws IOException {
+        Stage stage = (Stage) dashboard.getScene().getWindow();
+        Parent root = FXMLLoader.load(HelloApplication.class.getResource("transactionView.fxml"));
+        Scene scene = new Scene(root,dashboard.getWidth(),dashboard.getHeight());
+        stage.setScene(scene);
+        stage.show();
+    }
+}
