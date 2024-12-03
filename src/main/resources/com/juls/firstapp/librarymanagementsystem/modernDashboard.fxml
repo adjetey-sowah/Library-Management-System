@@ -54,6 +54,11 @@
                 </graphic>
             </Button>
 
+            <Button styleClass="sidebar-button" text="Reservations" fx:id="reservationButton" onAction="#handleReservationButtonClicked">
+                <graphic>
+                    <FontIcon iconLiteral="fas-calendar" styleClass="sidebar-icon"/>
+                </graphic>
+            </Button>
             <Button styleClass="sidebar-button" text="Reports">
                 <graphic>
                     <FontIcon iconLiteral="fas-chart-bar" styleClass="sidebar-icon"/>
@@ -101,7 +106,7 @@
             </HBox>
 
             <!-- Statistics Cards -->
-            <HBox styleClass="stats-container" spacing="20">
+            <HBox styleClass="stats-container" spacing="20" style="-fx-start-margin: 20px">
                 <VBox styleClass="stat-card">
                     <FontIcon iconLiteral="fas-book" styleClass="stat-icon"/>
                     <Label text="Total Resources" styleClass="stat-label"/>

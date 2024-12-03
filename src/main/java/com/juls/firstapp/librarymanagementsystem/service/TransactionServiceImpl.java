@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayDeque;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class TransactionServiceImpl implements  TransactionService{
 
@@ -38,6 +39,7 @@ public class TransactionServiceImpl implements  TransactionService{
                 break;
             }
         }
+
         LibraryResource resource = resourceRepository.findResourceById(resourceId);
             if(resource.getResourceStatus().equals(ResourceStatus.BORROWED)){
                 System.out.println("Resource is not available");
@@ -69,11 +71,17 @@ public class TransactionServiceImpl implements  TransactionService{
     }
 
     @Override
-    public boolean returnBook(LocalDate searchString) throws Exception {
+    public boolean returnBook(Long transactionId) throws Exception {
 
         boolean isReturned = false;
-        TransactionDTO transaction = transactionRepository.getTransactionByDate(searchString);
-        Long transactionId =  transaction.getTransactionId();
+        TransactionDTO transaction = new TransactionDTO();
+
+        for(TransactionDTO transactionDTO : getAllTransactions()){
+            if (Objects.equals(transactionDTO.getTransactionId(), transactionId)){
+                transaction = transactionDTO;
+            }
+        }
+
         if(transactionRepository.updateTransaction(transactionId)){
             LibraryResource resource = resourceRepository.getResourceByTitle(transaction.getResourceName());
             resource.setResourceStatus(ResourceStatus.AVAILABLE);

@@ -2,7 +2,11 @@ package com.juls.firstapp.librarymanagementsystem.controller;
 
 import com.juls.firstapp.librarymanagementsystem.HelloApplication;
 import com.juls.firstapp.librarymanagementsystem.dao.dto.TransactionDTO;
+import com.juls.firstapp.librarymanagementsystem.dao.repository.ResourceRepository;
+import com.juls.firstapp.librarymanagementsystem.dao.repository.UserRepository;
+import com.juls.firstapp.librarymanagementsystem.model.enums.UserRole;
 import com.juls.firstapp.librarymanagementsystem.model.users.Librarian;
+import com.juls.firstapp.librarymanagementsystem.model.users.User;
 import com.juls.firstapp.librarymanagementsystem.service.TransactionServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,13 +25,17 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class TransactionController implements Initializable {
 
 
     private static final Logger log = LoggerFactory.getLogger(TransactionController.class);
+    @FXML private ComboBox<String> patronNameBox;
     @FXML private Label statusLabel;
     @FXML private Button createActionButton;
     @FXML private Button clearButton;
@@ -53,11 +61,15 @@ public class TransactionController implements Initializable {
 
         private final TransactionServiceImpl transactionService;
         private final ObservableList<TransactionDTO> transactionList;
+        private final UserRepository userRepository;
+        private final ResourceRepository resourceRepository;
 
 
         public TransactionController() throws Exception {
             transactionService = new TransactionServiceImpl();
             transactionList = FXCollections.observableArrayList(transactionService.getAllTransactions());
+            userRepository = new UserRepository();
+            resourceRepository = new ResourceRepository();
         }
 
 
@@ -65,6 +77,11 @@ public class TransactionController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setupTableColumns();
         setUpComboBox();
+        try {
+            setPatronNameBox();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         transactionList.forEach(System.out::println);
     }
@@ -78,6 +95,14 @@ public class TransactionController implements Initializable {
             }
             else if(value.equalsIgnoreCase("return")){
                 createActionButton.setText("RETURN");
+                dueDateField.setVisible(false);
+                createActionButton.setOnAction(event -> {
+                    try {
+                        handleReturnResource();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
             }
 
     }
@@ -100,6 +125,20 @@ public class TransactionController implements Initializable {
     @FXML
     private void setUpComboBox(){
             this.transactionTypeCombo.getItems().addAll("BORROW","RETURN");
+    }
+
+    @FXML
+    private void setPatronNameBox() throws SQLException {
+            LinkedList<User> userList = this.userRepository.getAllUsers();
+
+        patronNameBox.getItems().addAll(
+                userList.stream()
+                        .filter(e -> e.getRole().equals(UserRole.PATRON)) // Filter users with the role of PATRON
+                        .map(User::getName) // Extract the name of the user
+                        .toList() // Collect the names into a list
+        );
+
+
     }
 
     @FXML
@@ -126,7 +165,7 @@ public class TransactionController implements Initializable {
     @FXML
     private  void handleCreateTransaction() throws RuntimeException {
             try {
-                String name = patronNameField.getText();
+                String name = patronNameBox.getValue();
                 String title = resourceNameField.getText();
                 LocalDate dueDate = dueDateField.getValue();
                 transactionService.borrowResource(name,title,dueDate);
@@ -135,5 +174,26 @@ public class TransactionController implements Initializable {
                 statusLabel.setText(e.getMessage());
             }
 
+    }
+
+    @FXML
+    private void handleReturnResource() throws Exception {
+        String patronName = this.patronNameBox.getValue();
+        String resourceName = this.resourceNameField.getText();
+        Long transactionId = 0L;
+        for (TransactionDTO transaction : transactionList){
+            if (transaction.getResourceName()
+                    .contains(resourceName)
+                    && transaction
+                    .getPatronName()
+                    .equalsIgnoreCase(patronName)){
+                transactionId = transaction.getTransactionId();
+            }
+
+            if(transactionService.returnBook(transactionId)){
+                statusLabel.setText("Book Returned Successfully");
+            }
+            else statusLabel.setText("Transaction Update failed");
+        }
     }
 }

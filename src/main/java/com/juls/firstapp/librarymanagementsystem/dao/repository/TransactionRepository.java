@@ -31,6 +31,7 @@ public class TransactionRepository implements TransactionDAO {
     public boolean createTransaction(Transaction transaction) {
         String sql = "INSERT INTO transaction(resource_id,user_id,borrowed_date,due_date,fine) VALUES (?,?,?,?,?)";
 
+        System.out.println("Transaction before persistent "+transaction);
 
         try (CallableStatement callableStatement = connection.prepareCall(sql)){
             callableStatement.setLong(1,transaction.getResource());
@@ -92,6 +93,24 @@ public class TransactionRepository implements TransactionDAO {
         return transactions;
     }
 
+    public TransactionDTO getTransactionById(Long transactionId) {
+        String sql = "{call getTransactionById(?)}";
+
+        try (CallableStatement callableStatement = connection.prepareCall(sql)) {
+            callableStatement.setLong(1, transactionId);
+
+            ResultSet resultSet = callableStatement.executeQuery();
+            TransactionDTO transaction = new TransactionDTO();
+
+            while (resultSet.next()) {
+                transaction = mappers.mapToTransaction(resultSet);
+            }
+            return transaction;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public ArrayDeque<TransactionDTO> findTransactionByRange(LocalDate from, LocalDate to) throws SQLException {
         String sql ="{call findTransactionRange(?,?)}";
@@ -131,5 +150,6 @@ public class TransactionRepository implements TransactionDAO {
         }
         return transactionList;
     }
+
 
 }

@@ -191,21 +191,6 @@ public class UserController implements Initializable {
 
             }
 
-//            @Override
-//            protected void updateItem(Void item, boolean empty) {
-//                super.updateItem(item, empty);
-//                if (empty) {
-//                    setGraphic(null);
-//                } else {
-//                    // Create a container for the buttons
-//                    HBox buttons = new HBox(5, editButton, deleteButton);
-//                    setGraphic(buttons);
-//                }
-//            }
-
-
-//            #############################################################################################
-
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);

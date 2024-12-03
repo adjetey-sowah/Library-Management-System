@@ -16,6 +16,7 @@ import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 
 import java.sql.*;
 import java.util.LinkedList;
+import java.util.Optional;
 
 public class UserRepository implements UserDAO {
 
@@ -201,6 +202,28 @@ public class UserRepository implements UserDAO {
             return user;
         } catch (SQLException e) {
             throw new RuntimeException("No user with email found");
+        }
+    }
+
+    public Optional<User> findUserById(Long userId){
+        String sql = "SELECT * from users where user_id = ?";
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setLong(1, userId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            User user = new User();
+            while (resultSet.next()){
+                user.setUserId(resultSet.getLong("user_id"));
+                user.setName(resultSet.getString("name"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPhoneNum(resultSet.getString("phone"));
+                user.setRole(UserRole.valueOf(resultSet.getString("role")));
+            }
+
+            return Optional.of(user);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

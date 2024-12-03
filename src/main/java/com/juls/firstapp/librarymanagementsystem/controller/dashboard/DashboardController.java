@@ -32,6 +32,7 @@ public class DashboardController implements Initializable {
     public TextField globalSearchField;
     @FXML  private  Label allTransactionsLabel;
     @FXML private Button transactionButton;
+    @FXML private Button reservationButton;
 
     @FXML private ResourceRepository resourceRepository;
     @FXML private UserRepository userRepository;
@@ -160,5 +161,16 @@ public class DashboardController implements Initializable {
         Scene scene = new Scene(root,dashboard.getWidth(),dashboard.getHeight());
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    private void handleReservationButtonClicked(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) dashboard.getScene().getWindow();
+        Parent root = FXMLLoader.load(HelloApplication.class.getResource("reservation-view.fxml"));
+        Scene scene = new Scene(root, stage.getWidth(),stage.getHeight());
+        stage.setScene(scene);
+        stage.setTitle("Reservation Management");
+        stage.show();
+
     }
 }

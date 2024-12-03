@@ -13,7 +13,7 @@ public interface TransactionService  {
 
     void reserveBook(Long resourceId, Long patronId);
     void checkReservationList();
-    boolean returnBook(LocalDate search) throws Exception;
+    boolean returnBook(Long transactionId) throws Exception;
     LinkedList<LibraryResource> borrowedResources() throws Exception;
     LinkedList<LibraryResource> borrowedResourceByPatron(String phone);
 }
