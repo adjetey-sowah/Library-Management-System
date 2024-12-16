@@ -164,7 +164,7 @@ public class ResourceController {
     }
 
     @FXML
-    private void handleAddBook(){
+    public void handleAddBook(){
 
         String title = titleField.getText();
         String author = authorField.getText();
@@ -225,7 +225,7 @@ public class ResourceController {
     }
 
     @FXML
-    private boolean bookExists(String title, Genre genre){
+    public boolean bookExists(String title, Genre genre){
         for (LibraryResource libraryResource : resourceList){
             if (libraryResource instanceof Book){
                 if(libraryResource.getTitle()
