@@ -1,35 +1,22 @@
 package com.juls.firstapp.librarymanagementsystem.dao.dto;
 
 import com.juls.firstapp.librarymanagementsystem.model.enums.ReservationStatus;
-import com.juls.firstapp.librarymanagementsystem.model.lending.Reservations;
+import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ReservationDTO {
+
     private Long reservationId;
-    private String resourceTitle;
-    private String userName;
-    private LocalDate reservationDate;
-    private LocalDate returnDateOfItem;
-    private ReservationStatus reservationStatus;
+    private String username;
+    private String resourceName;
+    private LocalDateTime reservationDate;
+    private LocalDate exceptionDate;
+    private ReservationStatus status;
 
+    public ReservationDTO(){
 
-    public ReservationDTO(Long reservationId,
-                          String resourceTitle,
-                          String userName,
-                          LocalDate reservationDate,
-                          LocalDate returnDateOfItem,
-                          ReservationStatus reservationStatus)
-    {
-        this.reservationId = reservationId;
-        this.resourceTitle = resourceTitle;
-        this.userName = userName;
-        this.reservationDate = reservationDate;
-        this.returnDateOfItem = returnDateOfItem;
-        this.reservationStatus = reservationStatus;
-    }
-
-    public ReservationDTO() {
     }
 
     public Long getReservationId() {
@@ -40,55 +27,55 @@ public class ReservationDTO {
         this.reservationId = reservationId;
     }
 
-    public String getResourceTitle() {
-        return resourceTitle;
-    }
-
-    public void setResourceTitle(String resourceTitle) {
-        this.resourceTitle = resourceTitle;
-    }
-
     public String getUserName() {
-        return userName;
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public LocalDate getReservationDate() {
+    public String getResourceName() {
+        return resourceName;
+    }
+
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
+    }
+
+    public LocalDateTime getReservationDate() {
         return reservationDate;
     }
 
-    public void setReservationDate(LocalDate reservationDate) {
+    public void setReservationDate(LocalDateTime reservationDate) {
         this.reservationDate = reservationDate;
     }
 
-    public LocalDate getReturnDateOfItem() {
-        return returnDateOfItem;
+    public LocalDate getExceptionDate() {
+        return exceptionDate;
     }
 
-    public void setReturnDateOfItem(LocalDate returnDateOfItem) {
-        this.returnDateOfItem = returnDateOfItem;
+    public void setExceptionDate(LocalDate exceptionDate) {
+        this.exceptionDate = exceptionDate;
     }
 
-    public ReservationStatus getReservationStatus() {
-        return reservationStatus;
+    public ReservationStatus getStatus() {
+        return status;
     }
 
-    public void setReservationStatus(ReservationStatus reservationStatus) {
-        this.reservationStatus = reservationStatus;
+    public void setStatus(ReservationStatus status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
         return "ReservationDTO{" +
                 "reservationId=" + reservationId +
-                ", resourceTitle='" + resourceTitle + '\'' +
-                ", userName='" + userName + '\'' +
+                ", userName=" + username +
+                ", resourceName=" + resourceName +
                 ", reservationDate=" + reservationDate +
-                ", returnDateOfItem=" + returnDateOfItem +
-                ", reservationStatus=" + reservationStatus +
+                ", exceptionDate=" + exceptionDate +
+                ", status=" + status +
                 '}';
     }
 }

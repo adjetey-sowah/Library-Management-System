@@ -8,9 +8,9 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
       stylesheets="@views/css/patron.css"
-      fx:id="transactionBox"
-      fx:controller="com.juls.firstapp.librarymanagementsystem.controller.TransactionController"
-    >
+      fx:id="reservationBox"
+      fx:controller="com.juls.firstapp.librarymanagementsystem.controller.ReservationController"
+>
 
 
 
@@ -18,7 +18,7 @@
     <!-- Navigation Bar -->
     <!-- Navigation Bar -->
     <HBox styleClass="nav-bar">
-        <Label text="Transaction Management" styleClass="nav-title"/>
+        <Label text="Reservation Management" styleClass="nav-title"/>
         <Pane HBox.hgrow="ALWAYS" />
         <!-- Add Home Button -->
         <Button fx:id="homeButton" styleClass="home-button" onAction="#handleHomeButtonClicked" >
@@ -37,28 +37,29 @@
             <VBox spacing="15" styleClass="form-container">
                 <Label text="" styleClass="section-header"/>
 
-                <!-- Common Fields -->
-                <ComboBox fx:id="transactionTypeCombo" promptText="Select Transaction Type" styleClass="modern-field" onAction="#handleButtonEvent"/>
+                <!-- Common Fields
+                <DatePicker fx:id="dueDateField" promptText="Due Date" styleClass="modern-field"/>
+                -->
+                <ComboBox fx:id="reservationTypeTypeCombo" promptText="Reservation Type" styleClass="modern-field" onAction="#handleReservationTypeCombo"/>
                 <ComboBox fx:id="patronNameBox" promptText="Patron Name" styleClass="modern-field"/>
                 <TextField fx:id="resourceNameField" promptText="Resource Name" styleClass="modern-field"/>
-                <DatePicker fx:id="dueDateField" promptText="Due Date" styleClass="modern-field"/>
 
                 <HBox spacing="10" alignment="CENTER_RIGHT">
                     <Button fx:id="clearButton" text="Clear" styleClass="secondary-button"
-                            />
-                    <Button fx:id="createActionButton" text="BORROW" styleClass="primary-button" onAction="#handleCreateTransaction"/>
+                    />
+                    <Button fx:id="createReservationButton" text="RESERVE RESOURCE" styleClass="primary-button" onAction="#handleCreateReservation"/>
                 </HBox>
             </VBox>
 
             <!-- Filter Section -->
-<!--            <VBox spacing="10" styleClass="filter-container">-->
-<!--                <Label text="Filter Users" styleClass="section-header"/>-->
-<!--                <ComboBox fx:id="filterUserTypeCombo" promptText="Filter by User Type"-->
-<!--                          styleClass="modern-field" maxWidth="Infinity"/>-->
-<!--                <Button text="Apply Filter" styleClass="accent-button" maxWidth="Infinity"/>-->
-<!--            </VBox>-->
+            <!--            <VBox spacing="10" styleClass="filter-container">-->
+            <!--                <Label text="Filter Users" styleClass="section-header"/>-->
+            <!--                <ComboBox fx:id="filterUserTypeCombo" promptText="Filter by User Type"-->
+            <!--                          styleClass="modern-field" maxWidth="Infinity"/>-->
+            <!--                <Button text="Apply Filter" styleClass="accent-button" maxWidth="Infinity"/>-->
+            <!--            </VBox>-->
 
-<!--            ljjljf-->
+            <!--            ljjljf-->
             <VBox spacing="15" styleClass="filter-container">
                 <Label text="Filters" styleClass="section-header"/>
                 <ComboBox fx:id="filterCategoryComboBox" styleClass="modern-field" promptText="Filter by Category"/>
@@ -70,7 +71,7 @@
             </VBox>
 
 
-<!--            ljf-->
+            <!--            ljf-->
         </VBox>
 
         <!-- Right Panel - Table View -->
@@ -82,11 +83,11 @@
                            styleClass="search-field" HBox.hgrow="ALWAYS"/>
                 <Button text="Export" styleClass="tool-button"/>
                 <Button text="Import" styleClass="tool-button"/>
-                <Button text="Refresh" styleClass="tool-button" fx:id="refreshButton" onAction="#handleRefreshButton"/>
+                <Button text="Refresh" styleClass="tool-button" fx:id="refreshButton"/>
             </HBox>
 
             <!-- Add Users List Label -->
-            <Label text="List of Transactions" styleClass="users-list-header"/>
+            <Label text="List of Reservations" styleClass="users-list-header"/>
 
             <!-- Users Table -->
             <TableView fx:id="transactionTable" VBox.vgrow="ALWAYS" styleClass="modern-table">
@@ -94,11 +95,9 @@
                     <TableColumn fx:id="idColumn" text="ID" prefWidth="60"/>
                     <TableColumn fx:id="nameColumn" text="Name" prefWidth="150"/>
                     <TableColumn fx:id="titleColumn" text="Resource Title" prefWidth="200"/>
-                    <TableColumn fx:id="issuedDateColumn" text="Issued Date" prefWidth="120"/>
-                    <TableColumn fx:id="dueDateColumn" text="Due Date" prefWidth="120"/>
-                    <TableColumn fx:id="returnedColumn" text="Return Date" prefWidth="120"/>
-                    <TableColumn fx:id="fineColumn" text="Overdue Fine" prefWidth="120"/>
-                    <TableColumn fx:id="actionColumn" text="Actions" prefWidth="100"/>
+                    <TableColumn fx:id="reservationDateColumn" text="Reserved Date" prefWidth="120"/>
+                    <TableColumn fx:id="expectancyDateColumn" text="Expected Date" prefWidth="120"/>
+                    <TableColumn fx:id="statusColumn" text="Status" prefWidth="120"/>
                 </columns>
                 <columnResizePolicy>
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>

@@ -1,6 +1,7 @@
 package com.juls.firstapp.librarymanagementsystem.model.users;
 
 import com.juls.firstapp.librarymanagementsystem.model.enums.MembershipType;
+import com.juls.firstapp.librarymanagementsystem.model.enums.UserRole;
 import com.juls.firstapp.librarymanagementsystem.model.resource.LibraryResource;
 
 import java.util.LinkedList;
@@ -11,15 +12,14 @@ public class Patron extends User {
     private MembershipType membershipType;
     private LinkedList<LibraryResource> borrowedResources;
 
-    public Patron(String name, MembershipType membershipType,
-                  String email, String phone) {
-
+    public Patron(String name, MembershipType membershipType,String email, String phone) {
+        super(name,email,phone, UserRole.PATRON);
         this.membershipType = membershipType;
         this.borrowedResources = new LinkedList<>();
     }
 
     public Patron(){
-
+        super("","","",UserRole.PATRON);
     }
 
     public void setMembershipType(MembershipType type){

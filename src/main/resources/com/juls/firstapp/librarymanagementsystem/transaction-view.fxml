@@ -6,6 +6,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
       stylesheets="@views/css/transaction.css"
+
       styleClass="main-container">
 
     <HBox styleClass="header">
@@ -20,7 +21,7 @@
             <TextField fx:id="bookId" promptText="Book ID" styleClass="input-field"/>
             <TextField fx:id="memberId" promptText="Member ID" styleClass="input-field"/>
             <HBox spacing="10" styleClass="button-container">
-                <Button text="Clear"  styleClass="clear-button"/>
+                <Button text="Clear" styleClass="clear-button"/>
                 <Button text="Add Transaction"
                         styleClass="add-button"/>
             </HBox>
@@ -40,7 +41,7 @@
                            HBox.hgrow="ALWAYS" styleClass="search-field"/>
                 <Button text="Export"  styleClass="header-button"/>
                 <Button text="Import"  styleClass="header-button"/>
-                <Button text="Refresh" styleClass="header-button"/>
+                <Button text="Refresh"  styleClass="header-button"/>
             </HBox>
 
             <Label text="List of Transactions" styleClass="section-header"/>
