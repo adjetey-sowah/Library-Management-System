@@ -13,7 +13,7 @@ public class Book extends LibraryResource{
     private LocalDate publicationDate;
 
     public Book(String title, String author, String isbn, Genre genre, LocalDate publicationDate){
-        super(title);
+        super(title,ResourceType.BOOK);
         this.author = author;
         this.isbn = isbn;
         this.genre = genre;
