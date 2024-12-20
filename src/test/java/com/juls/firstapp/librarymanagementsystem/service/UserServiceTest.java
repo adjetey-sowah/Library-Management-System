@@ -1,12 +1,13 @@
-package com.juls.firstapp.librarymanagementsystem.unit;
+package com.juls.firstapp.librarymanagementsystem.service;
 
 
 
 import com.juls.firstapp.librarymanagementsystem.dao.repository.UserRepository;
 import com.juls.firstapp.librarymanagementsystem.model.enums.MembershipType;
+import com.juls.firstapp.librarymanagementsystem.model.enums.UserRole;
 import com.juls.firstapp.librarymanagementsystem.model.users.Librarian;
 import com.juls.firstapp.librarymanagementsystem.model.users.Patron;
-import com.juls.firstapp.librarymanagementsystem.service.UserService;
+import com.juls.firstapp.librarymanagementsystem.model.users.User;
 import com.juls.firstapp.librarymanagementsystem.util.exception.UserNotAddedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -26,9 +29,14 @@ class UserServiceTest {
     @InjectMocks
     private UserService userService;
 
+    @Mock
+    Patron patron = new Patron("Jane Doe", MembershipType.FACULTY, "janedoe@example.com", "password123");
+
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
     }
 
     @Test
@@ -81,9 +89,8 @@ class UserServiceTest {
 
     @Test
     @DisplayName("Should add patron successfully")
-    void addPatron_Success() {
+    void testAddPatron() {
         // Arrange
-        Patron patron = new Patron("Jane Doe", MembershipType.FACULTY, "janedoe@example.com", "password123");
         when(userRepository.insertUser(patron)).thenReturn(1);
         doNothing().when(userRepository).insertPatron(patron);
 
@@ -126,6 +133,32 @@ class UserServiceTest {
         verify(userRepository).insertPatron(patron);
     }
 
+    @Test
+    @DisplayName("Should delete user successfully")
+    void deleteUser_Success() throws SQLException {
+        // Arrange
+        User user = new User("Jane Doe", "janedoe@example.com", "123456789", UserRole.PATRON);
+        when(userRepository.deleteUser(user.getUserId())).thenReturn(true); // or whatever the method returns
+
+        // Act
+        userService.deletUser(user);
+
+        // Assert
+        verify(userRepository).deleteUser(user.getUserId());
+    }
+
+    @Test
+    @DisplayName("Should throw RuntimeException when deleteUser fails")
+    void deleteUser_Failure() throws SQLException {
+        // Arrange
+        User user = new User("Jane Doe", "janedoe@example.com", "123456789", UserRole.PATRON);
+        doThrow(new RuntimeException("Database error")).when(userRepository).deleteUser(user.getUserId());
+
+        // Act & Assert
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> userService.deletUser(user));
+        assertEquals("Could not delete user.\nDatabase error", exception.getMessage());
+        verify(userRepository).deleteUser(user.getUserId());
+    }
 
 
 }
