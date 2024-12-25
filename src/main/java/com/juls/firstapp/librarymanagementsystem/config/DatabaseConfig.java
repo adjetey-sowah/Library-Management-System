@@ -42,11 +42,4 @@ public class DatabaseConfig {
 
     }
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-
-        DatabaseConfig connector = new DatabaseConfig();
-        connector.trialTest();
-
-
-    }
 }
