@@ -33,10 +33,6 @@ import java.util.Optional;
 public class Mappers {
 
     private static final Logger log = LoggerFactory.getLogger(Mappers.class);
-    private ResourceRepository resourceRepository;
-    private UserRepository userRepository;
-    private TransactionRepository transactionRepository;
-
 
 
     public Optional<User> mapToUser(ResultSet resultSet) throws SQLException {

@@ -18,7 +18,7 @@ public class UserNotAddedException extends RuntimeException {
         super(cause);
     }
 
-    protected UserNotAddedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public UserNotAddedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }
