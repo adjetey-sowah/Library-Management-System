@@ -41,7 +41,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("Should add librarian successfully")
-    void addLibrarian_Success() {
+    void addLibrarian_Success() throws SQLException {
         // Arrange
         Librarian librarian = new Librarian("John", "Doe", "johndoe@example.com", "password123");
         when(userRepository.insertUser(librarian)).thenReturn(1);
@@ -59,7 +59,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("Should throw UserNotAddedException when insertUser fails")
-    void addLibrarian_InsertUserFails() {
+    void addLibrarian_InsertUserFails() throws SQLException {
         // Arrange
         Librarian librarian = new Librarian("John", "Doe", "johndoe@example.com", "password123");
         when(userRepository.insertUser(librarian)).thenThrow(new RuntimeException("Database error"));
@@ -73,7 +73,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("Should throw UserNotAddedException when insertLibrarian fails")
-    void addLibrarian_InsertLibrarianFails() {
+    void addLibrarian_InsertLibrarianFails() throws SQLException {
         // Arrange
         Librarian librarian = new Librarian("John", "Doe", "johndoe@example.com", "password123");
         when(userRepository.insertUser(librarian)).thenReturn(1);
@@ -89,7 +89,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("Should add patron successfully")
-    void testAddPatron() {
+    void testAddPatron() throws SQLException {
         // Arrange
         when(userRepository.insertUser(patron)).thenReturn(1);
         doNothing().when(userRepository).insertPatron(patron);
@@ -106,7 +106,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("Should throw UserNotAddedException when insertUser fails in addPatron")
-    void addPatron_InsertUserFails() {
+    void addPatron_InsertUserFails() throws SQLException {
         // Arrange
         Patron patron = new Patron("Jane Doe", MembershipType.FACULTY, "janedoe@example.com", "password123");
         when(userRepository.insertUser(patron)).thenThrow(new RuntimeException("Database error"));
@@ -120,7 +120,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("Should throw UserNotAddedException when insertPatron fails in addPatron")
-    void addPatron_InsertPatronFails() {
+    void addPatron_InsertPatronFails() throws SQLException {
         // Arrange
         Patron patron = new Patron("Jane Doe", MembershipType.FACULTY, "janedoe@example.com", "password123");
         when(userRepository.insertUser(patron)).thenReturn(1);

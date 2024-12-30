@@ -9,9 +9,8 @@ public class DatabaseConfig {
     private final Connection connection;
 
     public DatabaseConfig() throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-
         try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Dotenv dotenv = Dotenv.load();
            String dbUrl = dotenv.get("DB_URL");
            String dbUser = dotenv.get("DB_USER");

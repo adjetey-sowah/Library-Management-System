@@ -20,6 +20,10 @@ public class ReservationRepository {
         this.connection = new DatabaseConfig().getConnection();
     }
 
+    public ReservationRepository(DatabaseConfig databaseConfig){
+        this.connection = databaseConfig.getConnection();
+    }
+
     public boolean createReservation(Reservations reservations){
         String sql = "INSERT INTO reservation (user_id, resource_id, reservation_date, reservation_status) VALUES(?,?,?,?)";
         Date reservationDate = Date.valueOf(reservations.getReservationDate().toLocalDate());
@@ -71,18 +75,6 @@ public class ReservationRepository {
     }
 
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        ReservationRepository repository = new ReservationRepository();
-        Queue<Reservations> reservations = repository.findAllReservations();
-
-        Reservations reservation = new Reservations();
-        reservation.setUserId(18L);
-        reservation.setResourceId(36L);
-
-//        System.out.println(repository.createReservation(reservation));
-
-        reservations.forEach(System.out::println);
-    }
 
 
 }

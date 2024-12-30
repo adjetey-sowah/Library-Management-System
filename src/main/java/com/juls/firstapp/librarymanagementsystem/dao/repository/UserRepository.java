@@ -22,16 +22,22 @@ public class UserRepository implements UserDAO {
 
     private final Connection connection;
 
-
     public UserRepository() throws SQLException, ClassNotFoundException {
-         this.connection = new DatabaseConfig().getConnection();
+        this.connection = new DatabaseConfig().getConnection();
+
+    }
+
+    public UserRepository(DatabaseConfig databaseConfig) throws SQLException, ClassNotFoundException {
+         this.connection = databaseConfig.getConnection();
 
     }
 
 
+    public Connection getConnection() {
+        return connection;
+    }
 
-
-    public int insertUser(User user){
+    public int insertUser(User user) throws SQLException {
         String sql = "INSERT INTO Users (name, email, phone, role) VALUES (?, ?, ?, ?)";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
@@ -54,12 +60,12 @@ public class UserRepository implements UserDAO {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Could not insert User: "+e.getMessage());
+            throw new SQLException(e.getMessage());
         }
 
     }
 
-    public void insertPatron(Patron patron){
+    public void insertPatron(Patron patron) throws SQLException {
 
         int userId = insertUser(patron);
 
@@ -76,7 +82,7 @@ public class UserRepository implements UserDAO {
         }
     }
 
-    public void insertLibrarian(Librarian librarian){
+    public void insertLibrarian(Librarian librarian) throws SQLException {
 
         int id = insertUser(librarian);
         String sql = "INSERT INTO librarian (user_id, password) VALUES (?,?)";
@@ -185,7 +191,7 @@ public class UserRepository implements UserDAO {
         }
     }
 
-    public User getUserbyEmail(String email){
+    public User getUserbyEmail(String email) throws SQLException {
         String sql = "Select * from users where email=?";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
@@ -201,7 +207,7 @@ public class UserRepository implements UserDAO {
 
             return user;
         } catch (SQLException e) {
-            throw new RuntimeException("No user with email found");
+            throw new SQLException(e.getMessage());
         }
     }
 

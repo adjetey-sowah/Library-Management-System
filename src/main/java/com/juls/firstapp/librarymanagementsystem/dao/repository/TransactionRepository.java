@@ -27,6 +27,12 @@ public class TransactionRepository implements TransactionDAO {
         this.mappers = new Mappers();
     }
 
+    public TransactionRepository (DatabaseConfig databaseConfig) throws SQLException, ClassNotFoundException {
+        this.connection = databaseConfig.getConnection();
+        this.resourceRepository = new ResourceRepository();
+        this.mappers = new Mappers();
+    }
+
     @Override
     public boolean createTransaction(Transaction transaction) {
         String sql = "INSERT INTO transaction(resource_id,user_id,borrowed_date,due_date,fine) VALUES (?,?,?,?,?)";

@@ -5,9 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.juls.firstapp.librarymanagementsystem.dao.dto.ReservationDTO;
 import com.juls.firstapp.librarymanagementsystem.dao.dto.TransactionDTO;
-import com.juls.firstapp.librarymanagementsystem.dao.repository.ResourceRepository;
-import com.juls.firstapp.librarymanagementsystem.dao.repository.TransactionRepository;
-import com.juls.firstapp.librarymanagementsystem.dao.repository.UserRepository;
 import com.juls.firstapp.librarymanagementsystem.model.enums.*;
 import com.juls.firstapp.librarymanagementsystem.model.lending.Reservations;
 import com.juls.firstapp.librarymanagementsystem.model.resource.Book;

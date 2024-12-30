@@ -1,6 +1,6 @@
 package com.juls.firstapp.librarymanagementsystem;
 
-import com.juls.firstapp.librarymanagementsystem.views.images.DashboardView;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

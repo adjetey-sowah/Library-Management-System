@@ -7,6 +7,8 @@ import com.juls.firstapp.librarymanagementsystem.model.users.Patron;
 import com.juls.firstapp.librarymanagementsystem.model.users.User;
 import com.juls.firstapp.librarymanagementsystem.util.exception.UserNotAddedException;
 
+import java.sql.SQLException;
+
 public class UserService {
 
     private  UserRepository userRepository;
@@ -19,6 +21,8 @@ public class UserService {
         return librarian;
         } catch (RuntimeException e) {
             throw new UserNotAddedException("User was not added."+e.getMessage());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
     }
