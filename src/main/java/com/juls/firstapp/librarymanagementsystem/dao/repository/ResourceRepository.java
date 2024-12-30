@@ -26,6 +26,11 @@ public class ResourceRepository implements ResourceDAO
         this.mappers = new Mappers();
     }
 
+    public ResourceRepository(DatabaseConfig databaseConfig){
+        this.connection = databaseConfig.getConnection();
+        this.mappers = new Mappers();
+    }
+
     @Override
     public int insertLibraryResource(LibraryResource resource){
         String sql = "INSERT INTO library_resource(title,status,resource_type) " +
@@ -321,17 +326,6 @@ public class ResourceRepository implements ResourceDAO
             }
         }
         return count;
-    }
-
-    public static void main(String[] args) throws Exception {
-        ResourceRepository repository = new ResourceRepository();
-
-
-
-
-        LibraryResource resource = repository.getResourceByTitle("The Catcher");
-        System.out.println(resource);
-
     }
 
 
