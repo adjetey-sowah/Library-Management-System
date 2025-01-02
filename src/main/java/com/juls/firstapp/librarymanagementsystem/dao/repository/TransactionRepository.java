@@ -29,7 +29,7 @@ public class TransactionRepository implements TransactionDAO {
 
     public TransactionRepository (DatabaseConfig databaseConfig) throws SQLException, ClassNotFoundException {
         this.connection = databaseConfig.getConnection();
-        this.resourceRepository = new ResourceRepository();
+        this.resourceRepository = new ResourceRepository(databaseConfig);
         this.mappers = new Mappers();
     }
 
@@ -144,6 +144,9 @@ public class TransactionRepository implements TransactionDAO {
         return borrowedResource;
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
 
     @Override
     public ArrayDeque<TransactionDTO> findTransactionByPatron(String search) throws SQLException {
@@ -156,6 +159,8 @@ public class TransactionRepository implements TransactionDAO {
         }
         return transactionList;
     }
+
+
 
 
 }

@@ -27,6 +27,10 @@ module com.juls.firstapp.librarymanagementsystem {
     opens com.juls.firstapp.librarymanagementsystem.controller.auth to javafx.fxml;
     exports com.juls.firstapp.librarymanagementsystem.controller to javafx.fxml;
     opens com.juls.firstapp.librarymanagementsystem.controller to javafx.fxml;
+    exports com.juls.firstapp.librarymanagementsystem.config to javafx.fxml;
+    opens com.juls.firstapp.librarymanagementsystem.config to javafx.fxml;
+
+
 
 
     opens com.juls.firstapp.librarymanagementsystem to javafx.fxml;

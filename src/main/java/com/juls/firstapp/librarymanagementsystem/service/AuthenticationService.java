@@ -1,5 +1,6 @@
 package com.juls.firstapp.librarymanagementsystem.service;
 
+import com.juls.firstapp.librarymanagementsystem.config.DatabaseConfig;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.UserRepository;
 import com.juls.firstapp.librarymanagementsystem.model.enums.UserRole;
 import com.juls.firstapp.librarymanagementsystem.model.users.Librarian;
@@ -17,7 +18,7 @@ public class AuthenticationService {
     private final UserRepository userRepository;
 
     public AuthenticationService () throws SQLException, ClassNotFoundException {
-        this.userRepository = new UserRepository();
+        this.userRepository = new UserRepository(new DatabaseConfig());
     }
 
     public boolean isAuthenticated(String email, String password) throws SQLException {

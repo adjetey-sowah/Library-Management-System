@@ -189,6 +189,17 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+
+                        <configuration>
+                            <excludes>
+                                <!-- Exclude classes by pattern -->
+                                <exclude>com/juls/firstapp/librarymanagementsystem/controller/book/*</exclude>
+                                <exclude>com/juls/firstapp/librarymanagementsystem/controller/patron/*</exclude>
+                                <exclude>com/juls/firstapp/librarymanagementsystem/controller/*</exclude>
+                                <exclude>com/juls/firstapp/librarymanagementsystem/controller/dashboard/*</exclude>
+                            </excludes>
+                        </configuration>
+
                     </execution>
                 </executions>
             </plugin>

@@ -1,6 +1,7 @@
 package com.juls.firstapp.librarymanagementsystem.controller.book;
 
 import com.juls.firstapp.librarymanagementsystem.HelloApplication;
+import com.juls.firstapp.librarymanagementsystem.config.DatabaseConfig;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.ResourceRepository;
 import com.juls.firstapp.librarymanagementsystem.model.enums.Genre;
 import com.juls.firstapp.librarymanagementsystem.model.enums.MediaFormat;
@@ -82,11 +83,17 @@ public class ResourceController {
 
     @FXML private Label tableTitle;
 
-    @FXML private final ResourceRepository resourceRepository;
+    @FXML
+    protected ResourceRepository resourceRepository;
     @FXML private ObservableList<LibraryResource> resourceList;
 
     public ResourceController() throws Exception {
         resourceRepository = new ResourceRepository();
+        resourceList = FXCollections.observableArrayList(resourceRepository.findAllResource());
+    }
+
+    public ResourceController(DatabaseConfig databaseConfig) throws Exception {
+        this.resourceRepository = new ResourceRepository(databaseConfig);
         resourceList = FXCollections.observableArrayList(resourceRepository.findAllResource());
     }
 

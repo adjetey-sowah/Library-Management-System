@@ -1,5 +1,6 @@
 package com.juls.firstapp.librarymanagementsystem.service;
 
+import com.juls.firstapp.librarymanagementsystem.config.DatabaseConfig;
 import com.juls.firstapp.librarymanagementsystem.dao.dto.TransactionDTO;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.ResourceRepository;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.TransactionRepository;
@@ -18,7 +19,7 @@ import java.util.Objects;
 public class TransactionServiceImpl implements  TransactionService{
 
     private final UserRepository userRepository;
-    private final ResourceRepository resourceRepository;
+    final ResourceRepository resourceRepository;
     private final TransactionRepository transactionRepository;
 
 
@@ -27,6 +28,13 @@ public class TransactionServiceImpl implements  TransactionService{
         resourceRepository = new ResourceRepository();
         transactionRepository = new TransactionRepository();
     }
+
+    public TransactionServiceImpl(DatabaseConfig databaseConfig) throws Exception {
+        userRepository = new UserRepository(databaseConfig);
+        resourceRepository = new ResourceRepository(databaseConfig);
+        transactionRepository = new TransactionRepository(databaseConfig);
+    }
+
 
 
     @Override

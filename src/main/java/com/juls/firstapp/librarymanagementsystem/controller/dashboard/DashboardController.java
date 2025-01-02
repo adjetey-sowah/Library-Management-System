@@ -2,6 +2,7 @@ package com.juls.firstapp.librarymanagementsystem.controller.dashboard;
 
 
 import com.juls.firstapp.librarymanagementsystem.HelloApplication;
+import com.juls.firstapp.librarymanagementsystem.config.DatabaseConfig;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.ResourceRepository;
 import com.juls.firstapp.librarymanagementsystem.dao.repository.UserRepository;
 import com.juls.firstapp.librarymanagementsystem.service.TransactionServiceImpl;
@@ -30,13 +31,17 @@ public class DashboardController implements Initializable {
 
 
     public TextField globalSearchField;
-    @FXML  private  Label allTransactionsLabel;
+    @FXML
+    Label allTransactionsLabel;
     @FXML private Button transactionButton;
     @FXML private Button reservationButton;
 
-    @FXML private ResourceRepository resourceRepository;
-    @FXML private UserRepository userRepository;
-    @FXML private TransactionServiceImpl transactionService;
+    @FXML
+    protected ResourceRepository resourceRepository;
+    @FXML
+    protected UserRepository userRepository;
+    @FXML
+    protected TransactionServiceImpl transactionService;
 
     public DashboardController() throws Exception {
         try {
@@ -48,7 +53,20 @@ public class DashboardController implements Initializable {
         }
     }
 
-    @FXML private Label totalResourcesLabel;
+    public DashboardController(DatabaseConfig databaseConfig) throws SQLException, ClassNotFoundException{
+        try {
+            this.resourceRepository = new ResourceRepository(databaseConfig);
+            this.userRepository = new UserRepository(databaseConfig);
+            this.transactionService = new TransactionServiceImpl(databaseConfig);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException("Reading for controller: " +e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    Label totalResourcesLabel;
     public Label activeUsersLabel;
     public Label pendingReturnsLabel;
     public Label availabilityLabel;
@@ -77,7 +95,7 @@ public class DashboardController implements Initializable {
 
 
     @FXML
-    private void handleDashboardButtonClick() {
+    protected void handleDashboardButtonClick() {
 
         try {
             Stage stage = (Stage) dashboard.getScene().getWindow();
@@ -95,7 +113,7 @@ public class DashboardController implements Initializable {
     }
 
     @FXML
-    private void handleResourceButtonClick(){
+    protected void handleResourceButtonClick(){
 
         try {
             Stage stage = (Stage) dashboard.getScene().getWindow();
@@ -114,7 +132,7 @@ public class DashboardController implements Initializable {
     }
 
     @FXML
-    private void handleUserButtonClick() {
+    protected void handleUserButtonClick() {
         try {
             Stage stage = (Stage) dashboard.getScene().getWindow();
             double height = stage.getHeight();
@@ -132,7 +150,7 @@ public class DashboardController implements Initializable {
     }
 
     @FXML
-    private void setCardValues(){
+    void setCardValues(){
         try {
             this.totalResourcesLabel.setText(String.valueOf(resourceRepository.findAllResource().size()));
             this.activeUsersLabel.setText(String.valueOf(userRepository.getAllUsers().size()));
@@ -146,7 +164,8 @@ public class DashboardController implements Initializable {
         }
     }
 
-    @FXML private void handleLogoutClick() throws IOException {
+    @FXML
+    protected void handleLogoutClick() throws IOException {
         Stage stage = (Stage) dashboard.getScene().getWindow();
         Parent root = FXMLLoader.load(HelloApplication.class.getResource("logins.fxml"));
         Scene scene = new Scene(root,1080,720);

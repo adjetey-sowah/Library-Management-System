@@ -34,7 +34,7 @@ public class UserRepository implements UserDAO {
 
 
     public Connection getConnection() {
-        return connection;
+        return this.connection;
     }
 
     public int insertUser(User user) throws SQLException {

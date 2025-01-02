@@ -17,10 +17,11 @@ public class DatabaseConfig {
            String dbPassword = dotenv.get("DB_PASSWORD");
 
            this.connection = DriverManager.getConnection(dbUrl,dbUser,dbPassword);
+
         }
 
         catch (Exception e){
-            throw new RuntimeException(("Database Connection failed" + e.getMessage()));
+            throw new RuntimeException("Database Connection Failed: "+e.getMessage());
         }
     }
 
