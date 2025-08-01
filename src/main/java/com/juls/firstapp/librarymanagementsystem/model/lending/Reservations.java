@@ -1,9 +1,9 @@
 package com.juls.firstapp.librarymanagementsystem.model.lending;
 
 import com.juls.firstapp.librarymanagementsystem.model.enums.ReservationStatus;
+import com.juls.firstapp.librarymanagementsystem.model.enums.ResourceStatus;
 
 import java.time.LocalDateTime;
-
 
 public class Reservations {
     private Long reservationId;
@@ -14,14 +14,19 @@ public class Reservations {
 
 
     public Reservations(){
+
         reservationDate = LocalDateTime.now();
+        status = ReservationStatus.PENDING;
+
     }
 
     public Reservations(Long userId, Long resourceId){
         this.userId = userId;
         this.resourceId = resourceId;
         reservationDate = LocalDateTime.now();
+        status = ReservationStatus.PENDING;
     }
+
 
 
     public Long getReservationId() {
@@ -40,7 +45,7 @@ public class Reservations {
         this.userId = userId;
     }
 
-    public long getResourceId() {
+    public Long getResourceId() {
         return resourceId;
     }
 
@@ -70,7 +75,7 @@ public class Reservations {
                 "reservationId=" + reservationId +
                 ", userId=" + userId +
                 ", resourceId='" + resourceId + '\'' +
-                ", status='" + status + '\'' +
+                ", status=" + status +
                 ", reservationDate=" + reservationDate +
                 '}';
     }
